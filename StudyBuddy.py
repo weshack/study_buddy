@@ -1,10 +1,10 @@
 from flask import Flask
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='')
 
 @app.route("/")
-def hello():
-  return "Hello world"
+def root():
+  return app.send_static_file('html/index.html')
 
 # Make a search for a class, and return a json object.
 @app.route("/search/<keyword>")

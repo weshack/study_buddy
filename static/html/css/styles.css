@@ -10,19 +10,21 @@ body {
 .center {
     width: 100%;
     text-align: center;
+    margin-top: 100px;
 }
 
 #title {
     width: 100%;
     font-size: x-large;
     text-align: center;
-
+    margin-top: 100px;
 }
 
 #intro {
     width: 100%;
     font-size: large;
     text-align: center;
+    margin-top: 100px;
 }
 
 
