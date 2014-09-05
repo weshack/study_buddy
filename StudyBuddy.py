@@ -1,4 +1,4 @@
-from flask import Flask, url_for, redirect, session, render_template
+from flask import Flask, url_for, redirect, session, render_template, request
 from flask_login import (UserMixin, login_required, login_user, logout_user,
                          current_user)
 from flask_googlelogin import GoogleLogin
