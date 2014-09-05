@@ -1,10 +1,10 @@
 @font-face {
-    font-family: amble-regular;
-    src: url(Resources/amble/amble-regular-webfont.woff);
+    font-family: chunkfive-regular;
+    src: url(amble-regular-webfont.woff);
 }
 
 html {
-    font-family: calibri;
+    font-family: chunkfive-regular;
     color: white;
 }
 
