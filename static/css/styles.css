@@ -10,11 +10,7 @@ html {
 
 body {
     width: 100%;
-    background-color: #961212;
-    background: linear-gradient( 180deg, #FF1919, #000000);
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-
+    background-color: #E0E0D1;
 
 }
 /*class for centering*/
@@ -26,9 +22,10 @@ body {
 
 #title {
     width: 100%;
-    font-size: x-large;
+    font-size: 500%;
     text-align: center;
     margin-top: 100px;
+    font-weight: bold;
 }
 
 #intro {
