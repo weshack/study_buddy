@@ -6,16 +6,15 @@
 </head>
 <body>
     <div id="title">Study Buddy</div>
-
     <table class="search_table">	
         <tr>
-                <th class="search_column">class</th>
-                <th class="search_column">assign</th>
-                <th class="search_column">time</th>
-                <th class="search_column">loc</th>
-                <th class="search_column">contacts</th>
+                <th class="search_column">Class</th>
+                <th class="search_column">Time</th>
+                <th class="search_column">Location</th>
+                <th class="search_column">Description</th>
+                <th class="search_column">Contact</th>
             </tr>
-    	{% for class in classes %}
+    	{% for class in results %}
     		<tr class="search_row">
     			<td class="search_column">class</td>
     			<td class="search_column">assign</td>
