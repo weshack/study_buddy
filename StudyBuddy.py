@@ -36,13 +36,10 @@ def search():
     search_keyword = request.args.get('search_keyword')
     
     # Query database with search_keyword
-
-    # Parse response from database
-
-    # Create object to return to template
+    search_results = [] #StudySessions.objects(class_name=search_keyword)
 
     # Return template with object full of data
-    return render_template('search_results.html', classes=[1,2,3,4])
+    return render_template('search_results.html', results=search_results)
 
 
 @app.route('/login')
