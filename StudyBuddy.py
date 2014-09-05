@@ -34,7 +34,7 @@ def root():
 # Make a search for a class, and return a json object.
 @app.route("/search/<keyword>")
 def search(keyword):
-	return "search page: " + keyword
+	return app.send_static_file('html/search_results.html')
 
 
 @app.route('/login')
