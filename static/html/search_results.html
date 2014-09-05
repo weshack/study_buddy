@@ -5,10 +5,18 @@
     <title>Study Buddy-search results</title>
 </head>
 <body>
+	{{classes=[1,2,3,4,5]}}
     <div id="title">Study Buddy</div>
     <div id="search_results">	
     	{% for class in classes %}
-    		<div class="classes"> </div>
-    </div>div>
+    		<div class="searchtable">
+    			<div class="class">class</div>
+    			<div class="assignment">assign</div>
+    			<div class="time">time</div>
+    			<div class="location">loc</div>
+    			<div class="contact">contact</div>
+    		</div>
+    	{% endfor %}
+    </div>
 </body>
 </html>
