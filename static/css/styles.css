@@ -38,22 +38,19 @@ body {
     margin-top: 100px;
 }
 .search_table{
-    display:table;
-    width:auto;
-    height:auto;
+    margin-top:100px;
+    width:60%;
+    margin:auto;  
+    border-collapse: collapse;
 }
 .search_row{
-    display:table-row;
     width:auto;
     height:auto;  
-    clear:both; 
-
 }
 .search_column{
-    display:table-column;
-    width:200px;
-    height:200px;
-
+    text-align: center;
+    padding:5px;
+border:2px solid black;
 }
 
 
