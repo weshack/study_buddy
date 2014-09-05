@@ -1,8 +1,9 @@
-from flask import Flask, url_for, redirect, session
+from flask import Flask, url_for, redirect, session, render_template
 from flask_login import (UserMixin, login_required, login_user, logout_user,
                          current_user)
 from flask_googlelogin import GoogleLogin
 import json
+from jinja2 import Template
 
 users = {}
 app = Flask(__name__, static_url_path='')
@@ -32,7 +33,7 @@ def root():
 # Make a search for a class, and return a json object.
 @app.route('/find')
 def search():
-    return app.send_static_file('html/search_results.html')
+    return render_template('search_results.html', classes=[1,2,3,4])
 
 
 @app.route('/login')
