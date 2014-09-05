@@ -8,8 +8,14 @@ var LOCATION_TAG = "";
 // Base url for site
 var BASE_URL = "";
 
-window.onload = function() {
 
+window.onload = function() {
+	//code that runs when you click the search button
+	document.getElementById("search").submit=function(){
+		var keyword = document.getElementByName("StudyBuddyName")[0].value;
+		var jsondata = queryURL("/search/"+keyword);
+
+	}
 }
 
 function parseJson(json) {
@@ -39,3 +45,5 @@ function queryURL(url) {
 
 	request.send();
 }
+
+
