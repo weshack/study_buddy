@@ -6,17 +6,25 @@
 </head>
 <body>
     <div id="title">Study Buddy</div>
-    <div id="search_results">	
-    	{% for result in results %}
-    		<div class="searchtable">
-    			<div class="class">{{result.class_name}}</div>
-    			<div class="assignment">{{result.assignment}}</div>
-    			<div class="time">{{result.time}}</div>
-    			<div class="location">{{result.location}}</div>
-    			<div class="contact">{{result.contact}}</div>
-    		</div>
+
+    <table class="search_table">	
+        <tr>
+                <th class="search_column">class</th>
+                <th class="search_column">assign</th>
+                <th class="search_column">time</th>
+                <th class="search_column">loc</th>
+                <th class="search_column">contacts</th>
+            </tr>
+    	{% for class in classes %}
+    		<tr class="search_row">
+    			<td class="search_column">class</td>
+    			<td class="search_column">assign</td>
+    			<td class="search_column">time</td>
+    			<td class="search_column">loc</td>
+    			<td class="search_column">contacts</td>
+    		</tr>
     	{% endfor %}
-    </div>
+    </table>
 
 </body>
 </html>

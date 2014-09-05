@@ -50,6 +50,21 @@ body {
     font-size: 24px;
 }
 
+.search_table{
+    margin-top:100px;
+    width:60%;
+    margin:auto;  
+    border-collapse: collapse;
+}
+.search_row{
+    width:auto;
+    height:auto;  
+}
+.search_column{
+    text-align: center;
+    padding:5px;
+border:2px solid black;
+}
 
 
 
