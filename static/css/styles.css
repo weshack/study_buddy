@@ -37,6 +37,7 @@ body {
 
 #text-input {
     margin-bottom: 15px;
+    text-align: center;
 }
 
 #text-input input {
@@ -60,7 +61,7 @@ body {
 .search_column{
     text-align: center;
     padding:5px;
-border:2px solid black;
+    border:2px solid black;
 }
 
 
