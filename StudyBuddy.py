@@ -7,7 +7,6 @@ import json
 users = {}
 app = Flask(__name__, static_url_path='')
 
-
 app.config.update(
     SECRET_KEY='Miengous3Xie5meiyae6iu6mohsaiRae',
     GOOGLE_LOGIN_CLIENT_ID='1002179078501-mdq5hvm940d0hbuhqltr0o1qhsr7sduc.apps.googleusercontent.com',
@@ -25,7 +24,6 @@ class User(UserMixin):
     def __init__(self, userinfo):
         self.id = userinfo['id']
         self.name = userinfo['name']
-        self.picture = userinfo.get('picture')
 
 @app.route("/")
 def root():
@@ -41,18 +39,7 @@ def search():
 def index():
     return """
         <p><a href="%s">Login</p>
-        <p><a href="%s">Login with extra params</p>
-        <p><a href="%s">Login with extra scope</p>
-    """ % (
-        googlelogin.login_url(approval_prompt='force'),
-        googlelogin.login_url(approval_prompt='force',
-                              params=dict(extra='large-fries')),
-        googlelogin.login_url(
-            approval_prompt='force',
-            scopes=['https://www.googleapis.com/auth/drive'],
-            access_type='offline',
-        ),
-    )
+    """ % (googlelogin.login_url(approval_prompt='force'))
 
 
 # Google OAuth
@@ -62,7 +49,6 @@ def login(token, userinfo, **params):
     user = users[userinfo['id']] = User(userinfo)
     login_user(user)
     session['token'] = json.dumps(token)
-    session['extra'] = params.get('extra')
     print user
     return redirect(params.get('next', url_for('.profile')))
 
@@ -72,12 +58,9 @@ def login(token, userinfo, **params):
 def profile():
     return """
         <p>Hello, %s</p>
-        <p><img src="%s" width="100" height="100"></p>
         <p>Token: %r</p>
-        <p>Extra: %r</p>
         <p><a href="/logout">Logout</a></p>
-        """ % (current_user.name, current_user.picture, session.get('token'),
-               session.get('extra'))
+        """ % (current_user.name, session.get('token'))
 
 @app.route('/logout')
 def logout():
