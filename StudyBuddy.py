@@ -5,6 +5,7 @@ from flask_googlelogin import GoogleLogin
 import json
 
 users = {}
+app = Flask(__name__, static_url_path='')
 
 app = Flask(__name__)
 app.config.update(
@@ -27,8 +28,8 @@ class User(UserMixin):
         self.picture = userinfo.get('picture')
 
 @app.route("/")
-def hello():
-  return "Hello world"
+def root():
+  return app.send_static_file('html/index.html')
 
 # Make a search for a class, and return a json object.
 @app.route("/search/<keyword>")
@@ -57,19 +58,13 @@ def index():
 # Google OAuth
 @app.route('/oauth2callback')
 @googlelogin.oauth2callback
-def create_or_update_user(token, userinfo, **params):
-    user = User.filter_by(google_id=userinfo['id']).first()
-    if user:
-        user.name = userinfo['name']
-        user.avatar = userinfo['picture']
-    else:
-        user = User(google_id=userinfo['id'],
-                    name=userinfo['name'],
-                    avatar=userinfo['picture'])
-    db.session.add(user)
-    db.session.flush()
+def login(token, userinfo, **params):
+    user = users[userinfo['id']] = User(userinfo)
     login_user(user)
-    return redirect(url_for('index'))
+    session['token'] = json.dumps(token)
+    session['extra'] = params.get('extra')
+    print user
+    return redirect(params.get('next', url_for('.profile')))
 
 
 @app.route('/profile')
@@ -84,15 +79,6 @@ def profile():
         """ % (current_user.name, current_user.picture, session.get('token'),
                session.get('extra'))
 
-@app.route('/oauth2callback')
-@googlelogin.oauth2callback
-def login(token, userinfo, **params):
-    user = users[userinfo['id']] = User(userinfo)
-    login_user(user)
-    session['token'] = json.dumps(token)
-    session['extra'] = params.get('extra')
-    return redirect(params.get('next', url_for('.profile')))
-
 @app.route('/logout')
 def logout():
     logout_user()
@@ -103,4 +89,4 @@ def logout():
         """
 
 if __name__ == "__main__":
-  app.run(debug=True)
+	app.run(debug=True)
