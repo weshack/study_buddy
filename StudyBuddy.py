@@ -7,7 +7,7 @@ import json
 users = {}
 app = Flask(__name__, static_url_path='')
 
-app = Flask(__name__)
+
 app.config.update(
     SECRET_KEY='Miengous3Xie5meiyae6iu6mohsaiRae',
     GOOGLE_LOGIN_CLIENT_ID='1002179078501-mdq5hvm940d0hbuhqltr0o1qhsr7sduc.apps.googleusercontent.com',

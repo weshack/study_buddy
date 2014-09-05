@@ -1,11 +1,15 @@
 html {
     font-family: calibri;
 }
+
+
+
 body {
     width: 100%;
-
-
+    background-color: #b0c4de;
+    
 }
+
 /*class for centering*/
 .center {
     width: 100%;
@@ -18,6 +22,8 @@ body {
     font-size: x-large;
     text-align: center;
     margin-top: 100px;
+    background-color: #961212;
+
 }
 
 #intro {

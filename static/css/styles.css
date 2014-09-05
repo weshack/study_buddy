@@ -1,8 +1,19 @@
+@font-face {
+    font-family: amble-regular;
+    src: url(Resources/amble/amble-regular-webfont.woff);
+}
+
 html {
     font-family: calibri;
+    color: white;
 }
+
 body {
     width: 100%;
+    background-color: #961212;
+    background: linear-gradient( 180deg, #FF1919, #000000);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
 
 
 }
