@@ -37,7 +37,24 @@ body {
     text-align: center;
     margin-top: 100px;
 }
+.search_table{
+    display:table;
+    width:auto;
+    height:auto;
+}
+.search_row{
+    display:table-row;
+    width:auto;
+    height:auto;  
+    clear:both; 
 
+}
+.search_column{
+    display:table-column;
+    width:200px;
+    height:200px;
+
+}
 
 
 

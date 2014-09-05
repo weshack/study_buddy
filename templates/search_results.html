@@ -6,14 +6,14 @@
 </head>
 <body>
     <div id="title">Study Buddy</div>
-    <div id="search_results">	
+    <div class="search_table">	
     	{% for class in classes %}
-    		<div class="searchtable">
-    			<div class="class">class</div>
-    			<div class="assignment">assign</div>
-    			<div class="time">time</div>
-    			<div class="location">loc</div>
-    			<div class="contact">contact</div>
+    		<div class="search_row">
+    			<div class="search_column">class</div>
+    			<div class="search_column">assign</div>
+    			<div class="search_column">time</div>
+    			<div class="search_column">loc</div>
+    			<div class="search_column">contacts</div>
     		</div>
     	{% endfor %}
     </div>
