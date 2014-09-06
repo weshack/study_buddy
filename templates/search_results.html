@@ -1,22 +1,54 @@
-<!DOCTYPE HTML>
-<html lang="en">
+<!DOCTYPE html>
 <head>
 	<link rel="stylesheet" type="text/css" href="css/styles.css">
+    <link rel="stylesheet" href="css/foundations/foundation.css">
     <title>Study Buddy-search results</title>
 </head>
 <body>
-    <div id="title">Study Buddy</div>
-    <div id="search_results">	
-    	{% for class in classes %}
-    		<div class="searchtable">
-    			<div class="class">class</div>
-    			<div class="assignment">assign</div>
-    			<div class="time">time</div>
-    			<div class="location">loc</div>
-    			<div class="contact">contact</div>
-    		</div>
-    	{% endfor %}
+<div class="fixed">
+<div class="top-bar">
+    <div id="searchbar">
+    <form method="GET" action="find">
+    <div class="row">
+    <div class="large-12 columns">
+      <div class="row collapse">
+        <div class="small-10 columns">
+          <input type="text" placeholder="Search for a class...">
+        </div>
+        <div class="small-2 columns">
+          <input type="submit" value="Search" class="button">
+        </div>
+      </div>
     </div>
+    </div>
+    </form>
+    </div>
+    </div>
+    </div>
+    <div id="title">Study Buddy</div>
+    
+    <table id="searchresults">	
+        <thead>
+        <tr>
+                <th> Class</th>
+                <th> Time</th>
+                <th> Location</th>
+                <th> Description</th>
+                <th> Contact</th>
+            </tr>
+        </thead>
+        <tbody>
+    	{% for class in results %}
+    		<tr>
+    			<td>class</td>
+    			<td>assign</td>
+    			<td>time</td>
+    			<td>loc</td>
+    			<td>contacts</td>
+    		</tr>
+    	{% endfor %}
+        </tbody>
+    </table>
 
 </body>
 </html>

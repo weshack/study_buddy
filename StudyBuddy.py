@@ -1,4 +1,4 @@
-from flask import Flask, url_for, redirect, session, render_template
+from flask import Flask, url_for, redirect, session, render_template, request
 from flask_login import (UserMixin, login_required, login_user, logout_user,
                          current_user)
 from flask_googlelogin import GoogleLogin
@@ -60,7 +60,13 @@ def root():
 # Make a search for a class, and return a json object.
 @app.route('/find')
 def search():
-    return render_template('search_results.html', classes=[1,2,3,4])
+    search_keyword = request.args.get('search_keyword')
+    
+    # Query database with search_keyword
+    search_results = [1,2,3] #StudySessions.objects(class_name=search_keyword)
+
+    # Return template with object full of data
+    return render_template('search_results.html', results=search_results)
 
 
 @app.route('/login')
