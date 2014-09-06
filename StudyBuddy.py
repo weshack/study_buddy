@@ -102,9 +102,10 @@ def login_redirect():
     # if success, add user to db if not exists
     #check if user exists
     if not db.users.find_one({"userID": current_user.id}):
-        print "CURRENT USER", current_user.email
+        print "FOUND THE USER", current_user.id
         db.users.insert({"name":current_user.name,"userID":current_user.id,"email":current_user.email})
-
+    else:
+        print "HAVE USER",current_user.id
     return redirect('/home')
 
 
@@ -121,6 +122,8 @@ def checkin():
 @app.route('/create')
 def create():
     return 'creates a study group'
+
+# @app.route('/')
 
 @app.route('/lucky')
 def lucky():
