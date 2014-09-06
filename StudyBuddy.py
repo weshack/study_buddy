@@ -90,14 +90,14 @@ def search():
     # case where no course number is specified
     if not course_keyword:
         #just pull all the courses under that dept
-        results0 = db.group_sessions.find({"dept":dept_keyword}).sort("time")
+        results0 = db.group_sessions.find({DEPARTMENT_KEY:dept_keyword}).sort(TIME_KEY)
         if results0.count() > 0:
             print "Got results0"
             return return_db_results(results0,user,userID)
 
     # TODO: verify course number is safe?
     # Query database with search_keyword. Dept number + 3 num code. If fails,
-    results1 = db.group_sessions.find({"dept":dept_keyword,"course":course_keyword}).sort("time")
+    results1 = db.group_sessions.find({DEPARTMENT_KEY:dept_keyword,COURSE_NUMBER_KEY:course_keyword}).sort(TIME_KEY)
     if results1.count() > 0:
         print "Got results1, yippee!"
         return return_db_results(results1,user,userID)
@@ -111,7 +111,7 @@ def search():
         short_course_keyword = course_keyword[0:1]
         twoOrThree = True
     if twoOrThree:
-        results2 = db.group_sessions.find({"dept":dept_keyword,"course":short_course_keyword}).sort("time")
+        results2 = db.group_sessions.find({DEPARTMENT_KEY:dept_keyword,COURSE_NUMBER_KEY:short_course_keyword}).sort(TIME_KEY)
         if results2.count() > 0:
             print "Got results2, yippee!"
             return return_db_results(results2,user,userID)
@@ -119,7 +119,7 @@ def search():
     # find all courses with that 3 number code. 
 
     # db.group_sessions.find
-    search_results = [{"contact":"8607596671","loc":"exley","course":"303","time":"4:20pm","description":"Assignment 2","users":[["Aaron","azroz"],["Denise","nishii"]],"Owner":"Hora","notes":"class notes"}] #StudySessions.objects(class_name=search_keyword)
+    search_results = [{"contact":"8607596671","loc":"exley",COURSE_NUMBER_KEY:"303",TIME_KEY:"4:20pm","description":"Assignment 2","users":[["Aaron","azroz"],["Denise","nishii"]],"Owner":"Hora","notes":"class notes"}] #StudySessions.objects(class_name=search_keyword)
     count=5
     user="John Doe"
     userid="jd"
@@ -286,6 +286,7 @@ def delete():
 def join():
     # TODO: Verify user is not already in the group session
     # TODO: Add user to the group in the DB
+
     # Report success or failure so the UI can react
     pass
 
