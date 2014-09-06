@@ -8,6 +8,16 @@ from jinja2 import Template
 from pymongo import MongoClient
 import departmentArray
 
+##
+# Constants for mongodb keys
+##
+DEPARTMENT_KEY = "department"
+COURSE_NUMBER_KEY = "course_no"
+LOCATION_KEY = "location"
+TIME_KEY = "time"
+ATTENDEES_KEY = "attendees"
+COURSE_NOTES_KEY = "course_notes"
+
 client = MongoClient()
 
 db = client.sbdb
@@ -169,10 +179,6 @@ def departments():
     print "searching for departments.."
     return json.dumps(departmentArray.depts)
 
-@app.route('/checkin')
-def checkin():
-    return 'hello'
-
 @app.route('/create')
 def create():
     return render_template('create.html');
@@ -238,16 +244,36 @@ def new():
         db.group_sessions.insert(group_session)
         return app.send_static_file('html/index.html')
 
+##
+# Responds to a form with the following input elements:
+#   department : string
+#   course_no : string
+#   location : string
+#   time : string
+#   attendees : list of strings
+#   course_notes : string
+##
 @app.route('/edit',methods=['POST'])
 def edit():
-    # TODO: verify that user in session owns the group session to be edited
-    # Determine the edit type:
-        # Modify notes section
-        # Change time
-        # Change location
-    # Validate edits
-    #
-    pass
+    department = request.args.get('department')
+    course_no = request.args.get('course_no')
+    location = request.args.get('location')
+    time = request.args.get('time')
+    attendees = request.args.get('attendees')
+    course_notes = request.args.get('course_notes')
+
+    coll = db.group_sessions
+    new_data = {DEPARTMENT_KEY    : department,
+                COURSE_NUMBER_KEY : course_no,
+                LOCATION_KEY      : location,
+                TIME_KEY          : time,
+                ATTENDEES_KEY     : attendees,
+                COURSE_NOTES_KEY  : course_notes}
+
+    # verify that user owns the group before updating database.
+    coll.update(new_data)
+
+    # Show the updated results page.
 
 @app.route('/delete',methods=['POST'])
 def delete():
