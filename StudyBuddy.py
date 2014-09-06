@@ -44,7 +44,10 @@ def search():
 
 @app.route('/login')
 def index():
-    return """
+    return render_template('login.html', 
+        login_link=googlelogin.login_url(approval_prompt='force'))
+
+    """
         <p><a href="%s">Login</p>
     """ % (googlelogin.login_url(approval_prompt='force'))
 
