@@ -1,15 +1,22 @@
 @font-face {
-    font-family: chunkfive-regular;
-    src: url(amble-regular-webfont.woff);
+    font-family: josefinslab;
+    src: url(josefinslab-bold-webfont.woff);
+}
+
+div {
+    font-family: josefinslab;
 }
 
 html {
-    font-family: chunkfive-regular;
-}
+    font-family: josefinslab;
+ }
 
 body {
     width: 100%;
     background-color: #E0E0D1;
+    background-image: url(wesleyan.jpg);
+    background-repeat: no-repeat;
+    background-attachment: fixed;   
 
 }
 /*class for centering*/
@@ -25,6 +32,9 @@ body {
     text-align: center;
     margin-top: 100px;
     font-weight: bold;
+    color: #000000;
+
+
 }
 
 #intro {
@@ -33,6 +43,7 @@ body {
     text-align: center;
     margin-top: 100px;
     margin-bottom: 50px;
+    color: beige;
 }
 
 #text-input {
