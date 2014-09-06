@@ -36,7 +36,7 @@ def search():
     search_keyword = request.args.get('search_keyword')
     
     # Query database with search_keyword
-    search_results = [1,2,3] #StudySessions.objects(class_name=search_keyword)
+    search_results = [1] #StudySessions.objects(class_name=search_keyword)
 
     # Return template with object full of data
     return render_template('search_results.html', results=search_results)
