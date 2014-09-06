@@ -73,11 +73,7 @@ def search():
 @app.route('/')
 def index():
     return render_template('login.html', 
-        login_link=googlelogin.login_url(approval_prompt='force'))
-
-    """
-        <p><a href="%s">Login</p>
-    """ % (googlelogin.login_url(approval_prompt='force',scopes=["email"]))
+        login_link=googlelogin.login_url(approval_prompt='force',scopes=["email"]))
 
 class User(UserMixin):
     def __init__(self,userinfo):
@@ -91,6 +87,10 @@ class User(UserMixin):
 @googlelogin.oauth2callback
 def login(token, userinfo, **params):
     user = users[userinfo['id']] = User(userinfo)
+    # deny access to anyone without an @wesleyan.edu email address
+    if not "@wesleyan.edu" in user.email:
+        # redirect to same page, display error
+        return render_template('login.html',results="meow, you have been denied.")
     login_user(user)
     session['token'] = json.dumps(token)
     return redirect(params.get('next', url_for('.login_redirect')))
@@ -99,25 +99,21 @@ def login(token, userinfo, **params):
 @app.route('/login_redirect')
 @login_required
 def login_redirect():
-    # deny access to anyone without an @wesleyan.edu email address
-    deny = False
-    if deny:
-        return
-        # redirect to same page, display error
-        # return redirect(params.get('next', url_for('.profile')))
     # if success, add user to db if not exists
-    print "CURRENT USER", current_user.email
-    db.users.insert({"name":current_user.name,"userID":"1234"})
+    #check if user exists
+    if not db.users.find_one({"userID": current_user.id}):
+        print "FOUND THE USER", current_user.id
+        db.users.insert({"name":current_user.name,"userID":current_user.id,"email":current_user.email})
+    else:
+        print "HAVE USER",current_user.id
     return redirect('/home')
+
 
 @app.route('/logout')
 def logout():
     logout_user()
     session.clear()
-    return """
-        <p>Logged out</p>
-        <p><a href="/">Return to /</a></p>
-        """
+    return redirect('/login')
 
 @app.route('/checkin')
 def checkin():
@@ -126,6 +122,8 @@ def checkin():
 @app.route('/create')
 def create():
     return render_template('create.html');
+
+# @app.route('/')
 
 @app.route('/lucky')
 def lucky():
