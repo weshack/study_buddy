@@ -113,7 +113,7 @@ def login_redirect():
 def logout():
     logout_user()
     session.clear()
-    return redirect('/login')
+    return redirect('/')
 
 @app.route('/checkin')
 def checkin():
