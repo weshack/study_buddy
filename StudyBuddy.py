@@ -17,6 +17,9 @@ LOCATION_KEY = "location"
 TIME_KEY = "time"
 ATTENDEES_KEY = "attendees"
 COURSE_NOTES_KEY = "course_notes"
+CONTACT_KEY = "contact"
+DESCRIPTION_KEY = "description"
+OWNER_KEY = "owner"
 
 client = MongoClient()
 
@@ -119,7 +122,7 @@ def search():
     # find all courses with that 3 number code. 
 
     # db.group_sessions.find
-    search_results = [{"contact":"8607596671","loc":"exley",COURSE_NUMBER_KEY:"303",TIME_KEY:"4:20pm","description":"Assignment 2","users":[["Aaron","azroz"],["Denise","nishii"]],"Owner":"Hora","notes":"class notes"}] #StudySessions.objects(class_name=search_keyword)
+    search_results = [{CONTACT_KEY:"8607596671",LOCATION_KEY:"exley",COURSE_NUMBER_KEY:"303",TIME_KEY:"4:20pm",DESCRIPTION_KEY:"Assignment 2",ATTENDEES_KEY:[["Aaron","azroz"],["Denise","nishii"]],OWNER_KEY:"Hora",COURSE_NOTES_KEY:"class notes"}] #StudySessions.objects(class_name=search_keyword)
     count=5
     user="John Doe"
     userid="jd"
