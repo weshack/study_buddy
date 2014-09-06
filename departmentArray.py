@@ -5,7 +5,15 @@ all academic departments at Wesleyan.
 
 '''
 
-ogArray = [["AMST", "American Studies"],
+def validDept(rawName,depts):
+	for name in depts:
+		if name[0] == rawName or name[1] == rawName:
+			print "FUCK YEAAAAHHHHHH"
+			return True
+	print "FUCK NOOOOOOOOOOOOOOOOOOOOOOO"
+	return False
+
+depts = [["AMST", "American Studies"],
 ["ANTH", "Anthropology"],
 ["ARAB", "Arabic"],
 ["ARCP", "Archaeology Program"],

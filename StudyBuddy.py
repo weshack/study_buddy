@@ -6,6 +6,8 @@ import json
 from jinja2 import Template
 # from flask.ext.pymongo import PyMongo
 from pymongo import MongoClient
+import departmentArray
+
 client = MongoClient()
 
 db = client.sbdb
@@ -123,29 +125,41 @@ def checkin():
 def create():
     return render_template('create.html');
 
-@app.route('/add_group')
-#Take a post request and use contents to create a study group
-# BUT FIRST! Validate the data.
-def handle_create_group():
-    request.data
-    # assert request.method == "POST"
-    print "REQUEST",request
-    print request.form
-
-
 @app.route('/lucky')
 def lucky():
     return 'feeling lucky picks random room'
 
 
-@app.route('/new')
+@app.route('/new',methods=['POST'])
 def new():
+    # get the data from the request
     department = request.args.get('department')
     course = request.args.get('course')
     location = request.args.get('location')
     time = request.args.get('time')
     attendees = request.args.get('attendees')
+
+    # validate data
+    errors = []
+    if not departmentArray.validDept(department):
+        err1 = "DEPARTMENT DOES NOT EXIST", department
+        errors.append(err1)
+
+    #add more future validation here
+    if errors:
+        print "ERRORS:"
+        for i in errors: print i
+        return render_template('create.html',results=errors)
+
+
+
+    #don't know how to identify bogus course?
+    #don't know how to identify bogus location?
+
+
     #insert info into database 
+
+
     return app.send_static_file('html/index.html')
 
 
