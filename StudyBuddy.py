@@ -63,6 +63,7 @@ def search():
     search_keyword = request.args.get('search_keyword')
     
     # Query database with search_keyword
+    # db.group_sessions.find
     search_results = [1,2,3] #StudySessions.objects(class_name=search_keyword)
 
     # Return template with object full of data
