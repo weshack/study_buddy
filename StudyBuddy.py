@@ -123,6 +123,12 @@ def logout():
     session.clear()
     return redirect('/')
 
+#accessing the departmentArray information for autofilling department form
+@app.route('/departments')
+def departments():
+    print "searching for departments.."
+    return json.dumps(departmentArray.depts)
+
 @app.route('/checkin')
 def checkin():
     return 'hello'

@@ -41,11 +41,46 @@ body {
 
 }
 
+.ui-helper-hidden-accessible {
+    visibility: hidden;
+}
+.ui-menu-item:hover{
+    background-color: #99D6FF;
+
+}
+
+.ui-menu-item {
+    padding-left: 10px;
+}
+
+.ui-autocomplete {
+    text-decoration: none;
+}
+.ui-front {
+    text-decoration: none;
+}
+.ui-menu {
+    text-decoration: none;
+}
+.ui-widget {
+    text-decoration: none;
+}
+.ui-widget-content {
+    width: 73%;
+    border: 1px solid black;
+    color: #222222;
+    background-color: white;
+    text-decoration: none;
+    list-style-type: none;
+    margin-left: auto;
+    margin-right: auto;
+
+}
 #text-background {
     /*background-color: rgba(51,51,51,0.5);*/
-    margin-left: 25%;
-    margin-right: 25%;
-    padding: 10px;
+    margin-left: 30%;
+    margin-right: 30%;
+    padding: 5px;
     line-height: initial;
     border-radius: 25px;
     text-shadow: 3px 3px #000000;
