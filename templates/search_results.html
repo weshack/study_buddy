@@ -9,26 +9,24 @@
 </head>
 <body>
 <div class="fixed">
-<div class="top-bar">
-    <div id="searchbar">
-    <form method="GET" action="find">
-    <div class="row">
-    <div class="large-12 columns">
-      <div class="row collapse">
-        <div class="small-10 columns">
-          <input type="text" placeholder="Search for a class...">
-        </div>
-        <div class="small-2 columns">
-          <input type="submit" value="Search" class="button">
-        </div>
-      </div>
+<nav class="top-bar" data-topbar role="navigation">
+
+      <ul class="title-area">
+        <li class="name">
+          <h1><a href="/">Study Buddy</a></h1>
+        </li>
+      </ul>
+    
+        <section class="top-bar-section">
+            <ul class="right">
+                <li>
+                    <a href="logout">Logout</a>
+                </li>
+            </ul>
+        </section>
+    </nav>
     </div>
-    </div>
-    </form>
-    </div>
-    </div>
-    </div>
-    <div id="title">Study Buddy</div>
+    <div id="page-header"><h2>Search Results</h2></div>
     <table id="searchresults">	
         <thead>
         <tr>
@@ -43,15 +41,16 @@
 
     	{% for class in results %}
             <tr>
-    			<td class="click {{class}}">class</a></td>
+    			<td class="click" data-id="{{class}}">class</a></td>
     			<td>assign</td>
     			<td>time</td>
     			<td>loc</td>
     			<td>contacts</td>
     		</tr>
             <tr>
-                <td>
-                    <div class="hidden {{class}}"><table>
+                <td colspan="5">
+                    <div class="container hidden" data-id="{{class}}">
+                    <table>
                     {% for user in [1,2,3] %}
                     <tr>
                     <td>user 1</td>
