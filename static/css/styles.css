@@ -1,11 +1,14 @@
 @font-face {
-    font-family: monserrat;
-    src: url(montserrat-regular-webfont.woff);
+    font-family: josefinslab;
+    src: url(josefinslab-bold-webfont.woff);
+}
+
+div {
+    font-family: josefinslab;
 }
 
 html {
-
-    font-family: monserrat;
+    font-family: josefinslab;
  }
 
 body {
@@ -40,7 +43,7 @@ body {
     text-align: center;
     margin-top: 100px;
     margin-bottom: 50px;
-    color: white;
+    color: beige;
 }
 
 #text-input {
