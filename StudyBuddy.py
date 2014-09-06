@@ -251,13 +251,16 @@ def new():
         return app.send_static_file('html/index.html')
 
 ##
-# Responds to a form with the following input elements:
+# Responds to a url of the form: 
+#   /edit?department=<department>&course_no=<course_no>&location=<location>&time=<time>&attendees=<attendees>&course_notes=<course_notes>&group_id=<group_id>
+#   
 #   department : string
 #   course_no : string
 #   location : string
 #   time : string
 #   attendees : list of strings
 #   course_notes : string
+#   group_id : string
 ##
 @app.route('/edit',methods=['POST'])
 def edit():
@@ -267,6 +270,7 @@ def edit():
     time = request.args.get('time')
     attendees = request.args.get('attendees')
     course_notes = request.args.get('course_notes')
+    group_id = request.args.get('group_id')
 
     coll = db.group_sessions
     new_data = {DEPARTMENT_KEY    : department,
@@ -277,7 +281,7 @@ def edit():
                 COURSE_NOTES_KEY  : course_notes}
 
     # verify that user owns the group before updating database.
-    coll.update(new_data)
+    coll.update({'_id' : group_id}, $set: new_data)
 
     # Show the updated results page.
 
