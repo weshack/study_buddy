@@ -20,7 +20,7 @@ app.config.update(
     SECRET_KEY='Tieng3us3Xie5meiyae6iKKHVUIUDF',
     GOOGLE_LOGIN_CLIENT_ID='1002179078501-mdq5hvm940d0hbuhqltr0o1qhsr7sduc.apps.googleusercontent.com',
     GOOGLE_LOGIN_CLIENT_SECRET='O1kpQ8Is9s2pD3eOpxRfh-7x',
-    GOOGLE_LOGIN_REDIRECT_URI='http://127.0.0.1:5000/oauth2callback'
+    GOOGLE_LOGIN_REDIRECT_URI='http://127.0.0.1:5000/oauth2callback',
 )
 
 googlelogin = GoogleLogin(app)
@@ -56,11 +56,10 @@ class User(UserMixin):
         self.name = userinfo['name']
 
 @app.route("/home")
-@login_required
 def root():
     return app.send_static_file('html/index.html')
 
-# Make a search for a class, and return a json object.
+# Make a search for a class
 @app.route('/find')
 def search():
     search_keyword = request.args.get('search_keyword')
@@ -68,7 +67,7 @@ def search():
     # Query database with search_keyword
 
     # db.group_sessions.find
-    search_results = [1,2,3] #StudySessions.objects(class_name=search_keyword)
+    search_results = [{"loc":"exley","course":"303","time":"4:20pm","description":"Assignment 2","users":["Aaron","Denise"],"Owner":"Hora"}] #StudySessions.objects(class_name=search_keyword)
 
 
     # Return template with object full of data
@@ -77,7 +76,9 @@ def search():
 
 @app.route('/')
 def index():
-    return render_template('login.html',login_link=googlelogin.login_url(approval_prompt='force',scopes=["email"]))
+    return render_template('login.html', 
+        login_link=googlelogin.login_url(approval_prompt='force',scopes=["email"]))
+
 
 
 class User(UserMixin):
