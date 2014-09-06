@@ -67,11 +67,13 @@ def search():
     # Query database with search_keyword
 
     # db.group_sessions.find
-    search_results = [{"loc":"exley","course":"303","time":"4:20pm","description":"Assignment 2","users":["Aaron","Denise"],"Owner":"Hora"}] #StudySessions.objects(class_name=search_keyword)
-
-
+    search_results = [{"contact":"8607596671","loc":"exley","course":"303","time":"4:20pm","description":"Assignment 2","users":[["Aaron","azroz"],["Denise","nishii"]],"Owner":"Hora","notes":"class notes"}] #StudySessions.objects(class_name=search_keyword)
+    count=5
+    user="John Doe"
+    userid="jd"
+    boolean=False
     # Return template with object full of data
-    return render_template('search_results.html', results=search_results)
+    return render_template('search_results.html', results=search_results, count=count,user=user,id=userid,boolean=boolean)
 
 
 @app.route('/')

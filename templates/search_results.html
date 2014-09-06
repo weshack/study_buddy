@@ -62,17 +62,21 @@
                     <div class="container hidden" data-id="{{class["course"]}}">
                     <div class="students-table">
                     <table>
-                    {% for user in class["users"] %}
-                    <tr>
-                    <td>{{User}}</td>
-                    <td>contact</td>
-                    </tr>
-                    {% endfor %}
+                        {% if not boolen %}
+                        <tr>
+                            <td><button value="Join Session"/></td>
+                        </tr>
+                        {% endif %}
+                        {% for user in class["users"] %}
+                        <tr>
+                        <td>{{user[0]}}</td>
+                        </tr>
+                        {% endfor %}
                     </table>
                     </div>
                     <div class="notes">
-                    <h5>Study Notes</h5>
-                    <p>Class notes. Class notes. Class notes. Class notes.</p>
+                        <h5>Session Notes</h5>
+                        <p>Contact: {{class["contact"]}} <br> {{class["notes"]}} </p>
                     </div>
                     </div>
                 </td>       
