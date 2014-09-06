@@ -2,6 +2,9 @@
 <head>
 	<link rel="stylesheet" type="text/css" href="css/styles.css">
     <link rel="stylesheet" href="css/foundations/foundation.css">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script type="text/javascript" src="js/jquery.js"></script>
+
     <title>Study Buddy-search results</title>
 </head>
 <body>
@@ -26,7 +29,6 @@
     </div>
     </div>
     <div id="title">Study Buddy</div>
-    
     <table id="searchresults">	
         <thead>
         <tr>
@@ -38,17 +40,32 @@
             </tr>
         </thead>
         <tbody>
+
     	{% for class in results %}
-    		<tr>
-    			<td>class</td>
+            <tr>
+    			<td class="click {{class}}">class</a></td>
     			<td>assign</td>
     			<td>time</td>
     			<td>loc</td>
     			<td>contacts</td>
     		</tr>
+            <tr>
+                <td>
+                    <div class="hidden {{class}}"><table>
+                    {% for user in [1,2,3] %}
+                    <tr>
+                    <td>user 1</td>
+                    <td>contact</td>
+                    </tr>
+                    {% endfor %}
+                    </table>
+                    </div>
+                </td>       
+            </tr>
+            
     	{% endfor %}
         </tbody>
     </table>
-
+    
 </body>
 </html>

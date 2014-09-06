@@ -5,7 +5,6 @@
     <script src="js/vendor/modernizr.js"></script>
     <script src="js/vendor/jquery.js"></script>
     <script src="js/vendor/fastclick.js"></script>
-    <script src="js/foundation/foundation.dropdown.js"></script>
     <script src="js/foundation.min.js"></script>
     <script src="StudyBuddy.js"></script>
     <link rel="stylesheet" href="css/foundations/foundation.css">
@@ -30,24 +29,23 @@
         </section>
     </nav>
 
-    <div id="title">Study Buddy</div>
+    <div class="custom-title" id="text-background">Study Buddy</div>
 
     <div id="intro">
         Find your friends who are studying!
     </div>
 
-    <form id="search" method="GET" action="find" class="">
-        <div id="text-input" class="row">
-            <div class="large-12 columns">
-                <input type="text" />
-            </div>
+    
+    <div id="text-input" class="row">
+        <div class="large-12 columns">
+            <input type="text" id="studysearch"/>
         </div>
-        <div class="row small-centered" id="front-page-buttons">
-            <input type="submit" value="Create a Group" name="Create" class="button small-3 small-centered columns">
-            <input type="submit" value="Search" class="button small-3 small-centered columns">
-            <input type="submit" value="I'm Feeling Lucky" name="Lucky" class="button small-3 small-centered columns">
-        </div>
-    </form>
+    </div>
+    <div class="row small-centered" id="front-page-buttons">
+        <input type="submit" value="Create a Group" id="create" class="button small-2 small-centered columns">
+        <input type="submit" value="Search" class="button small-2 small-centered columns" id="find">
+        <input type="submit" value="I'm Feeling Lucky" id="lucky" class="button small-3 small-centered columns">
+    </div>
 
 </body>
 

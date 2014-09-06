@@ -6,6 +6,8 @@ import json
 from jinja2 import Template
 # from flask.ext.pymongo import PyMongo
 from pymongo import MongoClient
+import departmentArray
+
 client = MongoClient()
 
 db = client.sbdb
@@ -54,6 +56,7 @@ class User(UserMixin):
         self.name = userinfo['name']
 
 @app.route("/home")
+@login_required
 def root():
     return app.send_static_file('html/index.html')
 
@@ -63,21 +66,22 @@ def search():
     search_keyword = request.args.get('search_keyword')
     
     # Query database with search_keyword
+
     # db.group_sessions.find
     search_results = [1,2,3] #StudySessions.objects(class_name=search_keyword)
+
 
     # Return template with object full of data
     return render_template('search_results.html', results=search_results)
 
 
-@app.route('/login')
+@app.route('/')
 def index():
     return render_template('login.html', 
-        login_link=googlelogin.login_url(approval_prompt='force'))
+        login_link=googlelogin.login_url(approval_prompt='force',scopes=["email"]))
 
-    """
-        <p><a href="%s">Login</p>
-    """ % (googlelogin.login_url(approval_prompt='force',scopes=["email"]))
+
+
 
 class User(UserMixin):
     def __init__(self,userinfo):
@@ -91,6 +95,10 @@ class User(UserMixin):
 @googlelogin.oauth2callback
 def login(token, userinfo, **params):
     user = users[userinfo['id']] = User(userinfo)
+    # deny access to anyone without an @wesleyan.edu email address
+    if not "@wesleyan.edu" in user.email:
+        # redirect to same page, display error
+        return render_template('login.html',results="meow, you have been denied.")
     login_user(user)
     session['token'] = json.dumps(token)
     return redirect(params.get('next', url_for('.login_redirect')))
@@ -99,29 +107,67 @@ def login(token, userinfo, **params):
 @app.route('/login_redirect')
 @login_required
 def login_redirect():
-    # deny access to anyone without an @wesleyan.edu email address
-    deny = False
-    if deny:
-        return
-        # redirect to same page, display error
-        # return redirect(params.get('next', url_for('.profile')))
     # if success, add user to db if not exists
-    print "CURRENT USER", current_user.email
-    db.users.insert({"name":current_user.name,"userID":"1234"})
+    #check if user exists
+    if not db.users.find_one({"userID": current_user.id}):
+        print "FOUND THE USER", current_user.id
+        db.users.insert({"name":current_user.name,"userID":current_user.id,"email":current_user.email})
+    else:
+        print "HAVE USER",current_user.id
     return redirect('/home')
+
 
 @app.route('/logout')
 def logout():
     logout_user()
     session.clear()
-    return """
-        <p>Logged out</p>
-        <p><a href="/">Return to /</a></p>
-        """
+    return redirect('/')
 
 @app.route('/checkin')
 def checkin():
     return 'hello'
+
+@app.route('/create')
+def create():
+    return render_template('create.html');
+
+@app.route('/lucky')
+def lucky():
+    return 'feeling lucky picks random room'
+
+
+@app.route('/new',methods=['POST'])
+def new():
+    # get the data from the request
+    department = request.args.get('department')
+    course = request.args.get('course')
+    location = request.args.get('location')
+    time = request.args.get('time')
+    attendees = request.args.get('attendees')
+
+    # validate data
+    errors = []
+    if not departmentArray.validDept(department):
+        err1 = "DEPARTMENT DOES NOT EXIST", department
+        errors.append(err1)
+
+    #add more future validation here
+    if errors:
+        print "ERRORS:"
+        for i in errors: print i
+        return render_template('create.html',results=errors)
+
+
+
+    #don't know how to identify bogus course?
+    #don't know how to identify bogus location?
+
+
+    #insert info into database 
+
+
+    return app.send_static_file('html/index.html')
+
 
 if __name__ == "__main__":
 	app.run(debug=True)
