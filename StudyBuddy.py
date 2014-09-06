@@ -20,7 +20,7 @@ app.config.update(
     SECRET_KEY='Tieng3us3Xie5meiyae6iKKHVUIUDF',
     GOOGLE_LOGIN_CLIENT_ID='1002179078501-mdq5hvm940d0hbuhqltr0o1qhsr7sduc.apps.googleusercontent.com',
     GOOGLE_LOGIN_CLIENT_SECRET='O1kpQ8Is9s2pD3eOpxRfh-7x',
-    GOOGLE_LOGIN_REDIRECT_URI='http://127.0.0.1:5000/oauth2callback'
+    GOOGLE_LOGIN_REDIRECT_URI='http://127.0.0.1:5000/oauth2callback',
 )
 
 googlelogin = GoogleLogin(app)
@@ -56,7 +56,6 @@ class User(UserMixin):
         self.name = userinfo['name']
 
 @app.route("/home")
-@login_required
 def root():
     return app.send_static_file('html/index.html')
 
@@ -79,8 +78,6 @@ def search():
 def index():
     return render_template('login.html', 
         login_link=googlelogin.login_url(approval_prompt='force',scopes=["email"]))
-
-
 
 
 class User(UserMixin):
