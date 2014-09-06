@@ -15,10 +15,12 @@ body {
     width: 100%;
     background-color: #E0E0D1; 
     background-image: url(wesleyan.jpg);
+    background-size: cover;
     background-repeat: no-repeat;
-    background-attachment: fixed;   
+    background-attachment: fixed;
 
 }
+
 /*class for centering*/
 .center {
     width: 100%;
@@ -32,6 +34,8 @@ body {
     margin-top: 100px;
     font-weight: bold;
     color: beige;
+    min-width: 500px;
+    text-shadow: 3px 3px #000000;
 
 
 }
@@ -41,11 +45,64 @@ body {
 
 }
 
+
+.ui-helper-hidden-accessible {
+    visibility: hidden;
+}
+.ui-menu-item:hover{
+    background-color: #99D6FF;
+
+}
+
+.ui-menu-item {
+    padding-left: 10px;
+}
+
+.ui-autocomplete {
+    text-decoration: none;
+}
+.ui-front {
+    text-decoration: none;
+}
+.ui-menu {
+    text-decoration: none;
+}
+.ui-widget {
+    text-decoration: none;
+}
+.ui-widget-content {
+    width: 73%;
+    border: 1px solid black;
+    color: #222222;
+    background-color: white;
+    text-decoration: none;
+    list-style-type: none;
+    margin-left: auto;
+    margin-right: auto;
+
+}
+
+.foot {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+#b1 {
+    float: left;
+}
+
+#b2 {
+    float: right;
+    color: beige;
+}
+
+
 #text-background {
     /*background-color: rgba(51,51,51,0.5);*/
-    margin-left: 25%;
-    margin-right: 25%;
-    padding: 10px;
+    margin-left: 30%;
+    margin-right: 30%;
+    padding: 5px;
     line-height: initial;
     border-radius: 25px;
     text-shadow: 3px 3px #000000;
@@ -85,9 +142,10 @@ body {
 
 
 #searchresults{
-    width:80%;
+    width: 80%;
     margin-left: 10%;
 }
+
 #searchbar{
     width:20%;
     float:right;
@@ -135,11 +193,12 @@ body {
 }
 
 #page-header{
-    width:50%;
-    margin-top: 10%;
+    width:90%;
+    margin-top: 8%;
     margin-left:10%;
-    display:none;
- 
+    margin-bottom:none;
+    display:inline-block;
+
 }
 
 
@@ -148,12 +207,20 @@ body {
     margin-left: auto;
     margin-right: auto;
 }
-
-
-
-
-
-
+#search-input{
+    width:50%;
+    margin-left:10%;
+    display:inline-block;
+}
+.students-table{
+    width:30%;
+    display:inline-block;
+}
+.notes{
+    display:inline-block;
+    width:60%;
+    float:right;
+}
 
 
 
