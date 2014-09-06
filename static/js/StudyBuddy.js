@@ -8,6 +8,8 @@ var LOCATION_TAG = "";
 // Base url for site
 var BASE_URL = "";
 
+var autocomplete_data = [];
+
 //Code that runs right after window has loaded
 window.onload = function() {
 	//code that runs when you click the search button
@@ -15,8 +17,7 @@ window.onload = function() {
 		console.log("error");
 		var keyword = document.getElementById("studysearch").value;
 		window.location = "/find?search_keyword="+keyword;
-
-	}
+	}	
 	document.getElementById("create").onclick = function(){
 		window.location = "/create"
 
@@ -24,7 +25,93 @@ window.onload = function() {
 	document.getElementById("lucky").onclick = function(){
 		window.location = "/lucky"
 	}
+
+	var data = 
+	[["AMST", "American Studies"],
+	["ANTH", "Anthropology"],
+	["ARAB", "Arabic"],
+	["ARCP", "Archaeology Program"],
+	["ARHA", "Art History"],
+	["ARST", "Art Studio"],
+	["ASTR", "Astronomy"],
+	["BIOL", "Biology"],
+	["CCIV", "Classical Civilization"],
+	["CEAS", "College of East Asian Studies"],
+	["CHEM", "Chemistry"],
+	["CHIN", "Chinese"],
+	["CHUM", "Center for the Humanities"],
+	["CIS", "College of Integrative Sciences"],
+	["COL", "College of Letters"],
+	["COMP", "Computer Science"],
+	["CSPL", "Center for the Study of Public Life"],
+	["CSS", "College of Social Studies"],
+	["DANC", "Dance"],
+	["E&ES", "Earth and Environmental Sciences"],
+	["ECON", "Economics"],
+	["ENGL", "English"],
+	["ENVS", "Environmental Studies Program"],
+	["FGSS", "Feminist, Gender, and Sexuality Studies Program"],
+	["FILM", "Film Studies"],
+	["FIST", "French, Italian, Spanish in Translation"],
+	["FREN", "French"],
+	["FRST", "French Studies"],
+	["GELT", "German Literature in English"],
+	["GOVT", "Government"],
+	["GRK", "Greek"],
+	["GRST", "German Studies"],
+	["HEBR", "Hebrew"],
+	["HEST", "Hebrew Studies"],
+	["HIST", "History"],
+	["ITAL", "Italian Studies"],
+	["JAPN", "Japanese"],
+	["KREA", "Korean"],
+	["LANG", "Less Commonly Taught Languages"],
+	["LAST", "Latin American Studies Program"],
+	["LAT", "Latin"],
+	["MATH", "Mathematics"],
+	["MB&B", "Molecular Biology and Biochemistry"],
+	["MDST", "Medieval Studies Program"],
+	["MUSC", "Music"],
+	["NS&B", "Neuroscience and Behavior"],
+	["PHED", "Physical Education"],
+	["PHIL", "Philosophy"],
+	["PHYS", "Physics"],
+	["PORT", "Portuguese"],
+	["PSYC", "Psychology"],
+	["QAC", "Quantitative Analysis Center"],
+	["REES", "Russian, East European, and Eurasian Studies Program"],
+	["RELI", "Religion"],
+	["RULE", "Russian Literature in English"],
+	["RUSS", "Russian"],
+	["SISP", "Science in Society Program"],
+	["SOC", "Sociology"],
+	["SPAN", "Spanish"],
+	["THEA", "Theater"],
+	["WRCT", "Writing Center"]];
+
+	for (i in data) {
+		var short_namejson = {};
+		var long_namejson = {};
+		var short_name = data[i][0];
+		console.log(short_name);
+		var long_name = data[i][1];
+		console.log(long_name);
+		short_namejson["label"] = short_name;
+		autocomplete_data.push(short_namejson);
+		long_namejson["label"] = long_name;
+		autocomplete_data.push(long_namejson);
+	}
+
+	$("#studysearch").autocomplete({
+		source: autocomplete_data
+	});
+	window.onresize = function() {
+		var input_size = document.getElementById("studysearch").style.width;
+		document.getElementsByClass("ui-widget-content")[0].style.width = input_size;
+	}
 }
+
+
 
 
 
