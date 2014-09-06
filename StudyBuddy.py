@@ -67,7 +67,7 @@ def search():
     # Query database with search_keyword
 
     # db.group_sessions.find
-    search_results = [1,2,3] #StudySessions.objects(class_name=search_keyword)
+    search_results = [{"loc":"exley","course":"303","time":"4:20pm","description":"Assignment 2","users":["Aaron","Denise"],"Owner":"Hora"}] #StudySessions.objects(class_name=search_keyword)
 
 
     # Return template with object full of data

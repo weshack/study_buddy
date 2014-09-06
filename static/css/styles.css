@@ -155,7 +155,15 @@ body {
     margin-left:10%;
     display:inline-block;
 }
-
+.students-table{
+    width:30%;
+    display:inline-block;
+}
+.notes{
+    display:inline-block;
+    width:60%;
+    float:right;
+}
 
 
 
