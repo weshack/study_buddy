@@ -134,7 +134,9 @@ body {
 #page-header{
     width:50%;
     margin-top: 10%;
-    background:blue;
+    margin-left:10%;
+    display:none;
+ 
 }
 
 
