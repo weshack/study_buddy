@@ -70,7 +70,7 @@ def search():
     return render_template('search_results.html', results=search_results)
 
 
-@app.route('/login')
+@app.route('/')
 def index():
     return render_template('login.html', 
         login_link=googlelogin.login_url(approval_prompt='force'))
@@ -125,11 +125,23 @@ def checkin():
 
 @app.route('/create')
 def create():
-    return 'creates a study group'
+    return render_template('create.html');
 
 @app.route('/lucky')
 def lucky():
     return 'feeling lucky picks random room'
+
+
+@app.route('/new')
+def new():
+    department = request.args.get('department')
+    course = request.args.get('course')
+    location = request.args.get('location')
+    time = request.args.get('time')
+    attendees = request.args.get('attendees')
+    #insert info into database 
+    return app.send_static_file('html/index.html')
+
 
 if __name__ == "__main__":
 	app.run(debug=True)
