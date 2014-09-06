@@ -20,6 +20,7 @@ body {
     background-attachment: fixed;
 
 }
+
 /*class for centering*/
 .center {
     width: 100%;
@@ -40,6 +41,21 @@ body {
 .create-forms {
     margin-top: 120px;
 
+}
+
+.foot {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+#b1 {
+    float: left;
+}
+
+#b2 {
+    float: right;
+    color: beige;
 }
 
 #text-background {
@@ -86,9 +102,10 @@ body {
 
 
 #searchresults{
-    width:80%;
+    width: 80%;
     margin-left: 10%;
 }
+
 #searchbar{
     width:20%;
     float:right;
@@ -149,10 +166,6 @@ body {
     margin-left: auto;
     margin-right: auto;
 }
-
-
-
-
 
 
 
