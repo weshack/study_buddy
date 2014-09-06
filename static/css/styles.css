@@ -15,8 +15,9 @@ body {
     width: 100%;
     background-color: #E0E0D1; 
     background-image: url(wesleyan.jpg);
+    background-size: cover;
     background-repeat: no-repeat;
-    background-attachment: fixed;   
+    background-attachment: fixed;
 
 }
 /*class for centering*/

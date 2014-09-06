@@ -20,7 +20,7 @@ app.config.update(
     SECRET_KEY='Tieng3us3Xie5meiyae6iKKHVUIUDF',
     GOOGLE_LOGIN_CLIENT_ID='1002179078501-mdq5hvm940d0hbuhqltr0o1qhsr7sduc.apps.googleusercontent.com',
     GOOGLE_LOGIN_CLIENT_SECRET='O1kpQ8Is9s2pD3eOpxRfh-7x',
-    GOOGLE_LOGIN_REDIRECT_URI='http://127.0.0.1:5000/oauth2callback'
+    GOOGLE_LOGIN_REDIRECT_URI='http://127.0.0.1:5000/oauth2callback',
 )
 
 googlelogin = GoogleLogin(app)
@@ -56,11 +56,10 @@ class User(UserMixin):
         self.name = userinfo['name']
 
 @app.route("/home")
-@login_required
 def root():
     return app.send_static_file('html/index.html')
 
-# Make a search for a class, and return a json object.
+# Make a search for a class
 @app.route('/find')
 def search():
     search_keyword = request.args.get('search_keyword')
@@ -79,7 +78,6 @@ def search():
 def index():
     return render_template('login.html', 
         login_link=googlelogin.login_url(approval_prompt='force',scopes=["email"]))
-
 
 
 
@@ -150,6 +148,15 @@ def new():
     if not departmentArray.validDept(department):
         err1 = "DEPARTMENT DOES NOT EXIST", department
         errors.append(err1)
+    if not len(course) == 3:
+        err2 = "BAD COURSE NUMBER", course
+        errors.append(err2)
+    if len(location) > 255:
+        err3 = "Location too long, please limit to 255 chars or less", location
+        errs.append(err3)
+
+    # convert/validate time
+    time = 123456543
 
     #add more future validation here
     if errors:
@@ -157,15 +164,24 @@ def new():
         for i in errors: print i
         return render_template('create.html',results=errors)
 
+    # get user from session
+    print session
+    #user = session.get_user....?
+    user = "Aaron Plave"
 
+    # create group session object
+    # group_session = {
+        # "ownerID":
+    # }
 
-    #don't know how to identify bogus course?
-    #don't know how to identify bogus location?
+    # insert info into database 
+    if not db.group_sessions.find_one({"userID": current_user.id}):
+        print "FOUND THE USER", current_user.id
+        db.users.insert({"name":current_user.name,"userID":current_user.id,"email":current_user.email})
+    else:
+        print "HAVE USER",current_user.id
 
-
-    #insert info into database 
-
-
+    # TODO: confirm event created in DB
     return app.send_static_file('html/index.html')
 
 
