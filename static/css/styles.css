@@ -81,6 +81,14 @@ body {
     text-align: center;
 }
 
+.hidden{
+    display:none;
+}
+.click{
+    cursor:pointer;
+}
+
+
 #login-button a{
     color: white;
 }
@@ -103,6 +111,7 @@ body {
     margin-left: auto;
     margin-top: 65px;
 }
+
 
 
 
