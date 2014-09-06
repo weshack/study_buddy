@@ -54,6 +54,7 @@ class User(UserMixin):
         self.name = userinfo['name']
 
 @app.route("/home")
+@login_required
 def root():
     return app.send_static_file('html/index.html')
 
@@ -74,6 +75,9 @@ def search():
 def index():
     return render_template('login.html', 
         login_link=googlelogin.login_url(approval_prompt='force',scopes=["email"]))
+
+
+
 
 class User(UserMixin):
     def __init__(self,userinfo):
