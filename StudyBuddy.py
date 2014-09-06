@@ -123,5 +123,13 @@ def logout():
 def checkin():
     return 'hello'
 
+@app.route('/create')
+def create():
+    return 'creates a study group'
+
+@app.route('/lucky')
+def lucky():
+    return 'feeling lucky picks random room'
+
 if __name__ == "__main__":
 	app.run(debug=True)
