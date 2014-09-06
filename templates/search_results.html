@@ -26,7 +26,17 @@
         </section>
     </nav>
     </div>
-    <div id="page-header"><h2>Search Results</h2></div>
+    <div id="page-header">
+        <h2 style="display:inline">Search Results</h2>
+        <h5 class="subheader" style="display:inline;margin-left:none">Found 3 results</h5>
+
+        <div id="search-input"> 
+            <input style="width:50%; margin:none;display:inline;" type="text" id="studysearch" placeholder="Search for a class..."/>     
+        <input style="display:inline-block" type="submit" value="Search" class="small button" id="find">
+        </div>
+        </div>
+
+        
     <table id="searchresults">	
         <thead>
         <tr>
@@ -34,30 +44,36 @@
                 <th> Time</th>
                 <th> Location</th>
                 <th> Description</th>
-                <th> Contact</th>
+                
             </tr>
         </thead>
         <tbody>
 
     	{% for class in results %}
             <tr>
-    			<td class="click" data-id="{{class}}">class</a></td>
-    			<td>assign</td>
-    			<td>time</td>
-    			<td>loc</td>
-    			<td>contacts</td>
+    			<td class="click" data-id="{{class["course"]}}">{{class["course"]}}</a></td>
+    			<td class="click" data-id="{{class["course"]}}">{{class["time"]}}</td>
+    			<td class="click" data-id="{{class["course"]}}">{{class["loc"]}}</td>
+    			<td class="click" data-id="{{class["course"]}}">{{class["description"]}}</td>
+    			
     		</tr>
             <tr>
-                <td colspan="5">
-                    <div class="container hidden" data-id="{{class}}">
+                <td colspan="4">
+                    <div class="container hidden" data-id="{{class["course"]}}">
+                    <div class="students-table">
                     <table>
-                    {% for user in [1,2,3] %}
+                    {% for user in class["users"] %}
                     <tr>
-                    <td>user 1</td>
+                    <td>{{User}}</td>
                     <td>contact</td>
                     </tr>
                     {% endfor %}
                     </table>
+                    </div>
+                    <div class="notes">
+                    <h5>Study Notes</h5>
+                    <p>Class notes. Class notes. Class notes. Class notes.</p>
+                    </div>
                     </div>
                 </td>       
             </tr>

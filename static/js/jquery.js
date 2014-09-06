@@ -1,5 +1,6 @@
 
 $(document).ready(function(){
+	$('#page-header').fadeIn(1500);
     $('.click').click(function(e){
         var id = $(e.currentTarget).data('id');
         var id2='.container[data-id=' + id + ']';
