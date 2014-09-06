@@ -292,11 +292,22 @@ def delete():
 
 @app.route('/join',methods=['POST'])
 def join():
-    # TODO: Verify user is not already in the group session
-    # TODO: Add user to the group in the DB
-
+    # TODO: Add user to the group in the DB 
     # Report success or failure so the UI can react
-    pass
+    user = db.users.find_one({"userID": current_user.id})
+    current_study_group = db.group_sessions.find_one({'_id': group_id})
+
+    # Check that user is in the attendees of current_study_group
+    if user in usercurrent_study_group.attendees:
+        # Show user that he/she is already in the group.
+
+    coll = db.group_sessions
+    new_attendees_list = coll.attendees.add(user)
+    coll.update({_'id': current_study_group.id},
+                $set: {
+                    ATTENDEES_KEY : new_attendees_list
+                })
+    # Return that the database was updated and refresh the page with new attendees list.
 
 if __name__ == "__main__":
 	app.run(debug=True)
