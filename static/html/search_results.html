@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!DOCTYPE HTML>
 <html lang="en">
 <head>
 	<link rel="stylesheet" type="text/css" href="css/styles.css">
@@ -7,14 +7,14 @@
 <body>
 	{{classes=[1,2,3,4,5]}}
     <div id="title">Study Buddy</div>
-    <div id="search_table">	
+    <div id="search_results">	
     	{% for class in classes %}
-    		<div class="searchrow">
-    			<div class="info">class</div>
-    			<div class="info">assign</div>
-    			<div class="info">time</div>
-    			<div class="info">loc</div>
-    			<div class="info">contact</div>
+    		<div class="searchtable">
+    			<div class="class">class</div>
+    			<div class="assignment">assign</div>
+    			<div class="time">time</div>
+    			<div class="location">loc</div>
+    			<div class="contact">contact</div>
     		</div>
     	{% endfor %}
     </div>
