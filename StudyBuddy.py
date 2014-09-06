@@ -56,6 +56,7 @@ class User(UserMixin):
         self.name = userinfo['name']
 
 @app.route("/home")
+@login_required
 def root():
     return app.send_static_file('html/index.html')
 
@@ -65,8 +66,10 @@ def search():
     search_keyword = request.args.get('search_keyword')
     
     # Query database with search_keyword
+
     # db.group_sessions.find
     search_results = [1,2,3] #StudySessions.objects(class_name=search_keyword)
+
 
     # Return template with object full of data
     return render_template('search_results.html', results=search_results)
@@ -76,6 +79,9 @@ def search():
 def index():
     return render_template('login.html', 
         login_link=googlelogin.login_url(approval_prompt='force',scopes=["email"]))
+
+
+
 
 class User(UserMixin):
     def __init__(self,userinfo):
@@ -115,7 +121,7 @@ def login_redirect():
 def logout():
     logout_user()
     session.clear()
-    return redirect('/login')
+    return redirect('/')
 
 @app.route('/checkin')
 def checkin():

@@ -26,8 +26,7 @@ body {
     margin-top: 100px;
 }
 
-#title {
-    width: 100%;
+.custom-title {
     font-size: 500%;
     text-align: center;
     margin-top: 100px;
@@ -37,13 +36,32 @@ body {
 
 }
 
+.create-forms {
+    margin-top: 65px;
+}
+
+#text-background {
+    background-color: rgba(51,51,51,0.5);
+    margin-left: 25%;
+    margin-right: 25%;
+    padding: 10px;
+    line-height: initial;
+    border-radius: 25px;
+
+}
+
 #intro {
-    width: 100%;
-    font-size: large;
+    font-size: 200%;
     text-align: center;
     margin-top: 100px;
     margin-bottom: 50px;
     color: beige;
+    background-color: rgba(51,51,51,0.5);
+    line-height: initial;
+    margin-left: 22%;
+    margin-right: 22%;
+    padding: 10px;
+    border-radius: 10px;
 }
 
 #text-input {
@@ -51,7 +69,7 @@ body {
     text-align: center;
 }
 
-#text-input input {
+#text-input input{
     width: 75%;
     padding-top: 8px;
     padding-bottom: 8px;
@@ -81,6 +99,14 @@ body {
     text-align: center;
 }
 
+.hidden{
+    display:none;
+}
+.click{
+    cursor:pointer;
+}
+
+
 #login-button a{
     color: white;
 }
@@ -93,7 +119,18 @@ body {
 
 #button-wrapper {
     width: 100%;
+    text-align: center;
+    margin-top: 100px;
 }
+
+#about-panel {
+    width: 75%;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 65px;
+}
+
+
 
 
 
