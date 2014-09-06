@@ -1,17 +1,31 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <script src="js/vendor/modernizr.js"></script>
+    <script src="js/vendor/jquery.js"></script>
+    <script src="js/vendor/fastclick.js"></script>
+    <script src="/js/foundation.min.js"></script>
     <script src="StudyBuddy.js"></script>
     <link rel="stylesheet" href="css/foundations/foundation.css">
     <link rel="stylesheet" type="text/css" href="css/styles.css">
     <title>Wes Study Buddy</title>
 </head>
 <body>
-    <div class="contain-to-grid sticky">
-        <nav class="top-bar">
-            hello
-        </nav>
-    </div>
+    <nav class="top-bar" data-topbar role="navigation">
+      <ul class="title-area">
+        <li class="name">
+          <h1><a href="/">Study Buddy</a></h1>
+        </li>
+      </ul>
+
+      <section class="top-bar-section">
+        <ul class="right">
+          <li class="has-dropdown">
+            <a href="checkin">Check in</a>
+          </li>
+        </ul>
+      </section>
+    </nav>
 
     <div id="title">Study Buddy</div>
 
