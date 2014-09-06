@@ -20,6 +20,7 @@ COURSE_NOTES_KEY = "course_notes"
 CONTACT_KEY = "contact"
 DESCRIPTION_KEY = "description"
 OWNER_KEY = "owner"
+OWNER_ID_KEY = "owner_id"
 
 client = MongoClient()
 
@@ -229,12 +230,12 @@ def new():
 
     # create group session object
     group_session = {
-        "ownerID" : ownerID,
-        "dept" : dept,
-        "course" : course,
-        "location" : location,
-        "time" : time,
-        "attendees" : attendees
+        OWNER_ID_KEY : ownerID,
+        DEPARTMENT_KEY : dept,
+        COURSE_NUMBER_KEY : course,
+        LOCATION_KEY : location,
+        TIME_KEY : time,
+        ATTENDEES_KEY : attendees
     }
 
     print "GROUP SESSION:",group_session
