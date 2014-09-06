@@ -123,7 +123,15 @@ def checkin():
 def create():
     return 'creates a study group'
 
-# @app.route('/')
+@app.route('/add_group')
+#Take a post request and use contents to create a study group
+# BUT FIRST! Validate the data.
+def handle_create_group():
+    request.data
+    # assert request.method == "POST"
+    print "REQUEST",request
+    print request.form
+
 
 @app.route('/lucky')
 def lucky():
