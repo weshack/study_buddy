@@ -72,7 +72,10 @@ def search():
 
 @app.route('/login')
 def index():
-    return """
+    return render_template('login.html', 
+        login_link=googlelogin.login_url(approval_prompt='force'))
+
+    """
         <p><a href="%s">Login</p>
     """ % (googlelogin.login_url(approval_prompt='force',scopes=["email"]))
 
@@ -82,7 +85,6 @@ class User(UserMixin):
         self.name = userinfo['name']
         print "\nUSERINFO:",userinfo,"\n"
         self.email = userinfo['email']
-
 
 # Google OAuth
 @app.route('/oauth2callback')
@@ -116,6 +118,10 @@ def logout():
         <p>Logged out</p>
         <p><a href="/">Return to /</a></p>
         """
+
+@app.route('/checkin')
+def checkin():
+    return 'hello'
 
 if __name__ == "__main__":
 	app.run(debug=True)
