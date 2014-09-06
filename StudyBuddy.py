@@ -290,10 +290,15 @@ def delete():
     # TODO: verify that user in session owns the group session to be deleted
     pass
 
+##
+# Add the current user to the selected study session group.
+# Responds to route of the form:
+#   /join?group_id=<group_id>
+#   
+#   group_id : string
+##
 @app.route('/join',methods=['POST'])
 def join():
-    # TODO: Add user to the group in the DB 
-    # Report success or failure so the UI can react
     user = db.users.find_one({"userID": current_user.id})
     current_study_group = db.group_sessions.find_one({'_id': group_id})
 
