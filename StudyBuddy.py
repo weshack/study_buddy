@@ -285,6 +285,7 @@ def new():
 ##
 @app.route('/edit',methods=['POST'])
 def edit():
+
     location = request.form.get('location')
     time = request.form.get('time')
     course_notes = request.form.get('session_details')
@@ -302,8 +303,6 @@ def edit():
 
     # verify that user owns the group before updating database.
     # coll.update({'_id' : group_id}, new_data,True)
-
-
 
 
     db_results_list = cursortolst(db.group_sessions.find())
