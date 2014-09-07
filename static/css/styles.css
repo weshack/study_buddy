@@ -18,10 +18,17 @@ body {
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
+}
+/*class for centering*/
+#ui-datepicker-div {
+    width: 20%;
+    text-decoration: none;
+    list-style-type: none;
+    margin-left: auto;
+    margin-right: auto;
 
 }
 
-/*class for centering*/
 .center {
     width: 100%;
     text-align: center;
@@ -50,7 +57,7 @@ body {
     visibility: hidden;
 }
 .ui-menu-item:hover{
-    background-color: #99D6FF;
+    background-color: #99D  6FF;
 
 }
 
@@ -58,18 +65,7 @@ body {
     padding-left: 10px;
 }
 
-.ui-autocomplete {
-    text-decoration: none;
-}
-.ui-front {
-    text-decoration: none;
-}
-.ui-menu {
-    text-decoration: none;
-}
-.ui-widget {
-    text-decoration: none;
-}
+
 .ui-widget-content {
     width: 73%;
     border: 1px solid black;
@@ -79,6 +75,7 @@ body {
     list-style-type: none;
     margin-left: auto;
     margin-right: auto;
+    font-size: 12px;
 
 }
 
