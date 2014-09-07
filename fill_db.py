@@ -18,8 +18,6 @@ OWNER_NAME_KEY = "owner"
 OWNER_ID_KEY = "owner_id"
 
 
-
-
 # clear db
 db.drop_collection('users')
 db.drop_collection('group_sessions')

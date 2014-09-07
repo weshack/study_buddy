@@ -9,7 +9,7 @@ from pymongo import MongoClient
 import departmentArray
 import random
 import time
-from dateutil.parser import parse
+from dateutil.parser import parser
 
 ##
 # Constants for mongodb keys
@@ -79,6 +79,7 @@ def root():
 
 
 # Search for a class. Dept is fixed but number is free, must be 3 num code
+# TODO: search doesn't work correctly, always returns everything from the database, no matter what we search for.
 @app.route('/find')
 def search():
     user = "John Doe"
@@ -221,6 +222,7 @@ def new():
     location = request.form.get('location')
     time = request.form.get('datetime')
     contact = request.form.get('contact')
+    description = request.form.get('description')
     session_details = request.form.get('details')
 
     # validate data
@@ -257,8 +259,9 @@ def new():
         LOCATION_KEY : location,
         TIME_KEY : time,
         CONTACT_KEY : contact,
-        DESCRIPTION_KEY : session_details,
-        ATTENDEES_KEY: [[ownerID,user]]
+        DESCRIPTION_KEY : description,
+        ATTENDEES_KEY: [[ownerID,user]],
+        COURSE_NOTES_KEY : session_details
     }
 
     print "GROUP SESSION:",group_session
