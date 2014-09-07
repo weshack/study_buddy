@@ -92,6 +92,31 @@ $(document).ready(function(){
     $("#studysearch").autocomplete({
         source: autocomplete_data
     });
+
+    $('.edit-button').click(function(e) {
+        //targetId = e.currentTarget.attr('id');
+        if ($(this).hasClass('edit-button')) {
+            $(this).text('Done');
+            $(this).addClass('done-button');
+            $(this).removeClass('edit-button');
+            // change fields to inputs.
+            // var id = $(this).attr('id');
+            // table_row = $('[data-id="' + id + '"]');
+            // for (var i in table_row) {
+            //     var element = $(table_row[i]);
+            //     if (element.data('id') == id) {
+                    
+            //     }
+            // }
+        } else {
+            $(this).text('Edit');
+            $(this).addClass('edit-button');
+            $(this).removeClass('done-button');
+            // send ajax request to /edit.
+        }
+    });
+
+
 });
 
 function onAddUserButtonClick(groupID, userID) {

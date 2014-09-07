@@ -2,11 +2,7 @@
     font-family: josefinslab;
     src: url(josefinslab-bold-webfont.woff);
 }
-div {
-    font-family: josefinslab;
 
-
-}
 html {
     font-family: josefinslab;
 }
@@ -23,7 +19,6 @@ body {
 }
 
 /*class for centering*/
-
 #ui-datepicker-div {
     width: 20%;
     text-decoration: none;
@@ -68,9 +63,29 @@ body {
     margin-right: auto;
     font-size: 12px;
 }
+
 nav.top-bar {
     opacity: 0.8;
 }
+
+.top-bar-section ul {
+    float: right;
+}
+
+.top-bar-section ul li > h1 {
+    width: 100%;
+    color: white;
+    font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+    font-size: 0.8125rem;
+    font-weight: normal;
+    text-transform: none;
+    padding-top: 11px;
+}
+
+#well {
+    padding-right: 14px;
+}
+
 #text-background {
     /*background-color: rgba(51,51,51,0.5);*/
     margin-left: 30%;
@@ -79,6 +94,7 @@ nav.top-bar {
     line-height: initial;
     border-radius: 25px;
     text-shadow: 3px 3px #000000;
+    font-family:josefinslab;
 }
 .columns input {
     width: 100% !important;
@@ -96,16 +112,20 @@ nav.top-bar {
     padding: 10px;
     border-radius: 10px;
     text-shadow: 2px 2px #000000;
+    font-family:josefinslab;
 }
 
 #text-input {
     margin-bottom: 15px;
     text-align: center;
     width: 50%;
+
+    padding-left: 8px;
+    padding-right: 8px;
 }
 
 #text-input input {
-    width: 75%;
+    width: 80%;
     padding-top: 8px;
     padding-bottom: 8px;
     padding-left: 8px;
@@ -116,15 +136,13 @@ nav.top-bar {
 }
 
 #search-button {
-    width: 50px !important;
-    height: 50px !important;
-    padding-left: 3px;
+    width: 35px !important;
+    height: 35px !important;
+    padding-left: 2px;
+    padding-right: 2px;
 }
 
-#find {
-    height: 37px !important;
-    width: 37px !important;
-}
+
 
 #searchresults {
     width: 80%;
@@ -146,10 +164,7 @@ nav.top-bar {
 .click {
     cursor: pointer;
 }
-button, .button {
-    padding-right: 0 !important ;
-    padding-left: 0 !important;
-}
+
 #login-button a {
     color: white;
 }
@@ -178,9 +193,13 @@ button, .button {
 
 
 #course {
-    width: 33.5%;
+    width: 35.5%;
 }
 
+#find {
+
+
+}
 
 
 #page-header{
@@ -230,7 +249,7 @@ button, .button {
     min-height: 95%;
     height: auto !important;
     height: 95%;
-    margin: ;
+    margin: ;0
     0 auto -2em;
 }
 .footer, .push {
