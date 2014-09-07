@@ -64,47 +64,47 @@ def return_db_results(results,user,userID):
 # Search for a class. Dept is fixed but number is free, must be 3 num code
 @app.route('/find')
 def search():
-    user = "John Doe"
-    userID = "12345"
-    # IMPORTANT, make sure that the dept keyword is ALWAYS short form,
-    # so on front end map the dept keyword (if long) to short form.
-    dept_keyword = request.args.get('dept_keyword')
+    # user = "John Doe"
+    # userID = "12345"
+    # # IMPORTANT, make sure that the dept keyword is ALWAYS short form,
+    # # so on front end map the dept keyword (if long) to short form.
+    # dept_keyword = request.args.get('dept_keyword')
 
-    # Verify dept is valid
-    if not departmentArray.validDept(dept_keyword):
-        err = "Invalid department, please enter a valid department."
-        return render_template('search_results',error_message=err)
+    # # Verify dept is valid
+    # if not departmentArray.validDept(dept_keyword):
+    #     err = "Invalid department, please enter a valid department."
+    #     return render_template('search_results',error_message=err)
     
-    course_keyword = request.args.get('course_keyword')
+    # course_keyword = request.args.get('course_keyword')
 
-    # case where no course number is specified
-    if not course_keyword:
-        #just pull all the courses under that dept
-        results0 = db.group_sessions.find({"dept":dept_keyword}).sort("time")
-        if results0.count() > 0:
-            print "Got results0"
-            return return_db_results(results0,user,userID)
+    # # case where no course number is specified
+    # if not course_keyword:
+    #     #just pull all the courses under that dept
+    #     results0 = db.group_sessions.find({"dept":dept_keyword}).sort("time")
+    #     if results0.count() > 0:
+    #         print "Got results0"
+    #         return return_db_results(results0,user,userID)
 
-    # TODO: verify course number is safe?
-    # Query database with search_keyword. Dept number + 3 num code. If fails,
-    results1 = db.group_sessions.find({"dept":dept_keyword,"course":course_keyword}).sort("time")
-    if results1.count() > 0:
-        print "Got results1, yippee!"
-        return return_db_results(results1,user,userID)
+    # # TODO: verify course number is safe?
+    # # Query database with search_keyword. Dept number + 3 num code. If fails,
+    # results1 = db.group_sessions.find({"dept":dept_keyword,"course":course_keyword}).sort("time")
+    # if results1.count() > 0:
+    #     print "Got results1, yippee!"
+    #     return return_db_results(results1,user,userID)
 
-    # try same thing with the first two numbers (if there are 2-3 numbers) to get closest matches. If nothing,
-    twoOrThree = False
-    if len(course_keyword) == 2:
-        short_course_keyword = course_keyword
-        twoOrThree = True
-    if len(course_keyword) == 3:
-        short_course_keyword = course_keyword[0:1]
-        twoOrThree = True
-    if twoOrThree:
-        results2 = db.group_sessions.find({"dept":dept_keyword,"course":short_course_keyword}).sort("time")
-        if results2.count() > 0:
-            print "Got results2, yippee!"
-            return return_db_results(results2,user,userID)
+    # # try same thing with the first two numbers (if there are 2-3 numbers) to get closest matches. If nothing,
+    # twoOrThree = False
+    # if len(course_keyword) == 2:
+    #     short_course_keyword = course_keyword
+    #     twoOrThree = True
+    # if len(course_keyword) == 3:
+    #     short_course_keyword = course_keyword[0:1]
+    #     twoOrThree = True
+    # if twoOrThree:
+    #     results2 = db.group_sessions.find({"dept":dept_keyword,"course":short_course_keyword}).sort("time")
+    #     if results2.count() > 0:
+    #         print "Got results2, yippee!"
+    #         return return_db_results(results2,user,userID)
             
     # find all courses with that 3 number code. 
 
@@ -115,7 +115,7 @@ def search():
     userid="jd"
     boolean=False
     # Return template with object full of data
-    return render_template('search_results.html', results=search_results, count=count,user=user,id=userid,boolean=boolean)
+    return render_template('search_results.html', results=search_results, count=count,user=user,userid=userid,boolean=boolean)
 
 
 @app.route('/')
