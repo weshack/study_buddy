@@ -212,6 +212,7 @@ def new():
     location = request.form.get('location')
     time = request.form.get('datetime')
     contact = request.form.get('contact')
+    description = request.form.get('description')
     print ISOToEpoch(time)
     session_details = request.form.get('details')
 
@@ -249,7 +250,8 @@ def new():
         LOCATION_KEY : location,
         TIME_KEY : time,
         CONTACT_KEY : contact,
-        DESCRIPTION_KEY : session_details
+        DESCRIPTION_KEY : description,
+        COURSE_NOTES_KEY : session_details
     }
 
     print "GROUP SESSION:",group_session
