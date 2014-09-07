@@ -285,27 +285,26 @@ def new():
 ##
 @app.route('/edit',methods=['POST'])
 def edit():
-    department = request.args.get('department')
-    course_no = request.args.get('course_no')
-    location = request.args.get('location')
-    time = request.args.get('time')
-    attendees = request.args.get('attendees')
-    course_notes = request.args.get('course_notes')
+    location = request.form.get('location')
+    time = request.form.get('time')
+    course_notes = request.form.get('session_details')
+    description = request.form.get('description')
     group_id = request.args.get('group_id')
+    print group_id
 
     coll = db.group_sessions
-    new_data = {DEPARTMENT_KEY    : department,
-                COURSE_NUMBER_KEY : course_no,
-                LOCATION_KEY      : location,
+    new_data = {LOCATION_KEY      : location,
                 TIME_KEY          : time,
-                ATTENDEES_KEY     : attendees,
-                COURSE_NOTES_KEY  : course_notes}
+                COURSE_NOTES_KEY  : course_notes,
+                DESCRIPTION_KEY   : description
+            }
+
 
     # verify that user owns the group before updating database.
     coll.update({'_id' : group_id}, new_data)
 
     # Show the updated results page.
-
+    return 'success'
 
 @app.route('/delete',methods=['POST'])
 def delete():
