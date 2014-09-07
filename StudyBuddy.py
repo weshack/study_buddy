@@ -63,14 +63,9 @@ def root():
 # TODO: search doesn't work correctly, always returns everything from the database, no matter what we search for.
 @app.route('/find')
 def search():
-<<<<<<< HEAD
-    user = session['username']
-    userID = session['userid']
-=======
     user = "John Doe"
     userID = "12345"
 
->>>>>>> 23155c472935fdccee092435c3b69430215448b0
     # IMPORTANT, make sure that the dept keyword is ALWAYS short form,
     # so on front end map the dept keyword (if long) to short form.
     dept_keyword = request.args.get('search_keyword')
@@ -243,13 +238,8 @@ def new():
     # get user from session
     print session['username']
     #user = session.get_user....?
-<<<<<<< HEAD
     ownerID = session['userid']
 
-=======
-    ownerID = "123456"
-    user='jon doe'
->>>>>>> 23155c472935fdccee092435c3b69430215448b0
     # create group session object
     group_session = {
         OWNER_ID_KEY : ownerID,
