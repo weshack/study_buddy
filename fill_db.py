@@ -32,7 +32,6 @@ group_sessions = db.group_sessions
 NUM_USERS = 40
 NUM_GROUPS = 20
 
-
 class RandomUser:
 	def __init__(self):
 		self.id = str(random.randint(10000, 99999)) 

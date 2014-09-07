@@ -7,7 +7,6 @@ all academic departments at Wesleyan.
 
 def validDept(rawName):
 	for name in depts:
-		print name
 		if name[0] == rawName or name[1] == rawName:
 			print "FUCK YEAAAAHHHHHH"
 			return True
