@@ -8,11 +8,39 @@
     <title>Study Buddy-search results</title>
 </head>
 <body>
-    <div class="fixed">
-        <nav class="top-bar" data-topbar role="navigation">
-            <ul class="title-area">
-                <li class="name">
-                    <h1><a href="/">Study Buddy</a></h1>
+    <script>
+        function adduser(user,userid){
+            $.ajax({
+        type: "POST",
+        url: "/adduser",
+        data: userid,
+        success: function (response) {
+        $('#container-table tr:last').after('<tr><td>'+'{{user}}'+' </td></tr>');
+        $('#adduser').hide();
+      },
+        error: function(){
+            console.log("error");
+        }
+});
+        }
+
+    
+    </script>
+
+
+<div class="fixed">
+<nav class="top-bar" data-topbar role="navigation">
+
+      <ul class="title-area">
+        <li class="name">
+          <h1><a href="/">Study Buddy</a></h1>
+        </li>
+      </ul>
+    
+        <section class="top-bar-section">
+            <ul class="right">
+                <li>
+                    <a href="logout">Logout</a>
                 </li>
             </ul>
         
@@ -59,10 +87,10 @@
                 <td colspan="4">
                     <div class="container hidden" data-id="{{class["course"]}}">
                     <div class="students-table">
-                    <table>
+                    <table id="container-table">
                         {% if not boolen %}
                         <tr>
-                            <td><button value="Join Session"/></td>
+                            <td><button id="adduser" class="small button" onclick="adduser('{{user}}','{{userid}}')">Join Session</button></td>
                         </tr>
                         {% endif %}
                         {% for user in class["users"] %}
