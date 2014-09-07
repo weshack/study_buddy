@@ -4,8 +4,6 @@
 }
 div {
     font-family: josefinslab;
-
-
 }
 html {
     font-family: josefinslab;
@@ -18,13 +16,7 @@ body {
     background-repeat: no-repeat;
     background-attachment: fixed;
 }
-   
-
-
-
-
 /*class for centering*/
-
 #ui-datepicker-div {
     width: 20%;
     text-decoration: none;
@@ -103,6 +95,8 @@ nav.top-bar {
     margin-bottom: 15px;
     text-align: center;
     width: 50%;
+    padding-left: 8px;
+    padding-right: 8px;
 
 
 
@@ -119,15 +113,12 @@ nav.top-bar {
 }
 
 #search-button {
-    width: 50px !important;
-    height: 50px !important;
-    padding-left: 3px;
+    width: 35px !important;
+    height: 35px !important;
+    padding-left: 2px;
 }
 
-#find {
-    height: 37px !important;
-    width: 37px !important;
-}
+
 
 #searchresults {
     width: 80%;
@@ -184,6 +175,10 @@ button, .button {
     width: 33.5%;
 }
 
+#find {
+    width: 35px !important;
+    height: 35px !important;
+}
 
 
 #page-header{
@@ -240,7 +235,7 @@ html, body {
     min-height: 95%;
     height: auto !important;
     height: 95%;
-    margin: ;
+    margin: ;0
     0 auto -2em;
 }
 .footer, .push {
