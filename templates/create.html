@@ -47,24 +47,32 @@
         <form action="new" method="post" class="create-forms" id="create-group">
             <div class="row">
                 <div class="large-9 columns">
-                    <input type="text" placeholder="Enter Department" name="department"
+                    <input type="text" placeholder="Department" name="department"
                     id="createdepartment" required/>
                 </div>
                 <div class="large-3 columns">
-                    <input type="text" placeholder="Enter Course Number" name="course" required/>
+                    <input type="text" placeholder="Course No." name="course" required/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="large-6 columns">
+                    <input type="text" placeholder="Location" name="location" required/>
+                </div>
+                <div class="large-6 columns">
+                    <input type="text" placeholder="Contact Info (optional)" name="attendees" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="large-6 columns">
+                    <input type="text" placeholder="Date" name="date" required/>
+                </div>
+                <div class="large-6 columns">
+                    <input type="text" placeholder="Time" name="time" />
                 </div>
             </div>
             <div class="row">
                 <div class="large-12 columns">
-                    <input type="text" placeholder="Enter Location" name="location" required/>
-                </div>
-            </div>
-            <div class="row">
-                <div class="large-6 columns">
-                    <input type="text" placeholder="Choose Time" name="time" required/>
-                </div>
-                <div class="large-6 columns">
-                    <input type="text" placeholder="Enter Contact (optional)" name="attendees" />
+                    <input type="text" placeholder="Session Details (optional)" name="details" required/>
                 </div>
             </div>
             <div class="row small-centered" id="front-page-buttons">

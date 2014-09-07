@@ -75,70 +75,46 @@ def root():
     return app.send_static_file('html/index.html')
 
 def return_db_results(results,user,userID):
-    return render_template('search_results',count=results.count(),results=list(results),user=user,userID=userID)
+    return render_template('search_results.html',count=results.count(),results=list(results),user=user,userID=userID)
 
 # Search for a class. Dept is fixed but number is free, must be 3 num code
 @app.route('/find')
 def search():
-    # user = "John Doe"
-    # userID = "12345"
-    # # IMPORTANT, make sure that the dept keyword is ALWAYS short form,
-    # # so on front end map the dept keyword (if long) to short form.
-    # dept_keyword = request.args.get('dept_keyword')
-
-    # # Verify dept is valid
-    # if not departmentArray.validDept(dept_keyword):
-    #     err = "Invalid department, please enter a valid department."
-    #     return render_template('search_results',error_message=err)
+    user = "John Doe"
+    userID = "12345"
+    # IMPORTANT, make sure that the dept keyword is ALWAYS short form,
+    # so on front end map the dept keyword (if long) to short form.
+    dept_keyword = request.args.get('dept_keyword')
+    if not dept_keyword:
+        print "NO DEPT KEYWORD"
+    # Verify dept is valid
+    
+    skip_validation = True
+    if not skip_validation:
+        if not departmentArray.validDept(dept_keyword):
+            err = "Invalid department, please enter a valid department."
+            print err
+            return render_template('search_results.html',results=[],error_message=err)
     
 
-    # course_keyword = request.args.get('course_keyword')
+    course_keyword = request.args.get('course_keyword')
 
-    # # case where no course number is specified
-    # if not course_keyword:
-    #     #just pull all the courses under that dept
-    #     results0 = db.group_sessions.find({"dept":dept_keyword}).sort("time")
-    #     if results0.count() > 0:
-    #         print "Got results0"
-    #         return return_db_results(results0,user,userID)
+    print "DEPT KEYWORD:",dept_keyword
+    print "COURSE KEYWORD:",course_keyword
+    # case where no course number is specified
+    if not course_keyword:
+        #just pull all the courses under that dept
+        results0 = db.group_sessions.find({DEPARTMENT_KEY:dept_keyword}).sort(TIME_KEY)
+        if results0.count() > 0:
+            print "Got results0"
+            return return_db_results(results0,user,userID)
 
-    # # TODO: verify course number is safe?
-    # # Query database with search_keyword. Dept number + 3 num code. If fails,
-    # results1 = db.group_sessions.find({"dept":dept_keyword,"course":course_keyword}).sort("time")
-    # if results1.count() > 0:
-    #     print "Got results1, yippee!"
-    #     return return_db_results(results1,user,userID)
-
-    # # try same thing with the first two numbers (if there are 2-3 numbers) to get closest matches. If nothing,
-    # twoOrThree = False
-    # if len(course_keyword) == 2:
-    #     short_course_keyword = course_keyword
-    #     twoOrThree = True
-    # if len(course_keyword) == 3:
-    #     short_course_keyword = course_keyword[0:1]
-    #     twoOrThree = True
-    # if twoOrThree:
-    #     results2 = db.group_sessions.find({"dept":dept_keyword,"course":short_course_keyword}).sort("time")
-    #     if results2.count() > 0:
-    #         print "Got results2, yippee!"
-    #         return return_db_results(results2,user,userID)
-
-    # course_keyword = request.args.get('course_keyword')
-
-    # # case where no course number is specified
-    # if not course_keyword:
-    #     #just pull all the courses under that dept
-    #     results0 = db.group_sessions.find({DEPARTMENT_KEY:dept_keyword}).sort(TIME_KEY)
-    #     if results0.count() > 0:
-    #         print "Got results0"
-    #         return return_db_results(results0,user,userID)
-
-    # # TODO: verify course number is safe?
-    # # Query database with search_keyword. Dept number + 3 num code. If fails,
-    # results1 = db.group_sessions.find({DEPARTMENT_KEY:dept_keyword,COURSE_NUMBER_KEY:course_keyword}).sort(TIME_KEY)
-    # if results1.count() > 0:
-    #     print "Got results1, yippee!"
-    #     return return_db_results(results1,user,userID)
+    # TODO: verify course number is safe?
+    # Query database with search_keyword. Dept number + 3 num code. If fails,
+    results1 = db.group_sessions.find({DEPARTMENT_KEY:dept_keyword,COURSE_NUMBER_KEY:course_keyword}).sort(TIME_KEY)
+    if results1.count() > 0:
+        print "Got results1, yippee!"
+        return return_db_results(results1,user,userID)
 
     # # try same thing with the first two numbers (if there are 2-3 numbers) to get closest matches. If nothing,
     # twoOrThree = False
@@ -146,25 +122,18 @@ def search():
     #     short_course_keyword = course_keyword
     #     twoOrThree = True
     # if len(course_keyword) == 3:
-    #     short_course_keyword = course_keyword[0:1]
+    #     short_course_keyword = course_keyword[0:2]
     #     twoOrThree = True
     # if twoOrThree:
+    #     print "TWO OR THREE",short_course_keyword
     #     results2 = db.group_sessions.find({DEPARTMENT_KEY:dept_keyword,COURSE_NUMBER_KEY:short_course_keyword}).sort(TIME_KEY)
     #     if results2.count() > 0:
     #         print "Got results2, yippee!"
     #         return return_db_results(results2,user,userID)
 
-            
-    # find all courses with that 3 number code. 
-
-    # db.group_sessions.find
-    search_results = [{CONTACT_KEY:"8607596671",LOCATION_KEY:"exley",DEPARTMENT_KEY:"PHYS",COURSE_NUMBER_KEY:"303",TIME_KEY:"4:20pm",DESCRIPTION_KEY:"Assignment 2",ATTENDEES_KEY:[["Aaron","azroz"],["Denise","nishii"]],OWNER_KEY:"Hora",COURSE_NOTES_KEY:"class notes"}] #StudySessions.objects(class_name=search_keyword)
-    count=5
-    user="John Doe"
-    userid="jd"
-    boolean=False
-    # Return template with object full of data
-    return render_template('search_results.html', results=search_results, count=count,user=user,userid=userid,boolean=boolean)
+    # else we have no results
+    print "NO RESULTS"
+    return render_template('search_results.html',results=[],count=0)
 
 
 @app.route('/')
