@@ -156,7 +156,7 @@ def search():
     # find all courses with that 3 number code. 
 
     # db.group_sessions.find
-    search_results = [{CONTACT_KEY:"8607596671",LOCATION_KEY:"exley",COURSE_NUMBER_KEY:"303",TIME_KEY:"4:20pm",DESCRIPTION_KEY:"Assignment 2",ATTENDEES_KEY:[["Aaron","azroz"],["Denise","nishii"]],OWNER_KEY:"Hora",COURSE_NOTES_KEY:"class notes"}] #StudySessions.objects(class_name=search_keyword)
+    search_results = [{CONTACT_KEY:"8607596671",LOCATION_KEY:"exley",COURSE_DEPARTMENT_KEY:"PHYS",COURSE_NUMBER_KEY:"303",TIME_KEY:"4:20pm",DESCRIPTION_KEY:"Assignment 2",ATTENDEES_KEY:[["Aaron","azroz"],["Denise","nishii"]],OWNER_KEY:"Hora",COURSE_NOTES_KEY:"class notes"}] #StudySessions.objects(class_name=search_keyword)
     count=5
     user="John Doe"
     userid="jd"
@@ -295,28 +295,28 @@ def new():
 #   course_notes : string
 #   group_id : string
 ##
-@app.route('/edit',methods=['POST'])
-def edit():
-    department = request.args.get('department')
-    course_no = request.args.get('course_no')
-    location = request.args.get('location')
-    time = request.args.get('time')
-    attendees = request.args.get('attendees')
-    course_notes = request.args.get('course_notes')
-    group_id = request.args.get('group_id')
+# @app.route('/edit',methods=['POST'])
+# def edit():
+#     department = request.args.get('department')
+#     course_no = request.args.get('course_no')
+#     location = request.args.get('location')
+#     time = request.args.get('time')
+#     attendees = request.args.get('attendees')
+#     course_notes = request.args.get('course_notes')
+#     group_id = request.args.get('group_id')
 
-    coll = db.group_sessions
-    new_data = {DEPARTMENT_KEY    : department,
-                COURSE_NUMBER_KEY : course_no,
-                LOCATION_KEY      : location,
-                TIME_KEY          : time,
-                ATTENDEES_KEY     : attendees,
-                COURSE_NOTES_KEY  : course_notes}
+#     coll = db.group_sessions
+#     new_data = {DEPARTMENT_KEY    : department,
+#                 COURSE_NUMBER_KEY : course_no,
+#                 LOCATION_KEY      : location,
+#                 TIME_KEY          : time,
+#                 ATTENDEES_KEY     : attendees,
+#                 COURSE_NOTES_KEY  : course_notes}
 
-    # verify that user owns the group before updating database.
-    coll.update({'_id' : group_id}, $set: new_data)
+#     # verify that user owns the group before updating database.
+#     coll.update({'_id' : group_id}, $set: new_data)
 
-    # Show the updated results page.
+#     # Show the updated results page.
 
 @app.route('/delete',methods=['POST'])
 def delete():
@@ -330,22 +330,26 @@ def delete():
 #   
 #   group_id : string
 ##
-@app.route('/join',methods=['POST'])
-def join():
-    user = db.users.find_one({"userID": current_user.id})
-    current_study_group = db.group_sessions.find_one({'_id': group_id})
+@app.route('/adduser',methods=['POST'])
+def adduser():
+    return True
 
-    # Check that user is in the attendees of current_study_group
-    if user in usercurrent_study_group.attendees:
-        # Show user that he/she is already in the group.
+# @app.route('/join',methods=['POST'])
+# def join():
+#     user = db.users.find_one({"userID": current_user.id})
+#     current_study_group = db.group_sessions.find_one({'_id': group_id})
 
-    coll = db.group_sessions
-    new_attendees_list = coll.attendees.add(user)
-    coll.update({_'id': current_study_group.id},
-                $set: {
-                    ATTENDEES_KEY : new_attendees_list
-                })
-    # Return that the database was updated and refresh the page with new attendees list.
+#     # Check that user is in the attendees of current_study_group
+#     if user in usercurrent_study_group.attendees:
+#         # Show user that he/she is already in the group.
 
-if __name__ == "__main__":
-	app.run(debug=True)
+#     coll = db.group_sessions
+#     new_attendees_list = coll.attendees.add(user)
+#     coll.update({_'id': current_study_group.id},
+#                 $set: {
+#                     ATTENDEES_KEY : new_attendees_list
+#                 })
+#     # Return that the database was updated and refresh the page with new attendees list.
+
+# if __name__ == "__main__":
+# 	app.run(debug=True)
