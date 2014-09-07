@@ -8,6 +8,7 @@ from jinja2 import Template
 from pymongo import MongoClient
 import departmentArray
 import random
+import time
 
 ##
 # Constants for mongodb keys
@@ -227,9 +228,9 @@ def create():
 @app.route('/lucky')
 def lucky():
     number_of_records = db.group_sessions.count()
-    random_number = Math.random(number_of_records)
+    random_number = random.randint(0,number_of_records)
     group_session = db.group_sessions.find().limit(-1).skip(random_number).next()
-    return 'picked random session with id: ' + group_session.id
+    return 'picked random session with id: ' + group_session._id
 
 @app.route('/new',methods=['POST'])
 def new():
@@ -242,7 +243,7 @@ def new():
 
     # validate data
     errors = []
-    if not departmentArray.validDept(department):
+    if not departmentArray.validDept(dept):
         err1 = "DEPARTMENT DOES NOT EXIST", department
         errors.append(err1)
     if not len(course) == 3:
@@ -300,7 +301,6 @@ def new():
 #   course_notes : string
 #   group_id : string
 ##
-
 @app.route('/edit',methods=['POST'])
 def edit():
     department = request.args.get('department')
@@ -337,12 +337,17 @@ def delete():
 #   
 #   group_id : string
 ##
-
 @app.route('/adduser',methods=['POST'])
 def adduser():
     return True
 
-#
+##
+# Add the current user to the selected study session group.
+# Responds to route of the form:
+#   /join?group_id=<group_id>
+#   
+#   group_id : string
+##
 @app.route('/join',methods=['POST'])
 def join():
     user = db.users.find_one({"userID": current_user.id})
@@ -360,4 +365,14 @@ def join():
 
 if __name__ == "__main__":
 	app.run(debug=True)
+
+def isotoepoch(timestring):
+    date_time = '29.08.2011 11:05:02'
+    pattern = '%Y-%m-%dT%H:%M:%SZ'
+    epoch = int(time.mktime(time.strptime(date_time, pattern)))
+    return epoch
+
+    
+
+
 
