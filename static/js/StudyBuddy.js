@@ -15,7 +15,8 @@ window.onload = function() {
 	//code that runs when you click the search button
 	document.getElementById("find").onclick = function(){
 		var keyword = document.getElementById("studysearch").value;
-		window.location = "/find?search_keyword="+keyword;
+		var course_no = document.getElementById("course-search").value;
+		window.location = "/find?search_keyword="+keyword+"&course_no="+course_no;
 	}	
 	document.getElementById("create").onclick = function(){
 		window.location = "/create"
@@ -89,35 +90,25 @@ window.onload = function() {
 	["WRCT", "Writing Center"]];
 
 	for (i in data) {
-		var short_namejson = {};
-		var long_namejson = {};
+		var name_json = {};
 		var short_name = data[i][0];
 		console.log(short_name);
 		var long_name = data[i][1];
 		console.log(long_name);
-		short_namejson["label"] = short_name;
-		autocomplete_data.push(short_namejson);
-		long_namejson["label"] = long_name;
-		autocomplete_data.push(long_namejson);
+		name_json["label"] = short_name+"-"+long_name;
+		autocomplete_data.push(name_json);
 	}	
 
 	$("#studysearch").autocomplete({
 		source: autocomplete_data
 	});
-	
+
 	window.onresize = function() {
 		var input_size = document.getElementById("studysearch").style.width;
 		document.getElementsByClass("ui-widget-content")[0].style.width = input_size;
 	}
 
 };
-
-
-
-
-
-
-
 
 
 function parseJson(json) {

@@ -78,17 +78,14 @@ window.onload = function() {
         ];
 
     for (i in data) {
-        var short_namejson = {};
-        var long_namejson = {};
+        var name_json = {};
         var short_name = data[i][0];
         console.log(short_name);
         var long_name = data[i][1];
         console.log(long_name);
-        short_namejson["label"] = short_name;
-        autocomplete_data.push(short_namejson);
-        long_namejson["label"] = long_name;
-        autocomplete_data.push(long_namejson);
-    }
+        name_json["label"] = short_name+"-"+long_name;
+        autocomplete_data.push(name_json);
+    }   
 
     $("#createdepartment").autocomplete({
         source: autocomplete_data

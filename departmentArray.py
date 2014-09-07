@@ -6,12 +6,19 @@ all academic departments at Wesleyan.
 '''
 
 def validDept(rawName):
-	for name in depts:
-		if name[0] == rawName or name[1] == rawName:
-			print "FUCK YEAAAAHHHHHH"
-			return True
+	combined_list = combineShortAndLong(depts)
+	if rawName in combined_list:
+		return True
 	print "FUCK NOOOOOOOOOOOOOOOOOOOOOOO"
 	return False
+
+def combineShortAndLong(depts_list):
+	combined_list = []
+	for dept in depts_list:
+		short_name = dept[0]
+		long_name = dept[1]
+		combined_list.append(short_name + "-" + long_name)
+	return combined_list
 
 depts = [["AFAM","African American Studies Program"],
 ["AMST", "American Studies"],

@@ -57,7 +57,7 @@ body {
     visibility: hidden;
 }
 .ui-menu-item:hover{
-    background-color: #99D  6FF;
+    background-color: #99Di6FF;
 
 }
 
@@ -91,7 +91,10 @@ body {
 
 
 }
+.columns input{
+    width: 100% !important;
 
+}
 #intro {
     font-size: 200%;
     text-align: center;
@@ -172,7 +175,16 @@ body {
     margin-right: auto;
     margin-left: auto;
     margin-top: 65px;
+    background-color: rgba(255,255,255,0.5);
+    font-size: 32px;
 }
+
+#about-panel p{
+    font-size: 20px;
+    margin-top: 7px;
+}
+
+
 
 #page-header{
     width:90%;

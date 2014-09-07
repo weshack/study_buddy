@@ -135,6 +135,7 @@ def search():
     print "NO RESULTS"
     return render_template('search_results.html',results=[],count=0)
 
+
 @app.route('/')
 def index():
     return render_template('login.html', 
@@ -212,7 +213,7 @@ def new():
     # validate data
     errors = []
     if not departmentArray.validDept(dept):
-        err1 = "DEPARTMENT DOES NOT EXIST", department
+        err1 = "DEPARTMENT DOES NOT EXIST", dept
         errors.append(err1)
     if not len(course) == 3:
         err2 = "BAD COURSE NUMBER", course
@@ -247,7 +248,7 @@ def new():
 
     print "GROUP SESSION:",group_session
     # insert info into database 
-    if db.group_sessions.find_one():
+    if db.group_sessions.find_one(group_session):
         errX = "Group already exists",group_session
         print errX
         # TODO: confirm event created in DB
