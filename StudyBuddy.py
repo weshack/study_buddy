@@ -63,8 +63,8 @@ def root():
 # TODO: search doesn't work correctly, always returns everything from the database, no matter what we search for.
 @app.route('/find')
 def search():
-    user = "John Doe"
-    userID = "12345"
+    user= session['username']
+    userID = session['userid']
 
     # IMPORTANT, make sure that the dept keyword is ALWAYS short form,
     # so on front end map the dept keyword (if long) to short form.
@@ -249,7 +249,7 @@ def new():
         TIME_KEY : time,
         CONTACT_KEY : contact,
         DESCRIPTION_KEY : description,
-        ENDEES_KEY: [[ownerID,user]],
+        ATTENDEES_KEY: [[ownerID,user]],
         COURSE_NOTES_KEY : session_details
     }
 
