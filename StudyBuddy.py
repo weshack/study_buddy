@@ -285,28 +285,55 @@ def new():
 ##
 @app.route('/edit',methods=['POST'])
 def edit():
-    return "aa"
-    # department = request.args.get('department')
-    # course_no = request.args.get('course_no')
-    # location = request.args.get('location')
-    # time = request.args.get('time')
-    # attendees = request.args.get('attendees')
-    # course_notes = request.args.get('course_notes')
-    # group_id = request.args.get('group_id')
 
-    # coll = db.group_sessions
-    # new_data = {DEPARTMENT_KEY    : department,
-    #             COURSE_NUMBER_KEY : course_no,
-    #             LOCATION_KEY      : location,
+    location = request.form.get('location')
+    time = request.form.get('time')
+    course_notes = request.form.get('session_details')
+    description = request.form.get('description')
+    group_id = request.args.get('group_id')
+    print group_id
+
+    coll = db.group_sessions
+    # new_data = {LOCATION_KEY      : location,
     #             TIME_KEY          : time,
-    #             ATTENDEES_KEY     : attendees,
-    #             COURSE_NOTES_KEY  : course_notes}
+    #             COURSE_NOTES_KEY  : course_notes,
+    #             DESCRIPTION_KEY   : description
+    #         }
 
-    # # verify that user owns the group before updating database.
-    # coll.update({'_id' : group_id}, new_data)
+
+    # verify that user owns the group before updating database.
+    # coll.update({'_id' : group_id}, new_data,True)
+
+
+    db_results_list = cursortolst(db.group_sessions.find())
+
+    insert_item = {}
+    
+    for item in db_results_list:
+        print str(item['_id']) + " =? " + str(group_id)
+        if str(group_id) == str(item['_id']):
+            print "we have a match!"
+            # item[ATTENDEES_KEY].append([user['userID'], user['name']])
+            item[LOCATION_KEY] = location
+            item[TIME_KEY] = time
+            item[COURSE_NOTES_KEY] = course_notes
+            item[DESCRIPTION_KEY] = description
+            insert_item = item
+            break
+
+    # current_study_group = db.group_sessions.find_one({'_id': group_id})
+    print insert_item
+    # Check that user is in the attendees of current_study_group
+    # if user in usercurrent_study_group.attendees:
+        # Show user that he/she is already in the group.
+
+    coll = db.group_sessions
+    #new_attendees_list = current_study_group[ATTENDEES_KEY].add(user)
+    coll.update({'_id': insert_item['_id']}, insert_item, True)
+    print list(coll.find())
 
     # Show the updated results page.
-
+    return 'success'
 
 @app.route('/delete',methods=['POST'])
 def delete():
