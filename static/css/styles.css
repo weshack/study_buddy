@@ -214,6 +214,9 @@ body {
     display:inline-block;
     width:60%;
     float:right;
+    height:100%;
+    overflow:auto;
+
 }
 
 

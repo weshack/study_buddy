@@ -37,12 +37,6 @@
         </li>
       </ul>
     
-        <section class="top-bar-section">
-            <ul class="right">
-                <li>
-                    <a href="logout">Logout</a>
-                </li>
-            </ul>
         
             <section class="top-bar-section">
                 <ul class="right">
@@ -55,7 +49,7 @@
     </div>
     <div id="page-header">
         <h2 style="display:inline">Search Results</h2>
-        <h5 class="subheader" style="display:inline;margin-left:none">Found 3 results</h5>
+        <h5 class="subheader" style="display:inline;margin-left:none">Found {{count}} results</h5>
 
         <div id="search-input"> 
             <input style="width:50%; margin:none;display:inline;" type="text" id="studysearch" placeholder="Search for a class..."/>     
@@ -77,10 +71,10 @@
 
     	{% for class in results %}
             <tr>
-    			<td class="click" data-id="{{class["course"]}}">{{class.department}}{{class.course_no}}</a></td>
+    			<td class="click" data-id="{{class.department}}{{class.course_no}}">{{class.department}}{{class.course_no}}</a></td>
     			<td class="click" data-id="{{class.department}}{{class.course_no}}">{{class.time}}</td>
     			<td class="click" data-id="{{class.department}}{{class.course_no}}">{{class.location}}</td>
-    			<td class="click" data-id="{{class.department}}{{class.course_no}}">{{class.description}}</td>
+    			<td style="overflow:auto"class="click" data-id="{{class.department}}{{class.course_no}}">{{class.description}}</td>
     			
     		</tr>
             <tr>
@@ -90,7 +84,7 @@
                     <table id="container-table">
                         {% if not boolen %}
                         <tr>
-                            <td><button id="adduser" class="small button" onclick="adduser('{{user}}','{{userid}}')">Join Session</button></td>
+                            <td><button id="adduser" class="small button" onclick="adduser('{{user}}','{{userID}}')">Join Session</button></td>
                         </tr>
                         {% endif %}
                         {% for user in class.attendees %}
@@ -101,9 +95,12 @@
                     </table>
                     </div>
                     <div class="notes">
-                        <h5>Session Notes</h5>
-                        {% if userid==class%}
-                        <p>Contact: {{class.contact}} <br> {{class.course_notes}} </p>
+                        <h5 style="display:inline">Session Notes</h5>
+                        {% if class.owner_id!=userID %}
+                        <button style="display:inline;float:right"class="small button">Edit</button>
+                        {% endif %}
+                        <div>
+                        <p>Contact: {{class.contact}} <br> {{class.course_notes}} </p><
                     </div>
                     </div>
                 </td>       
