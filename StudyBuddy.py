@@ -230,7 +230,7 @@ def lucky():
     number_of_records = db.group_sessions.count()
     random_number = random.randint(0,number_of_records)
     group_session = db.group_sessions.find().limit(-1).skip(random_number).next()
-    return 'picked random session with id: ' + group_session.id
+    return 'picked random session with id: ' + group_session._id
 
 @app.route('/new',methods=['POST'])
 def new():
