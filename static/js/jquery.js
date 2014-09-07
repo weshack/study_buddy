@@ -96,14 +96,13 @@ $(document).ready(function(){
 
     $('.edit-button').click(function(e) {
             var id = $(this).attr('id');
+            table_row = $('[data-id="' + id + '"]');
         //targetId = e.currentTarget.attr('id');
         if ($(this).hasClass('edit-button')) {
             $(this).text('Done');
             $(this).addClass('done-button');
             $(this).removeClass('edit-button');
             // change fields to inputs.
-             var id = $(this).attr('id');
-             table_row = $('[data-id="' + id + '"]');
              console.log(table_row);
              var time= $(table_row[1]).text();
              $(table_row[1]).replaceWith("<td><input id='"+id+"-time' type='text' value='" + time + "'></td>");
@@ -117,6 +116,8 @@ $(document).ready(function(){
              $($($(table_row[4]).children()[1]).children()[2]).replaceWith("<input type='text' id='"+id+"-session_details' value='" + text + "'>");
 
         } else {
+            
+            console.log(table_row);
             $(this).text('Edit');
             $(this).addClass('edit-button');
             $(this).removeClass('done-button');
@@ -136,10 +137,11 @@ $(document).ready(function(){
                 },
                 url: '/edit?group_id=' + id,
                 success: function(result) {
-                    $(table_row[1]).replaceWith("<td class='click' data-id=id>time</td>");
-                    $(table_row[2]).replaceWith("<td class='click' data-id=id>location</td>");
-                    $(table_row[3]).replaceWith("<td style='overflow:auto' class='click' data-id=id>description</td>");
-                    $($($(table_row[4]).children()[1]).children()[2]).replaceWith("<p id='id'>session_details</p>");
+                    console.log(result);
+                    // $(table_row[1]).replaceWith("<td class='click' data-id=id>"+time+"</td>");
+                    // $(table_row[2]).replaceWith("<td class='click' data-id=id>location</td>");
+                    // $(table_row[3]).replaceWith("<td style='overflow:auto' class='click' data-id=id>description</td>");
+                    // $($($(table_row[4]).children()[1]).children()[2]).replaceWith("<p id=id>"+session_details+"</p>");
                     
                     // change back fields
                 }
