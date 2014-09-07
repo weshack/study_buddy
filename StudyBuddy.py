@@ -9,7 +9,7 @@ from pymongo import MongoClient
 import departmentArray
 import random
 import time
-from dateutil.parser import parse
+from dateutil.parser import parser
 
 ##
 # Constants for mongodb keys
