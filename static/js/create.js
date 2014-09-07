@@ -97,14 +97,6 @@ window.onload = function() {
 
 };
 
-
-
-
-
-
-
-    
-
 function parseJson(json) {
     var obj = JSON.parse(json);
     for (item in obj) {
@@ -138,5 +130,5 @@ function queryURL(url) {
 
 
 
-$(selector).timeEntry();
+
 
