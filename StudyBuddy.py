@@ -65,6 +65,8 @@ def root():
 # TODO: search doesn't work correctly, always returns everything from the database, no matter what we search for.
 @app.route('/find')
 def search():
+    if (not "username" in session.keys()):
+        return redirect('/')
     user= session['username']
     userID = session['userid']
 
