@@ -3,25 +3,22 @@
 
 <head>
     <script src="js/vendor/modernizr.js"></script>
-    <script src="js/vendor/jquery.js"></script>
     <script src="js/vendor/fastclick.js"></script>
     <script src="/js/foundation.min.js"></script>
     <script src="js/create.js"></script>
-    <script 
-        type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js">
-    </script>
-    <script 
-        src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js">
-    </script>
     <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min.js"></script>
-    <link rel="stylesheet" 
-          href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
+    <script 
+        src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min.js">
+    </script>
 
 
+    <link rel="stylesheet" type="text/css" href="js/datetimepicker/jquery.datetimepicker.css"/>
+
+    <script src="js/datetimepicker/jquery.datetimepicker.js"></script>
     <link rel="stylesheet" href="css/foundations/foundation.css">
     <link rel="stylesheet" type="text/css" href="css/styles.css">
+
     <title>Create A Group</title>
 </head>
 
@@ -55,20 +52,19 @@
                 </div>
             </div>
             <div class="row">
-                <div class="large-6 columns">
-                    <input type="text" placeholder="Location" name="location" required/>
+                 <div class="large-6 columns">
+                    <input type="text" placeholder="Select Date" name="date" id='datetimepicker' required/>
                 </div>
+                
                 <div class="large-6 columns">
                     <input type="text" placeholder="Contact Info (optional)" name="attendees" />
                 </div>
             </div>
             <div class="row">
-                <div class="large-6 columns">
-                    <input type="text" placeholder="Date" name="date" required/>
+                <div class="large-12 columns">
+                    <input type="text" placeholder="Location" name="location" required/>
                 </div>
-                <div class="large-6 columns">
-                    <input type="text" placeholder="Time" name="time" />
-                </div>
+               
             </div>
             <div class="row">
                 <div class="large-12 columns">

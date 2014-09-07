@@ -11,7 +11,9 @@ var BASE_URL = "";
 var autocomplete_data = [];
 
 //Code that runs right after window has loaded
+//MUST HAVING SOMETHING TO TRIGGER IT SO IT CAN ACTIVATE
 window.onload = function() {
+    $('#datetimepicker').datetimepicker();
     var data =
         [
             ["AMST", "American Studies"],
@@ -91,10 +93,7 @@ window.onload = function() {
         source: autocomplete_data
     });
 
-    window.onresize = function() {
-        var input_size = document.getElementById("createdepartment").style.width;
-        document.getElementsByClass("ui-widget-content")[0].style.width = input_size;
-    }
+
 
 };
 
@@ -104,7 +103,7 @@ window.onload = function() {
 
 
 
-
+    
 
 function parseJson(json) {
     var obj = JSON.parse(json);
@@ -137,26 +136,7 @@ function queryURL(url) {
     request.send();
 }
 
-$(function() {
-        $('#datepicker').datepicker({
-                inline: true,
-                showOtherMonths: true,
-                dayNamesMin: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
-                beforeShow: function(input) {
-                    var x = 255; //add offset
-                    var y = 140;
-                    field = $(input);
-                    left = field.position().left + x;
-                    bottom = y;
-                    setTimeout(function() {
-                        $('#ui-datepicker-div').css({
-                            'top': '',
-                            'bottom': bottom + 'px',
-                            'left': left + 'px'
-                        });
-                    }, 1);
-                }
-        });
-})
+
 
 $(selector).timeEntry();
+

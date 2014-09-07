@@ -87,6 +87,8 @@ def search():
     dept_keyword = request.args.get('dept_keyword')
     if not dept_keyword:
         print "NO DEPT KEYWORD"
+        grps = db.group_sessions.find()
+        return return_db_results(grps,user,userID)
     # Verify dept is valid
     
     skip_validation = True
