@@ -7,6 +7,7 @@ from jinja2 import Template
 # from flask.ext.pymongo import PyMongo
 from pymongo import MongoClient
 import departmentArray
+from math import random
 
 ##
 # Constants for mongodb keys
@@ -137,8 +138,6 @@ def index():
     return render_template('login.html', 
         login_link=googlelogin.login_url(approval_prompt='force',scopes=["email"]))
 
-
-
 class User(UserMixin):
     def __init__(self,userinfo):
         self.id = userinfo['id']
@@ -189,9 +188,15 @@ def departments():
 def create():
     return render_template('create.html');
 
+##
+# Responds to route /lucky, returning a random group study session from database.
+##
 @app.route('/lucky')
 def lucky():
-    return 'feeling lucky picks random room'
+    number_of_records = db.group_sessions.count()
+    random_number = Math.random(number_of_records)
+    group_session = db.group_sessions.find().limit(-1).skip(random_number).next()
+    return 'picked random session with id: ' + group_session.id
 
 @app.route('/new',methods=['POST'])
 def new():
