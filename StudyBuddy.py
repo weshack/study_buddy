@@ -8,6 +8,7 @@ from jinja2 import Template
 from pymongo import MongoClient
 import departmentArray
 import random
+import time
 
 ##
 # Constants for mongodb keys
@@ -122,42 +123,42 @@ def search():
     #         print "Got results2, yippee!"
     #         return return_db_results(results2,user,userID)
 
-    course_keyword = request.args.get('course_keyword')
+    # course_keyword = request.args.get('course_keyword')
 
-    # case where no course number is specified
-    if not course_keyword:
-        #just pull all the courses under that dept
-        results0 = db.group_sessions.find({DEPARTMENT_KEY:dept_keyword}).sort(TIME_KEY)
-        if results0.count() > 0:
-            print "Got results0"
-            return return_db_results(results0,user,userID)
+    # # case where no course number is specified
+    # if not course_keyword:
+    #     #just pull all the courses under that dept
+    #     results0 = db.group_sessions.find({DEPARTMENT_KEY:dept_keyword}).sort(TIME_KEY)
+    #     if results0.count() > 0:
+    #         print "Got results0"
+    #         return return_db_results(results0,user,userID)
 
-    # TODO: verify course number is safe?
-    # Query database with search_keyword. Dept number + 3 num code. If fails,
-    results1 = db.group_sessions.find({DEPARTMENT_KEY:dept_keyword,COURSE_NUMBER_KEY:course_keyword}).sort(TIME_KEY)
-    if results1.count() > 0:
-        print "Got results1, yippee!"
-        return return_db_results(results1,user,userID)
+    # # TODO: verify course number is safe?
+    # # Query database with search_keyword. Dept number + 3 num code. If fails,
+    # results1 = db.group_sessions.find({DEPARTMENT_KEY:dept_keyword,COURSE_NUMBER_KEY:course_keyword}).sort(TIME_KEY)
+    # if results1.count() > 0:
+    #     print "Got results1, yippee!"
+    #     return return_db_results(results1,user,userID)
 
-    # try same thing with the first two numbers (if there are 2-3 numbers) to get closest matches. If nothing,
-    twoOrThree = False
-    if len(course_keyword) == 2:
-        short_course_keyword = course_keyword
-        twoOrThree = True
-    if len(course_keyword) == 3:
-        short_course_keyword = course_keyword[0:1]
-        twoOrThree = True
-    if twoOrThree:
-        results2 = db.group_sessions.find({DEPARTMENT_KEY:dept_keyword,COURSE_NUMBER_KEY:short_course_keyword}).sort(TIME_KEY)
-        if results2.count() > 0:
-            print "Got results2, yippee!"
-            return return_db_results(results2,user,userID)
+    # # try same thing with the first two numbers (if there are 2-3 numbers) to get closest matches. If nothing,
+    # twoOrThree = False
+    # if len(course_keyword) == 2:
+    #     short_course_keyword = course_keyword
+    #     twoOrThree = True
+    # if len(course_keyword) == 3:
+    #     short_course_keyword = course_keyword[0:1]
+    #     twoOrThree = True
+    # if twoOrThree:
+    #     results2 = db.group_sessions.find({DEPARTMENT_KEY:dept_keyword,COURSE_NUMBER_KEY:short_course_keyword}).sort(TIME_KEY)
+    #     if results2.count() > 0:
+    #         print "Got results2, yippee!"
+    #         return return_db_results(results2,user,userID)
 
             
     # find all courses with that 3 number code. 
 
     # db.group_sessions.find
-    search_results = [{CONTACT_KEY:"8607596671",LOCATION_KEY:"exley",COURSE_NUMBER_KEY:"303",TIME_KEY:"4:20pm",DESCRIPTION_KEY:"Assignment 2",ATTENDEES_KEY:[["Aaron","azroz"],["Denise","nishii"]],OWNER_KEY:"Hora",COURSE_NOTES_KEY:"class notes"}] #StudySessions.objects(class_name=search_keyword)
+    search_results = [{CONTACT_KEY:"8607596671",LOCATION_KEY:"exley",COURSE_DEPARTMENT_KEY:"PHYS",COURSE_NUMBER_KEY:"303",TIME_KEY:"4:20pm",DESCRIPTION_KEY:"Assignment 2",ATTENDEES_KEY:[["Aaron","azroz"],["Denise","nishii"]],OWNER_KEY:"Hora",COURSE_NOTES_KEY:"class notes"}] #StudySessions.objects(class_name=search_keyword)
     count=5
     user="John Doe"
     userid="jd"
@@ -227,7 +228,7 @@ def create():
 @app.route('/lucky')
 def lucky():
     number_of_records = db.group_sessions.count()
-    random_number = Math.random(number_of_records)
+    random_number = random.randint(0,number_of_records)
     group_session = db.group_sessions.find().limit(-1).skip(random_number).next()
     return 'picked random session with id: ' + group_session.id
 
@@ -242,7 +243,7 @@ def new():
 
     # validate data
     errors = []
-    if not departmentArray.validDept(department):
+    if not departmentArray.validDept(dept):
         err1 = "DEPARTMENT DOES NOT EXIST", department
         errors.append(err1)
     if not len(course) == 3:
@@ -323,10 +324,22 @@ def edit():
 
     # Show the updated results page.
 
+
 @app.route('/delete',methods=['POST'])
 def delete():
     # TODO: verify that user in session owns the group session to be deleted
     pass
+
+##
+# Add the current user to the selected study session group.
+# Responds to route of the form:
+#   /join?group_id=<group_id>
+#   
+#   group_id : string
+##
+@app.route('/adduser',methods=['POST'])
+def adduser():
+    return True
 
 ##
 # Add the current user to the selected study session group.
@@ -352,3 +365,14 @@ def join():
 
 if __name__ == "__main__":
 	app.run(debug=True)
+
+def isotoepoch(timestring):
+    date_time = '29.08.2011 11:05:02'
+    pattern = '%Y-%m-%dT%H:%M:%SZ'
+    epoch = int(time.mktime(time.strptime(date_time, pattern)))
+    return epoch
+
+    
+
+
+

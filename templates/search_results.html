@@ -77,15 +77,15 @@
 
     	{% for class in results %}
             <tr>
-    			<td class="click" data-id="{{class["course"]}}">{{class["course"]}}</a></td>
-    			<td class="click" data-id="{{class["course"]}}">{{class["time"]}}</td>
-    			<td class="click" data-id="{{class["course"]}}">{{class["loc"]}}</td>
-    			<td class="click" data-id="{{class["course"]}}">{{class["description"]}}</td>
+    			<td class="click" data-id="{{class["course"]}}">{{class.department}}{{class.course_no}}</a></td>
+    			<td class="click" data-id="{{class.department}}{{class.course_no}}">{{class.time}}</td>
+    			<td class="click" data-id="{{class.department}}{{class.course_no}}">{{class.location}}</td>
+    			<td class="click" data-id="{{class.department}}{{class.course_no}}">{{class.description}}</td>
     			
     		</tr>
             <tr>
                 <td colspan="4">
-                    <div class="container hidden" data-id="{{class["course"]}}">
+                    <div class="container hidden" data-id="{{class.department}}{{class.course_no}}">
                     <div class="students-table">
                     <table id="container-table">
                         {% if not boolen %}
@@ -93,7 +93,7 @@
                             <td><button id="adduser" class="small button" onclick="adduser('{{user}}','{{userid}}')">Join Session</button></td>
                         </tr>
                         {% endif %}
-                        {% for user in class["users"] %}
+                        {% for user in class.attendees %}
                         <tr>
                         <td>{{user[0]}}</td>
                         </tr>
@@ -102,7 +102,8 @@
                     </div>
                     <div class="notes">
                         <h5>Session Notes</h5>
-                        <p>Contact: {{class["contact"]}} <br> {{class["notes"]}} </p>
+                        {% if userid==class%}
+                        <p>Contact: {{class.contact}} <br> {{class.course_notes}} </p>
                     </div>
                     </div>
                 </td>       
