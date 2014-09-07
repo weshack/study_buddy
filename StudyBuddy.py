@@ -9,19 +9,20 @@ from pymongo import MongoClient
 import departmentArray
 import random
 import time
+from dateutil.parser import parse
 
 ##
 # Constants for mongodb keys
 ##
+
 DEPARTMENT_KEY = "department"
 COURSE_NUMBER_KEY = "course_no"
 LOCATION_KEY = "location"
 TIME_KEY = "time"
-ATTENDEES_KEY = "attendees"
 COURSE_NOTES_KEY = "course_notes"
 CONTACT_KEY = "contact"
 DESCRIPTION_KEY = "description"
-OWNER_KEY = "owner"
+OWNER_NAME_KEY = "owner"
 OWNER_ID_KEY = "owner_id"
 
 client = MongoClient()
@@ -78,6 +79,7 @@ def return_db_results(results,user,userID):
     return render_template('search_results.html',count=results.count(),results=list(results),user=user,userID=userID)
 
 # Search for a class. Dept is fixed but number is free, must be 3 num code
+# TODO: search doesn't work correctly, always returns everything from the database, no matter what we search for.
 @app.route('/find')
 def search():
     user = "John Doe"
@@ -199,9 +201,9 @@ def create():
 @app.route('/lucky')
 def lucky():
     number_of_records = db.group_sessions.count()
-    random_number = random.randint(0,number_of_records)
+    random_number = random.randint(0,number_of_records-1)
     group_session = db.group_sessions.find().limit(-1).skip(random_number).next()
-    return 'picked random session with id: ' + group_session._id
+    return 'picked random session with id: ' + str(group_session['_id'])
 
 @app.route('/new',methods=['POST'])
 def new():
@@ -209,8 +211,11 @@ def new():
     dept = request.form.get('department')
     course = request.form.get('course')
     location = request.form.get('location')
-    time = request.form.get('time')
-    attendees = request.form.get('attendees')
+    time = request.form.get('datetime')
+    contact = request.form.get('contact')
+    description = request.form.get('description')
+    print ISOToEpoch(time)
+    session_details = request.form.get('details')
 
     # validate data
     errors = []
@@ -225,7 +230,7 @@ def new():
         errs.append(err3)
 
     # convert/validate time
-    time = 123456543
+    #time = 123456543
 
     #add more future validation here
     if errors:
@@ -245,7 +250,9 @@ def new():
         COURSE_NUMBER_KEY : course,
         LOCATION_KEY : location,
         TIME_KEY : time,
-        ATTENDEES_KEY : attendees
+        CONTACT_KEY : contact,
+        DESCRIPTION_KEY : description,
+        COURSE_NOTES_KEY : session_details
     }
 
     print "GROUP SESSION:",group_session
@@ -310,7 +317,7 @@ def delete():
 ##
 @app.route('/adduser',methods=['POST'])
 def adduser():
-    return True
+    return "abc"
 
 ##
 # Add the current user to the selected study session group.
@@ -334,14 +341,13 @@ def join():
                 {ATTENDEES_KEY : new_attendees_list})
     # Return that the database was updated and refresh the page with new attendees list.
 
+def ISOToEpoch(timestring):
+    return time.mktime(parse(timestring).timetuple())
+
 if __name__ == "__main__":
 	app.run(debug=True)
 
-def isotoepoch(timestring):
-    date_time = '29.08.2011 11:05:02'
-    pattern = '%Y-%m-%dT%H:%M:%SZ'
-    epoch = int(time.mktime(time.strptime(date_time, pattern)))
-    return epoch
+
 
     
 
