@@ -23,10 +23,29 @@
     <link rel="stylesheet" href="css/foundations/foundation.css">
     <link rel="stylesheet" type="text/css" href="css/styles.css">
     <title>Create A Group</title>
-
 </head>
 
 <body>
+<<<<<<< HEAD
+    <div class="wrapper">
+        <nav class="top-bar" data-topbar role="navigation">
+          <ul class="title-area">
+            <li class="name">
+              <h1><a href="/">Study Buddy</a></h1>
+            </li>
+          </ul>
+            <section class="top-bar-section">
+                <ul class="right">
+                    <li>
+                        <a href="logout">Logout</a>
+                    </li>
+                </ul>
+            </section>
+        </nav>
+
+        <div class="title-area">
+            <div class="custom-title">Create a New Group</div>
+=======
     <div class="title-area">
         <div class="custom-title">Create a New Group</div>
     </div>
@@ -39,24 +58,38 @@
             <div class="large-3 columns">
                 <input type="text" placeholder="Course No." name="course" />
             </div>
+>>>>>>> fbf3c0e77c0366584e53926cc87caa318ce5fc59
         </div>
-        <div class="row">
-            <div class="large-12 columns">
-                <input type="text" placeholder="Choose Location" name="location" />
+        <form action="new" method="post" class="create-forms" id="create-group">
+            <div class="row">
+                <div class="large-9 columns">
+                    <input type="text" placeholder="Insert Department" name="department" />
+                </div>
+                <div class="large-3 columns">
+                    <input type="text" placeholder="Course No." name="course" />
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="large-6 columns">
-                <input type="text" placeholder="Choose Time" name="time" />
+            <div class="row">
+                <div class="large-12 columns">
+                    <input type="text" placeholder="Choose Location" name="location" />
+                </div>
             </div>
-            <div class="large-6 columns">
-                <input type="text" placeholder="Contact(optional)" name="attendees" />
+            <div class="row">
+                <div class="large-6 columns">
+                    <input type="text" placeholder="Choose Time" name="time" />
+                </div>
+                <div class="large-6 columns">
+                    <input type="text" placeholder="Contact(optional)" name="attendees" />
+                </div>
             </div>
-        </div>
-        <div class="row small-centered" id="front-page-buttons">
-            <input type="submit" value="Create" id="create" class="button small-3 small-centered columns">
-        </div>
-    </form>
+            <div class="row small-centered" id="front-page-buttons">
+                <input type="submit" value="Create" id="create" class="button small-3 small-centered columns">
+            </div>
+        </form>
+
+        <div class="push"></div>
+    </div>
+
      
     <div class="footer">
         <p id="bot">Created by Aaron Plave, Aaron Rosen, Hora, Denise Francisco and Lili Borland at <a href="http://weshack.com/">WesHack 2014</a> <a href="https://github.com/weshack/study_buddy/"><img src="css/githubcat.jpg" alt="Github Code Link" height="30" width="30"/></a></p>
