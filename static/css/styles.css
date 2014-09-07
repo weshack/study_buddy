@@ -4,11 +4,12 @@
 }
 div {
     font-family: josefinslab;
-
-
 }
 html {
     font-family: josefinslab;
+}
+html, body {
+    height: 100%;
 }
 body {
     width: 100%;
@@ -18,13 +19,8 @@ body {
     background-repeat: no-repeat;
     background-attachment: fixed;
 }
-   
-}
-
-
 
 /*class for centering*/
-
 #ui-datepicker-div {
     width: 20%;
     text-decoration: none;
@@ -52,8 +48,8 @@ body {
 .ui-helper-hidden-accessible {
     visibility: hidden;
 }
-.ui-menu-item:hover {
-    background-color: #99Di6FF;
+.ui-menu-item:hover{
+    background-color: #99D6FF;
 }
 .ui-menu-item {
     padding-left: 10px;
@@ -118,19 +114,36 @@ nav.top-bar {
     border-radius: 10px;
     text-shadow: 2px 2px #000000;
 }
+
 #text-input {
     margin-bottom: 15px;
     text-align: center;
+    width: 50%;
+
+    padding-left: 8px;
+    padding-right: 8px;
 }
+
 #text-input input {
-    width: 75%;
+    width: 80%;
     padding-top: 8px;
     padding-bottom: 8px;
     padding-left: 8px;
-    font-size: 24px;
+    padding-right: 8px;
+    font-size: 25px;
     margin-left: auto;
     margin-right: auto;
 }
+
+#search-button {
+    width: 35px !important;
+    height: 35px !important;
+    padding-left: 2px;
+    padding-right: 2px;
+}
+
+
+
 #searchresults {
     width: 80%;
     margin-left: 10%;
@@ -180,8 +193,22 @@ button, .button {
     font-size: 20px;
     margin-top: 7px;
 }
-#page-header {
-    width: 90%;
+
+
+#course {
+    width: 35.5%;
+}
+
+#find {
+    width: 27px !important;
+    height: 35px !important;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+
+#page-header{
+    width:90%;
     margin-top: 8%;
     margin-left: 10%;
     margin-bottom: none;
@@ -222,19 +249,15 @@ button, .button {
     color: beige;
     margin-bottom: 0;
 }
-* {
-    margin: 0;
-}
-html, body {
-    height: 100%;
-}
+
 .wrapper {
     min-height: 95%;
     height: auto !important;
     height: 95%;
-    margin: ;
+    margin: ;0
     0 auto -2em;
 }
 .footer, .push {
     height: 2em;
 }
+

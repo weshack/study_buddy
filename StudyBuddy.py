@@ -63,8 +63,8 @@ def root():
 # TODO: search doesn't work correctly, always returns everything from the database, no matter what we search for.
 @app.route('/find')
 def search():
-    user = "John Doe"
-    userID = "12345"
+    user= session['username']
+    userID = session['userid']
 
     # IMPORTANT, make sure that the dept keyword is ALWAYS short form,
     # so on front end map the dept keyword (if long) to short form.
@@ -73,7 +73,8 @@ def search():
         print "NO DEPT KEYWORD"
         grps = db.group_sessions.find()
         grps=cursortolst(grps)
-        isAttendee=attendee(grps,user)
+        isAttendee=attendee(grps,userID)
+        print isAttendee
 
         return return_db_results(grps,user,userID,isAttendee)
     # Verify dept is valid
@@ -236,8 +237,7 @@ def new():
         return render_template('create.html',results=errors)
 
     # get user from session
-    print session['username']
-    #user = session.get_user....?
+    user=session['username']
     ownerID = session['userid']
 
     # create group session object
@@ -254,7 +254,7 @@ def new():
     }
 
     print "GROUP SESSION:",group_session
-    # insert info into database 
+    # insert info into dabase 
     if db.group_sessions.find_one(group_session):
         errX = "Group already exists",group_session
         print errX
@@ -346,13 +346,15 @@ def return_db_results(results,user,userID,isAttendee):
     return render_template('search_results.html',count=len(results),results=list(results),user=user,userID=userID,isAttendee=list(isAttendee))
 
 def attendee(grps,userID):
+    print "user id is: " + userID
     isAttendee=[]
     for grp_session in grps:
+        isAttendeeInGroup = False
         for user in grp_session[ATTENDEES_KEY]:
-            if userID==user[0]:
-                isAttendee.append(True)
+            if userID == user[0]:
+                isAttendeeInGroup = True
                 break
-            isAttendee.append(False)
+        isAttendee.append(isAttendeeInGroup)
     return isAttendee
 
 def cursortolst(grps):
