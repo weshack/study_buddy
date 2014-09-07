@@ -9,7 +9,7 @@ from pymongo import MongoClient
 import departmentArray
 import random
 import time
-from dateutil.parser import parser
+from dateutil.parser import parse
 
 ##
 # Constants for mongodb keys
@@ -42,25 +42,6 @@ app.config.update(
 
 googlelogin = GoogleLogin(app)
 
-# DATABASE, TODO: Separate out.
-
-# class User(db.Document):
-#     name = db.StringField(max_length=255)
-#     userID = db.StringField(max_length=255)
-
-
-@app.route("/dbtest1")
-def test1():
-    test = db.users.insert({"name":"Aaron Plave","userID":"1234"})
-    return "TEST"
-    
-@app.route("/dbtest2")
-def test2():
-    a = db.users.find_one()
-    print a 
-    b = a['name'] + " " + a['userID']
-    return b
-
 users = {}
 
 @googlelogin.user_loader
@@ -74,7 +55,7 @@ class User(UserMixin):
 
 @app.route("/home")
 def root():
-    return app.send_static_file('html/index.html')
+    return render_template('index.html',username=session['username'])
 
 
 
@@ -173,8 +154,16 @@ def login(token, userinfo, **params):
         return render_template('login.html',results="meow, you have been denied.")
     login_user(user)
     session['token'] = json.dumps(token)
+    session['userid'] = user.id
+    session['username'] = user.name
     return redirect(params.get('next', url_for('.login_redirect')))
 
+#checking we get session variables
+@app.route('/seshvars')
+def seshvars():
+    print "Lets have fun with these user variables beyotch"
+    print session['userid']
+    print session['username']
 
 @app.route('/login_redirect')
 @login_required
@@ -248,10 +237,9 @@ def new():
         return render_template('create.html',results=errors)
 
     # get user from session
-    print session
-    #user = session.get_user....?
-    ownerID = "12345"
-    user='jon doe'
+    user=session['username']
+    ownerID = session['userid']
+
     # create group session object
     group_session = {
         OWNER_ID_KEY : ownerID,
@@ -275,7 +263,7 @@ def new():
     else:
         print "Unique group"
         db.group_sessions.insert(group_session)
-        return app.send_static_file('html/index.html')
+        return render_template('index.html')
 
 ##
 # Responds to a url of the form: 
