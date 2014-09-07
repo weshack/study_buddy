@@ -79,6 +79,7 @@ def return_db_results(results,user,userID):
     return render_template('search_results.html',count=results.count(),results=list(results),user=user,userID=userID)
 
 # Search for a class. Dept is fixed but number is free, must be 3 num code
+# TODO: search doesn't work correctly, always returns everything from the database, no matter what we search for.
 @app.route('/find')
 def search():
     user = "John Doe"
