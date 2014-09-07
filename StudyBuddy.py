@@ -9,14 +9,14 @@ from pymongo import MongoClient
 import departmentArray
 import random
 import time
-from dateutil.parser import parse
+from dateutil.parser import parser
 
 ##
 # Constants for mongodb keys
 ##
 
 DEPARTMENT_KEY = "department"
-COURSE_NUMBER_KEY = "course_no"
+COURSE_NUMBER_KEY = "courseNumber"
 LOCATION_KEY = "location"
 TIME_KEY = "time"
 COURSE_NOTES_KEY = "course_notes"
@@ -24,6 +24,7 @@ CONTACT_KEY = "contact"
 DESCRIPTION_KEY = "description"
 OWNER_NAME_KEY = "owner"
 OWNER_ID_KEY = "owner_id"
+ATTENDEES_KEY = "attendees"
 
 client = MongoClient()
 
@@ -75,21 +76,25 @@ class User(UserMixin):
 def root():
     return app.send_static_file('html/index.html')
 
-def return_db_results(results,user,userID):
-    return render_template('search_results.html',count=results.count(),results=list(results),user=user,userID=userID)
+
 
 # Search for a class. Dept is fixed but number is free, must be 3 num code
+# TODO: search doesn't work correctly, always returns everything from the database, no matter what we search for.
 @app.route('/find')
 def search():
     user = "John Doe"
     userID = "12345"
+
     # IMPORTANT, make sure that the dept keyword is ALWAYS short form,
     # so on front end map the dept keyword (if long) to short form.
-    dept_keyword = request.args.get('dept_keyword')
+    dept_keyword = request.args.get('search_keyword')
     if not dept_keyword:
         print "NO DEPT KEYWORD"
         grps = db.group_sessions.find()
-        return return_db_results(grps,user,userID)
+        grps=cursortolst(grps)
+        isAttendee=attendee(grps,user)
+
+        return return_db_results(grps,user,userID,isAttendee)
     # Verify dept is valid
     
     skip_validation = True
@@ -108,16 +113,21 @@ def search():
     if not course_keyword:
         #just pull all the courses under that dept
         results0 = db.group_sessions.find({DEPARTMENT_KEY:dept_keyword}).sort(TIME_KEY)
-        if results0.count() > 0:
+        results0=cursortolst(results0)
+        print results0
+        if len(results0) > 0:
             print "Got results0"
-            return return_db_results(results0,user,userID)
+            isAttendee=attendee(results0,user)
+            return return_db_results(results0,user,userID,isAttendee)
 
     # TODO: verify course number is safe?
     # Query database with search_keyword. Dept number + 3 num code. If fails,
     results1 = db.group_sessions.find({DEPARTMENT_KEY:dept_keyword,COURSE_NUMBER_KEY:course_keyword}).sort(TIME_KEY)
-    if results1.count() > 0:
+    results1=cursortolst(results1)
+    if len(results1) > 0:
         print "Got results1, yippee!"
-        return return_db_results(results1,user,userID)
+        isAttendee=attendee(results1,user)
+        return return_db_results(results1,user,userID,isAttendee)
 
     # # try same thing with the first two numbers (if there are 2-3 numbers) to get closest matches. If nothing,
     # twoOrThree = False
@@ -213,7 +223,6 @@ def new():
     time = request.form.get('datetime')
     contact = request.form.get('contact')
     description = request.form.get('description')
-    print ISOToEpoch(time)
     session_details = request.form.get('details')
 
     # validate data
@@ -241,7 +250,7 @@ def new():
     print session
     #user = session.get_user....?
     ownerID = "123456"
-
+    user='jon doe'
     # create group session object
     group_session = {
         OWNER_ID_KEY : ownerID,
@@ -251,6 +260,7 @@ def new():
         TIME_KEY : time,
         CONTACT_KEY : contact,
         DESCRIPTION_KEY : description,
+        ATTENDEES_KEY: [[ownerID,user]],
         COURSE_NOTES_KEY : session_details
     }
 
@@ -343,12 +353,31 @@ def join():
 def ISOToEpoch(timestring):
     return time.mktime(parse(timestring).timetuple())
 
+def return_db_results(results,user,userID,isAttendee):
+    return render_template('search_results.html',count=len(results),results=list(results),user=user,userID=userID,isAttendee=list(isAttendee))
+
+def attendee(grps,userID):
+    isAttendee=[]
+    for grp_session in grps:
+        for user in grp_session[ATTENDEES_KEY]:
+            if userID==user[0]:
+                isAttendee.append(True)
+                break
+            isAttendee.append(False)
+    return isAttendee
+
+def cursortolst(grps):
+    return_list=[]
+    for item in grps:
+        return_list.append(item)
+    return return_list
+
+
 if __name__ == "__main__":
 	app.run(debug=True)
 
 
 
-    
 
 
 
