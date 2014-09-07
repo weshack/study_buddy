@@ -103,7 +103,7 @@ $(document).ready(function(){
             $(this).addClass('done-button');
             $(this).removeClass('edit-button');
             // change fields to inputs.
-             console.log(table_row);
+             
              var time= $(table_row[1]).text();
              $(table_row[1]).replaceWith("<td><input id='"+id+"-time' type='text' value='" + time + "'></td>");
              var location= $(table_row[2]).text();
@@ -112,7 +112,7 @@ $(document).ready(function(){
              $(table_row[3]).replaceWith("<td><input type='text' id='"+id+"-description' value='" + description + "'></td>");
 
              var text= $($($(table_row[4]).children()[1]).children()[2]).text();
-            console.log(text);
+             console.log(text);
              $($($(table_row[4]).children()[1]).children()[2]).replaceWith("<input type='text' id='"+id+"-session_details' value='" + text + "'>");
 
         } else {
@@ -125,7 +125,14 @@ $(document).ready(function(){
             var location=document.getElementById(id+"-location").value;
             var description=document.getElementById(id+"-description").value;
             var session_details=document.getElementById(id+"-session_details").value;
-            console.log(time,location,description,session_details);
+            var session_array=session_details.split(" ");
+            console.log(session_array);
+            var text="";
+            for (index = 1; index < session_array.length; index++) {
+            text += session_array[index]+" ";
+            }
+            console.log(text);
+            session_details=text;
             //send ajax request to /edit.
             $.ajax({
                 method: 'POST',
@@ -137,13 +144,7 @@ $(document).ready(function(){
                 },
                 url: '/edit?group_id=' + id,
                 success: function(result) {
-                    console.log(result);
-                    // $(table_row[1]).replaceWith("<td class='click' data-id=id>"+time+"</td>");
-                    // $(table_row[2]).replaceWith("<td class='click' data-id=id>location</td>");
-                    // $(table_row[3]).replaceWith("<td style='overflow:auto' class='click' data-id=id>description</td>");
-                    // $($($(table_row[4]).children()[1]).children()[2]).replaceWith("<p id=id>"+session_details+"</p>");
-                    
-                    // change back fields
+                    window.location.reload();
                 }
     });
         }
@@ -152,18 +153,17 @@ $(document).ready(function(){
 
 });
 
-function onAddUserButtonClick(groupID, userID) {
+function onAddUserButtonClick(groupID, userID,username) {
     console.log("pressed add user button");
     console.log("groupID: " + groupID + " userID: " + userID);
-
     $.ajax({
         method: 'POST',
-        url: '/join?group_id=' + groupID,
+        url: '/join?group_id=' + groupID, 
         success: function(result) {
             console.log(result);
-            // remove button
+             window.location.reload();
 
-            // add name to table
+            
         }
     });
 }

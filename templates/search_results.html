@@ -72,7 +72,7 @@
                             <td>
                                 <button   
                                     id="adduser-{{userID}}"  
-                                    onclick="onAddUserButtonClick('{{results[i]._id}}','{{userID}}')" 
+                                    onclick="onAddUserButtonClick('{{results[i]._id}}','{{userID}}','{{username}}')" 
                                     class="small button">
                                     Join Session
                                 </button>
@@ -97,7 +97,7 @@
                             Edit
                         </button>
                         {% endif %}
-                        <p id="{{results[i]._id}}">Contact: {{results[i].contact}} <br> {{results[i].course_notes}} </p>
+                        <p id="{{results[i]._id}}">Contact:{{results[i].contact}} <br> {{results[i].course_notes}} </p>
                     
                     </div>
                 </td>       
