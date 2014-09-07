@@ -14,15 +14,15 @@ from dateutil.parser import parse
 ##
 # Constants for mongodb keys
 ##
+
 DEPARTMENT_KEY = "department"
 COURSE_NUMBER_KEY = "course_no"
 LOCATION_KEY = "location"
 TIME_KEY = "time"
-ATTENDEES_KEY = "attendees"
 COURSE_NOTES_KEY = "course_notes"
 CONTACT_KEY = "contact"
 DESCRIPTION_KEY = "description"
-OWNER_KEY = "owner"
+OWNER_NAME_KEY = "owner"
 OWNER_ID_KEY = "owner_id"
 
 client = MongoClient()
@@ -210,9 +210,10 @@ def new():
     dept = request.form.get('department')
     course = request.form.get('course')
     location = request.form.get('location')
-    time = request.form.get('date')
+    time = request.form.get('datetime')
+    contact = request.form.get('contact')
     print ISOToEpoch(time)
-    attendees = request.form.get('attendees')
+    session_details = request.form.get('details')
 
     # validate data
     errors = []
@@ -247,7 +248,8 @@ def new():
         COURSE_NUMBER_KEY : course,
         LOCATION_KEY : location,
         TIME_KEY : time,
-        ATTENDEES_KEY : attendees
+        CONTACT_KEY : contact,
+        DESCRIPTION_KEY : session_details
     }
 
     print "GROUP SESSION:",group_session
