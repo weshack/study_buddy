@@ -84,7 +84,7 @@ def search():
         if not departmentArray.validDept(dept_keyword):
             err = "Invalid department, please enter a valid department."
             print err
-            return render_template('search_results.html',results=[],error_message=err)
+            return render_template('search_results.html',username=session['username'],results=[],error_message=err)
     
 
     course_keyword = request.args.get('course_no')
@@ -128,7 +128,7 @@ def search():
 
     # else we have no results
     print "NO RESULTS"
-    return render_template('search_results.html',results=[],count=0)
+    return render_template('search_results.html',username=session['username'],results=[],count=0)
 
 
 @app.route('/')
@@ -192,7 +192,7 @@ def departments():
 
 @app.route('/create')
 def create():
-    return render_template('create.html');
+    return render_template('create.html',username=session['username']);
 
 ##
 # Responds to route /lucky, returning a random group study session from database.
@@ -234,7 +234,7 @@ def new():
     if errors:
         print "ERRORS:"
         for i in errors: print i
-        return render_template('create.html',results=errors)
+        return render_template('create.html',username=session['username'],results=errors)
 
     # get user from session
     user=session['username']
@@ -259,11 +259,11 @@ def new():
         errX = "Group already exists",group_session
         print errX
         # TODO: confirm event created in DB
-        return render_template('create.html',results=errX)
+        return render_template('create.html',username=session['username'],results=errX)
     else:
         print "Unique group"
         db.group_sessions.insert(group_session)
-        return render_template('index.html')
+        return render_template('index.html',username=session['username'])
 
 ##
 # Responds to a url of the form: 
@@ -343,7 +343,7 @@ def ISOToEpoch(timestring):
     return time.mktime(parse(timestring).timetuple())
 
 def return_db_results(results,user,userID,isAttendee):
-    return render_template('search_results.html',count=len(results),results=list(results),user=user,userID=userID,isAttendee=list(isAttendee))
+    return render_template('search_results.html',username=session['username'],count=len(results),results=list(results),user=user,userID=userID,isAttendee=list(isAttendee))
 
 def attendee(grps,userID):
     print "user id is: " + userID
