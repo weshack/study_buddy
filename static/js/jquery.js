@@ -94,25 +94,52 @@ $(document).ready(function(){
     });
 
     $('.edit-button').click(function(e) {
+            var id = $(this).attr('id');
         //targetId = e.currentTarget.attr('id');
         if ($(this).hasClass('edit-button')) {
             $(this).text('Done');
             $(this).addClass('done-button');
             $(this).removeClass('edit-button');
             // change fields to inputs.
-            // var id = $(this).attr('id');
-            // table_row = $('[data-id="' + id + '"]');
-            // for (var i in table_row) {
-            //     var element = $(table_row[i]);
-            //     if (element.data('id') == id) {
-                    
-            //     }
-            // }
+             var id = $(this).attr('id');
+             table_row = $('[data-id="' + id + '"]');
+             console.log(table_row);
+             var time= $(table_row[1]).text();
+             $(table_row[1]).replaceWith("<td><input id='"+id+"-time' type='text' value='" + time + "'></td>");
+             var location= $(table_row[2]).text();
+             $(table_row[2]).replaceWith("<td><input id='"+id+"-location' type='text' value='" + location + "'></td>");
+             var description= $(table_row[3]).text();
+             $(table_row[3]).replaceWith("<td><input type='text' id='"+id+"-description' value='" + description + "'></td>");
+
+             var text= $($($(table_row[4]).children()[1]).children()[2]).text();
+            console.log(text);
+             $($($(table_row[4]).children()[1]).children()[2]).replaceWith("<input type='text' id='"+id+"-session_details' value='" + text + "'>");
+
         } else {
             $(this).text('Edit');
             $(this).addClass('edit-button');
             $(this).removeClass('done-button');
-            // send ajax request to /edit.
+            var time=document.getElementById(id+"-time").value;
+            var location=document.getElementById(id+"-location").value;
+            var description=document.getElementById(id+"-description").value;
+            var session_details=document.getElementById(id+"-session_details").value;
+            console.log(time);
+            //send ajax request to /edit.
+            $.ajax({
+                method: 'POST',
+                data: {
+                   time : time,
+                   location:location,
+                   description:description,
+                   session_details:session_details,
+                },
+                url: '/edit?group_id=' + id,
+                success: function(result) {
+                    console.log(result);
+                    
+                    // change back fields
+                }
+    });
         }
     });
 

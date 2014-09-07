@@ -55,6 +55,8 @@ class User(UserMixin):
 
 @app.route("/home")
 def root():
+    if (not "username" in session.keys()):
+        return redirect('/')
     return render_template('index.html',username=session['username'])
 
 

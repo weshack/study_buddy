@@ -46,7 +46,7 @@
         <thead>
         <tr>
                 <th> Class</th>
-                <th> Time</th>
+                <th> Date/Time</th>
                 <th> Location</th>
                 <th> Description</th>
                 
@@ -84,6 +84,8 @@
                         <td>{{user[1]}}</td>
                         </tr>
                         {% endfor %}
+                        <!-- <tr><td colspan="{{count}}"></td></tr> -->
+
                     </table>
                     </div>
                     <div class="notes">
@@ -95,9 +97,8 @@
                             Edit
                         </button>
                         {% endif %}
-                        <div>
-                        <p>Contact: {{results[i].contact}} <br> {{results[i].course_notes}} </p>
-                    </div>
+                        <p id="{{results[i]._id}}">Contact: {{results[i].contact}} <br> {{results[i].course_notes}} </p>
+                    
                     </div>
                 </td>       
             </tr>
