@@ -123,7 +123,7 @@ $(document).ready(function(){
             var location=document.getElementById(id+"-location").value;
             var description=document.getElementById(id+"-description").value;
             var session_details=document.getElementById(id+"-session_details").value;
-            console.log(time);
+            console.log(time,location,description,session_details);
             //send ajax request to /edit.
             $.ajax({
                 method: 'POST',
@@ -135,7 +135,10 @@ $(document).ready(function(){
                 },
                 url: '/edit?group_id=' + id,
                 success: function(result) {
-                    console.log(result);
+                    $(table_row[1]).replaceWith("<td class='click' data-id=id>time</td>");
+                    $(table_row[2]).replaceWith("<td class='click' data-id=id>location</td>");
+                    $(table_row[3]).replaceWith("<td style='overflow:auto' class='click' data-id=id>description</td>");
+                    $($($(table_row[4]).children()[1]).children()[2]).replaceWith("<p id='id'>session_details</p>");
                     
                     // change back fields
                 }
