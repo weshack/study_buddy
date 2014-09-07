@@ -7,7 +7,7 @@ from jinja2 import Template
 # from flask.ext.pymongo import PyMongo
 from pymongo import MongoClient
 import departmentArray
-from math import random
+import random
 
 ##
 # Constants for mongodb keys
@@ -319,7 +319,7 @@ def edit():
                 COURSE_NOTES_KEY  : course_notes}
 
     # verify that user owns the group before updating database.
-    coll.update({'_id' : group_id}, $set: new_data)
+    coll.update({'_id' : group_id}, new_data)
 
     # Show the updated results page.
 
@@ -341,15 +341,13 @@ def join():
     current_study_group = db.group_sessions.find_one({'_id': group_id})
 
     # Check that user is in the attendees of current_study_group
-    if user in usercurrent_study_group.attendees:
+    # if user in usercurrent_study_group.attendees:
         # Show user that he/she is already in the group.
 
     coll = db.group_sessions
     new_attendees_list = coll.attendees.add(user)
-    coll.update({_'id': current_study_group.id},
-                $set: {
-                    ATTENDEES_KEY : new_attendees_list
-                })
+    coll.update({'_id': current_study_group.id},
+                {ATTENDEES_KEY : new_attendees_list})
     # Return that the database was updated and refresh the page with new attendees list.
 
 if __name__ == "__main__":
