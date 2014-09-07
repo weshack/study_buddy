@@ -158,3 +158,5 @@ $(function() {
                 }
         });
 })
+
+$(selector).timeEntry();
