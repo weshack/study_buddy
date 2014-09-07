@@ -6,7 +6,20 @@
     <script src="js/vendor/jquery.js"></script>
     <script src="js/vendor/fastclick.js"></script>
     <script src="/js/foundation.min.js"></script>
-    <script src="js/StudyBuddy.js"></script>
+    <script src="js/create.js"></script>
+    <script 
+        type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js">
+    </script>
+    <script 
+        src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js">
+    </script>
+    <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min.js"></script>
+    <link rel="stylesheet" 
+          href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
+
+
     <link rel="stylesheet" href="css/foundations/foundation.css">
     <link rel="stylesheet" type="text/css" href="css/styles.css">
     <title>Create A Group</title>
@@ -14,6 +27,20 @@
 </head>
 
 <body>
+
+    <div class="title-area">
+        <div class="custom-title">Create a New Group</div>
+    </div>
+    <form action="new" method="post" class="create-forms" id="create-group">
+        <div class="row">
+            <div class="large-9 columns">
+                <input type="text" placeholder="Insert Department" name="department" 
+                id="createdepartment" />
+            </div>
+            <div class="large-3 columns">
+                <input type="text" placeholder="Course No." name="course" />
+            </div>
+=======
     <div class="wrapper">
         <nav class="top-bar" data-topbar role="navigation">
 
@@ -43,6 +70,10 @@
                     <input type="text" placeholder="Course No." name="course" />
                 </div>
             </div>
+        </div>
+        <div class="row">
+            <div class="large-6 columns">
+                <input type="text" placeholder="Choose Date" name="time" id="datepicker"/>
             <div class="row">
                 <div class="large-12 columns">
                     <input type="text" placeholder="Choose Location" name="location" />
