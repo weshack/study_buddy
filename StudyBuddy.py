@@ -8,6 +8,20 @@ from jinja2 import Template
 from pymongo import MongoClient
 import departmentArray
 
+##
+# Constants for mongodb keys
+##
+DEPARTMENT_KEY = "department"
+COURSE_NUMBER_KEY = "course_no"
+LOCATION_KEY = "location"
+TIME_KEY = "time"
+ATTENDEES_KEY = "attendees"
+COURSE_NOTES_KEY = "course_notes"
+CONTACT_KEY = "contact"
+DESCRIPTION_KEY = "description"
+OWNER_KEY = "owner"
+OWNER_ID_KEY = "owner_id"
+
 client = MongoClient()
 
 db = client.sbdb
@@ -75,6 +89,7 @@ def search():
     #     err = "Invalid department, please enter a valid department."
     #     return render_template('search_results',error_message=err)
     
+
     # course_keyword = request.args.get('course_keyword')
 
     # # case where no course number is specified
@@ -105,11 +120,43 @@ def search():
     #     if results2.count() > 0:
     #         print "Got results2, yippee!"
     #         return return_db_results(results2,user,userID)
+
+    course_keyword = request.args.get('course_keyword')
+
+    # case where no course number is specified
+    if not course_keyword:
+        #just pull all the courses under that dept
+        results0 = db.group_sessions.find({DEPARTMENT_KEY:dept_keyword}).sort(TIME_KEY)
+        if results0.count() > 0:
+            print "Got results0"
+            return return_db_results(results0,user,userID)
+
+    # TODO: verify course number is safe?
+    # Query database with search_keyword. Dept number + 3 num code. If fails,
+    results1 = db.group_sessions.find({DEPARTMENT_KEY:dept_keyword,COURSE_NUMBER_KEY:course_keyword}).sort(TIME_KEY)
+    if results1.count() > 0:
+        print "Got results1, yippee!"
+        return return_db_results(results1,user,userID)
+
+    # try same thing with the first two numbers (if there are 2-3 numbers) to get closest matches. If nothing,
+    twoOrThree = False
+    if len(course_keyword) == 2:
+        short_course_keyword = course_keyword
+        twoOrThree = True
+    if len(course_keyword) == 3:
+        short_course_keyword = course_keyword[0:1]
+        twoOrThree = True
+    if twoOrThree:
+        results2 = db.group_sessions.find({DEPARTMENT_KEY:dept_keyword,COURSE_NUMBER_KEY:short_course_keyword}).sort(TIME_KEY)
+        if results2.count() > 0:
+            print "Got results2, yippee!"
+            return return_db_results(results2,user,userID)
+
             
     # find all courses with that 3 number code. 
 
     # db.group_sessions.find
-    search_results = [{"contact":"8607596671","loc":"exley","course":"303","time":"4:20pm","description":"Assignment 2","users":[["Aaron","azroz"],["Denise","nishii"]],"Owner":"Hora","notes":"class notes"}] #StudySessions.objects(class_name=search_keyword)
+    search_results = [{CONTACT_KEY:"8607596671",LOCATION_KEY:"exley",COURSE_NUMBER_KEY:"303",TIME_KEY:"4:20pm",DESCRIPTION_KEY:"Assignment 2",ATTENDEES_KEY:[["Aaron","azroz"],["Denise","nishii"]],OWNER_KEY:"Hora",COURSE_NOTES_KEY:"class notes"}] #StudySessions.objects(class_name=search_keyword)
     count=5
     user="John Doe"
     userid="jd"
@@ -171,10 +218,6 @@ def departments():
     print "searching for departments.."
     return json.dumps(departmentArray.depts)
 
-@app.route('/checkin')
-def checkin():
-    return 'hello'
-
 @app.route('/create')
 def create():
     return render_template('create.html');
@@ -220,12 +263,12 @@ def new():
 
     # create group session object
     group_session = {
-        "ownerID" : ownerID,
-        "dept" : dept,
-        "course" : course,
-        "location" : location,
-        "time" : time,
-        "attendees" : attendees
+        OWNER_ID_KEY : ownerID,
+        DEPARTMENT_KEY : dept,
+        COURSE_NUMBER_KEY : course,
+        LOCATION_KEY : location,
+        TIME_KEY : time,
+        ATTENDEES_KEY : attendees
     }
 
     print "GROUP SESSION:",group_session
@@ -240,28 +283,69 @@ def new():
         db.group_sessions.insert(group_session)
         return app.send_static_file('html/index.html')
 
+##
+# Responds to a url of the form: 
+#   /edit?department=<department>&course_no=<course_no>&location=<location>&time=<time>&attendees=<attendees>&course_notes=<course_notes>&group_id=<group_id>
+#   
+#   department : string
+#   course_no : string
+#   location : string
+#   time : string
+#   attendees : list of strings
+#   course_notes : string
+#   group_id : string
+##
 @app.route('/edit',methods=['POST'])
 def edit():
-    # TODO: verify that user in session owns the group session to be edited
-    # Determine the edit type:
-        # Modify notes section
-        # Change time
-        # Change location
-    # Validate edits
-    #
-    pass
+    department = request.args.get('department')
+    course_no = request.args.get('course_no')
+    location = request.args.get('location')
+    time = request.args.get('time')
+    attendees = request.args.get('attendees')
+    course_notes = request.args.get('course_notes')
+    group_id = request.args.get('group_id')
+
+    coll = db.group_sessions
+    new_data = {DEPARTMENT_KEY    : department,
+                COURSE_NUMBER_KEY : course_no,
+                LOCATION_KEY      : location,
+                TIME_KEY          : time,
+                ATTENDEES_KEY     : attendees,
+                COURSE_NOTES_KEY  : course_notes}
+
+    # verify that user owns the group before updating database.
+    coll.update({'_id' : group_id}, $set: new_data)
+
+    # Show the updated results page.
 
 @app.route('/delete',methods=['POST'])
 def delete():
     # TODO: verify that user in session owns the group session to be deleted
     pass
 
+##
+# Add the current user to the selected study session group.
+# Responds to route of the form:
+#   /join?group_id=<group_id>
+#   
+#   group_id : string
+##
 @app.route('/join',methods=['POST'])
 def join():
-    # TODO: Verify user is not already in the group session
-    # TODO: Add user to the group in the DB
-    # Report success or failure so the UI can react
-    pass
+    user = db.users.find_one({"userID": current_user.id})
+    current_study_group = db.group_sessions.find_one({'_id': group_id})
+
+    # Check that user is in the attendees of current_study_group
+    if user in usercurrent_study_group.attendees:
+        # Show user that he/she is already in the group.
+
+    coll = db.group_sessions
+    new_attendees_list = coll.attendees.add(user)
+    coll.update({_'id': current_study_group.id},
+                $set: {
+                    ATTENDEES_KEY : new_attendees_list
+                })
+    # Return that the database was updated and refresh the page with new attendees list.
 
 if __name__ == "__main__":
 	app.run(debug=True)
