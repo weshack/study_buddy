@@ -8,6 +8,7 @@ from jinja2 import Template
 from pymongo import MongoClient
 import departmentArray
 import random
+import time
 
 ##
 # Constants for mongodb keys
@@ -360,4 +361,14 @@ def join():
 
 if __name__ == "__main__":
 	app.run(debug=True)
+
+def isotoepoch(timestring):
+    date_time = '29.08.2011 11:05:02'
+    pattern = '%Y-%m-%dT%H:%M:%SZ'
+    epoch = int(time.mktime(time.strptime(date_time, pattern)))
+    return epoch
+
+    
+
+
 
