@@ -196,10 +196,12 @@ nav.top-bar {
     margin-top: 65px;
     background-color: rgba(255, 255, 255, 0.5);
     font-size: 32px;
+    font-family: josefinslab;
 }
 #about-panel p {
     font-size: 20px;
     margin-top: 7px;
+    font-family: josefinslab;
 }
 
 
