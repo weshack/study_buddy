@@ -97,7 +97,7 @@ def search():
             return render_template('search_results.html',results=[],error_message=err)
     
 
-    course_keyword = request.args.get('course_keyword')
+    course_keyword = request.args.get('course_no')
 
     print "DEPT KEYWORD:",dept_keyword
     print "COURSE KEYWORD:",course_keyword
