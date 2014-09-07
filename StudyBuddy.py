@@ -157,7 +157,7 @@ def search():
     # find all courses with that 3 number code. 
 
     # db.group_sessions.find
-    search_results = [{CONTACT_KEY:"8607596671",LOCATION_KEY:"exley",COURSE_NUMBER_KEY:"303",TIME_KEY:"4:20pm",DESCRIPTION_KEY:"Assignment 2",ATTENDEES_KEY:[["Aaron","azroz"],["Denise","nishii"]],OWNER_KEY:"Hora",COURSE_NOTES_KEY:"class notes"}] #StudySessions.objects(class_name=search_keyword)
+    search_results = [{CONTACT_KEY:"8607596671",LOCATION_KEY:"exley",COURSE_DEPARTMENT_KEY:"PHYS",COURSE_NUMBER_KEY:"303",TIME_KEY:"4:20pm",DESCRIPTION_KEY:"Assignment 2",ATTENDEES_KEY:[["Aaron","azroz"],["Denise","nishii"]],OWNER_KEY:"Hora",COURSE_NOTES_KEY:"class notes"}] #StudySessions.objects(class_name=search_keyword)
     count=5
     user="John Doe"
     userid="jd"
@@ -300,6 +300,7 @@ def new():
 #   course_notes : string
 #   group_id : string
 ##
+
 @app.route('/edit',methods=['POST'])
 def edit():
     department = request.args.get('department')
@@ -323,6 +324,7 @@ def edit():
 
     # Show the updated results page.
 
+
 @app.route('/delete',methods=['POST'])
 def delete():
     # TODO: verify that user in session owns the group session to be deleted
@@ -335,6 +337,12 @@ def delete():
 #   
 #   group_id : string
 ##
+
+@app.route('/adduser',methods=['POST'])
+def adduser():
+    return True
+
+#
 @app.route('/join',methods=['POST'])
 def join():
     user = db.users.find_one({"userID": current_user.id})
@@ -352,3 +360,4 @@ def join():
 
 if __name__ == "__main__":
 	app.run(debug=True)
+
