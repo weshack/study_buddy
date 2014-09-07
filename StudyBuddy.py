@@ -227,7 +227,7 @@ def create():
 @app.route('/lucky')
 def lucky():
     number_of_records = db.group_sessions.count()
-    random_number = Math.random(number_of_records)
+    random_number = random.randint(0,number_of_records)
     group_session = db.group_sessions.find().limit(-1).skip(random_number).next()
     return 'picked random session with id: ' + group_session.id
 
@@ -242,7 +242,7 @@ def new():
 
     # validate data
     errors = []
-    if not departmentArray.validDept(department):
+    if not departmentArray.validDept(dept):
         err1 = "DEPARTMENT DOES NOT EXIST", department
         errors.append(err1)
     if not len(course) == 3:
@@ -300,7 +300,6 @@ def new():
 #   course_notes : string
 #   group_id : string
 ##
-
 @app.route('/edit',methods=['POST'])
 def edit():
     department = request.args.get('department')
@@ -337,12 +336,17 @@ def delete():
 #   
 #   group_id : string
 ##
-
 @app.route('/adduser',methods=['POST'])
 def adduser():
     return True
 
-#
+##
+# Add the current user to the selected study session group.
+# Responds to route of the form:
+#   /join?group_id=<group_id>
+#   
+#   group_id : string
+##
 @app.route('/join',methods=['POST'])
 def join():
     user = db.users.find_one({"userID": current_user.id})
