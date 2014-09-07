@@ -122,36 +122,36 @@ def search():
     #         print "Got results2, yippee!"
     #         return return_db_results(results2,user,userID)
 
-    course_keyword = request.args.get('course_keyword')
+    # course_keyword = request.args.get('course_keyword')
 
-    # case where no course number is specified
-    if not course_keyword:
-        #just pull all the courses under that dept
-        results0 = db.group_sessions.find({DEPARTMENT_KEY:dept_keyword}).sort(TIME_KEY)
-        if results0.count() > 0:
-            print "Got results0"
-            return return_db_results(results0,user,userID)
+    # # case where no course number is specified
+    # if not course_keyword:
+    #     #just pull all the courses under that dept
+    #     results0 = db.group_sessions.find({DEPARTMENT_KEY:dept_keyword}).sort(TIME_KEY)
+    #     if results0.count() > 0:
+    #         print "Got results0"
+    #         return return_db_results(results0,user,userID)
 
-    # TODO: verify course number is safe?
-    # Query database with search_keyword. Dept number + 3 num code. If fails,
-    results1 = db.group_sessions.find({DEPARTMENT_KEY:dept_keyword,COURSE_NUMBER_KEY:course_keyword}).sort(TIME_KEY)
-    if results1.count() > 0:
-        print "Got results1, yippee!"
-        return return_db_results(results1,user,userID)
+    # # TODO: verify course number is safe?
+    # # Query database with search_keyword. Dept number + 3 num code. If fails,
+    # results1 = db.group_sessions.find({DEPARTMENT_KEY:dept_keyword,COURSE_NUMBER_KEY:course_keyword}).sort(TIME_KEY)
+    # if results1.count() > 0:
+    #     print "Got results1, yippee!"
+    #     return return_db_results(results1,user,userID)
 
-    # try same thing with the first two numbers (if there are 2-3 numbers) to get closest matches. If nothing,
-    twoOrThree = False
-    if len(course_keyword) == 2:
-        short_course_keyword = course_keyword
-        twoOrThree = True
-    if len(course_keyword) == 3:
-        short_course_keyword = course_keyword[0:1]
-        twoOrThree = True
-    if twoOrThree:
-        results2 = db.group_sessions.find({DEPARTMENT_KEY:dept_keyword,COURSE_NUMBER_KEY:short_course_keyword}).sort(TIME_KEY)
-        if results2.count() > 0:
-            print "Got results2, yippee!"
-            return return_db_results(results2,user,userID)
+    # # try same thing with the first two numbers (if there are 2-3 numbers) to get closest matches. If nothing,
+    # twoOrThree = False
+    # if len(course_keyword) == 2:
+    #     short_course_keyword = course_keyword
+    #     twoOrThree = True
+    # if len(course_keyword) == 3:
+    #     short_course_keyword = course_keyword[0:1]
+    #     twoOrThree = True
+    # if twoOrThree:
+    #     results2 = db.group_sessions.find({DEPARTMENT_KEY:dept_keyword,COURSE_NUMBER_KEY:short_course_keyword}).sort(TIME_KEY)
+    #     if results2.count() > 0:
+    #         print "Got results2, yippee!"
+    #         return return_db_results(results2,user,userID)
 
             
     # find all courses with that 3 number code. 
