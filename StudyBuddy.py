@@ -73,7 +73,8 @@ def search():
         print "NO DEPT KEYWORD"
         grps = db.group_sessions.find()
         grps=cursortolst(grps)
-        isAttendee=attendee(grps,user)
+        isAttendee=attendee(grps,userID)
+        print isAttendee
 
         return return_db_results(grps,user,userID,isAttendee)
     # Verify dept is valid
@@ -236,8 +237,7 @@ def new():
         return render_template('create.html',results=errors)
 
     # get user from session
-    print session['username']
-    #user = session.get_user....?
+    user=session['username']
     ownerID = session['userid']
 
     # create group session object
@@ -249,12 +249,12 @@ def new():
         TIME_KEY : time,
         CONTACT_KEY : contact,
         DESCRIPTION_KEY : description,
-        ATTENDEES_KEY: [[ownerID,user]],
+        ENDEES_KEY: [[ownerID,user]],
         COURSE_NOTES_KEY : session_details
     }
 
     print "GROUP SESSION:",group_session
-    # insert info into database 
+    # insert info into dabase 
     if db.group_sessions.find_one(group_session):
         errX = "Group already exists",group_session
         print errX
@@ -346,13 +346,15 @@ def return_db_results(results,user,userID,isAttendee):
     return render_template('search_results.html',count=len(results),results=list(results),user=user,userID=userID,isAttendee=list(isAttendee))
 
 def attendee(grps,userID):
+    print "user id is: " + userID
     isAttendee=[]
     for grp_session in grps:
+        isAttendeeInGroup = False
         for user in grp_session[ATTENDEES_KEY]:
-            if userID==user[0]:
-                isAttendee.append(True)
+            if userID == user[0]:
+                isAttendeeInGroup = True
                 break
-            isAttendee.append(False)
+        isAttendee.append(isAttendeeInGroup)
     return isAttendee
 
 def cursortolst(grps):
