@@ -17,15 +17,21 @@
 
     <div class="wrapper">
         <nav class="top-bar" data-topbar role="navigation">
-          <ul class="title-area">
-            <li class="name">
-              <h1><a href="home">Study Buddy</a></h1>
-            </li>
-          </ul>
-            <section class="top-bar-section">
-                <ul class="right">
+            <ul class="title-area">
+                <li class="name">
+                    <h1><a href="home">Study Buddy</a></h1>
+                </li>
+            </ul>
+            <section class="top-bar-section">           
+                <ul>
                     <li>
-                        <a href="logout">Welcome, {{username}} | Logout</a>
+                        <h1 id="well">Welcome, {{username}}</h1>
+                    </li>
+                    <li>
+                        <h1>|</h1>
+                    </li>
+                    <li>
+                        <a href="logout">Logout</a>
                     </li>
                 </ul>
             </section>
