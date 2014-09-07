@@ -312,7 +312,7 @@ def delete():
 ##
 @app.route('/adduser',methods=['POST'])
 def adduser():
-    return True
+    return "abc"
 
 ##
 # Add the current user to the selected study session group.
