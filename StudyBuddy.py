@@ -7,6 +7,7 @@ from jinja2 import Template
 # from flask.ext.pymongo import PyMongo
 from pymongo import MongoClient
 import departmentArray
+import random
 
 ##
 # Constants for mongodb keys
@@ -170,8 +171,6 @@ def index():
     return render_template('login.html', 
         login_link=googlelogin.login_url(approval_prompt='force',scopes=["email"]))
 
-
-
 class User(UserMixin):
     def __init__(self,userinfo):
         self.id = userinfo['id']
@@ -222,9 +221,15 @@ def departments():
 def create():
     return render_template('create.html');
 
+##
+# Responds to route /lucky, returning a random group study session from database.
+##
 @app.route('/lucky')
 def lucky():
-    return 'feeling lucky picks random room'
+    number_of_records = db.group_sessions.count()
+    random_number = Math.random(number_of_records)
+    group_session = db.group_sessions.find().limit(-1).skip(random_number).next()
+    return 'picked random session with id: ' + group_session.id
 
 @app.route('/new',methods=['POST'])
 def new():
@@ -295,28 +300,30 @@ def new():
 #   course_notes : string
 #   group_id : string
 ##
-# @app.route('/edit',methods=['POST'])
-# def edit():
-#     department = request.args.get('department')
-#     course_no = request.args.get('course_no')
-#     location = request.args.get('location')
-#     time = request.args.get('time')
-#     attendees = request.args.get('attendees')
-#     course_notes = request.args.get('course_notes')
-#     group_id = request.args.get('group_id')
 
-#     coll = db.group_sessions
-#     new_data = {DEPARTMENT_KEY    : department,
-#                 COURSE_NUMBER_KEY : course_no,
-#                 LOCATION_KEY      : location,
-#                 TIME_KEY          : time,
-#                 ATTENDEES_KEY     : attendees,
-#                 COURSE_NOTES_KEY  : course_notes}
+@app.route('/edit',methods=['POST'])
+def edit():
+    department = request.args.get('department')
+    course_no = request.args.get('course_no')
+    location = request.args.get('location')
+    time = request.args.get('time')
+    attendees = request.args.get('attendees')
+    course_notes = request.args.get('course_notes')
+    group_id = request.args.get('group_id')
 
-#     # verify that user owns the group before updating database.
-#     coll.update({'_id' : group_id}, $set: new_data)
+    coll = db.group_sessions
+    new_data = {DEPARTMENT_KEY    : department,
+                COURSE_NUMBER_KEY : course_no,
+                LOCATION_KEY      : location,
+                TIME_KEY          : time,
+                ATTENDEES_KEY     : attendees,
+                COURSE_NOTES_KEY  : course_notes}
 
-#     # Show the updated results page.
+    # verify that user owns the group before updating database.
+    coll.update({'_id' : group_id}, new_data)
+
+    # Show the updated results page.
+
 
 @app.route('/delete',methods=['POST'])
 def delete():
@@ -330,26 +337,27 @@ def delete():
 #   
 #   group_id : string
 ##
+
 @app.route('/adduser',methods=['POST'])
 def adduser():
     return True
 
-# @app.route('/join',methods=['POST'])
-# def join():
-#     user = db.users.find_one({"userID": current_user.id})
-#     current_study_group = db.group_sessions.find_one({'_id': group_id})
+#
+@app.route('/join',methods=['POST'])
+def join():
+    user = db.users.find_one({"userID": current_user.id})
+    current_study_group = db.group_sessions.find_one({'_id': group_id})
 
-#     # Check that user is in the attendees of current_study_group
-#     if user in usercurrent_study_group.attendees:
-#         # Show user that he/she is already in the group.
+    # Check that user is in the attendees of current_study_group
+    # if user in usercurrent_study_group.attendees:
+        # Show user that he/she is already in the group.
 
-#     coll = db.group_sessions
-#     new_attendees_list = coll.attendees.add(user)
-#     coll.update({_'id': current_study_group.id},
-#                 $set: {
-#                     ATTENDEES_KEY : new_attendees_list
-#                 })
-#     # Return that the database was updated and refresh the page with new attendees list.
+    coll = db.group_sessions
+    new_attendees_list = coll.attendees.add(user)
+    coll.update({'_id': current_study_group.id},
+                {ATTENDEES_KEY : new_attendees_list})
+    # Return that the database was updated and refresh the page with new attendees list.
 
-# if __name__ == "__main__":
-# 	app.run(debug=True)
+if __name__ == "__main__":
+	app.run(debug=True)
+
