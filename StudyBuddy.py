@@ -158,7 +158,7 @@ def search():
     # find all courses with that 3 number code. 
 
     # db.group_sessions.find
-    search_results = [{CONTACT_KEY:"8607596671",LOCATION_KEY:"exley",COURSE_DEPARTMENT_KEY:"PHYS",COURSE_NUMBER_KEY:"303",TIME_KEY:"4:20pm",DESCRIPTION_KEY:"Assignment 2",ATTENDEES_KEY:[["Aaron","azroz"],["Denise","nishii"]],OWNER_KEY:"Hora",COURSE_NOTES_KEY:"class notes"}] #StudySessions.objects(class_name=search_keyword)
+    search_results = [{CONTACT_KEY:"8607596671",LOCATION_KEY:"exley",DEPARTMENT_KEY:"PHYS",COURSE_NUMBER_KEY:"303",TIME_KEY:"4:20pm",DESCRIPTION_KEY:"Assignment 2",ATTENDEES_KEY:[["Aaron","azroz"],["Denise","nishii"]],OWNER_KEY:"Hora",COURSE_NOTES_KEY:"class notes"}] #StudySessions.objects(class_name=search_keyword)
     count=5
     user="John Doe"
     userid="jd"
@@ -244,7 +244,7 @@ def new():
     # validate data
     errors = []
     if not departmentArray.validDept(dept):
-        err1 = "DEPARTMENT DOES NOT EXIST", department
+        err1 = "DEPARTMENT DOES NOT EXIST", dept
         errors.append(err1)
     if not len(course) == 3:
         err2 = "BAD COURSE NUMBER", course
@@ -279,7 +279,7 @@ def new():
 
     print "GROUP SESSION:",group_session
     # insert info into database 
-    if db.group_sessions.find_one():
+    if db.group_sessions.find_one(group_session):
         errX = "Group already exists",group_session
         print errX
         # TODO: confirm event created in DB
