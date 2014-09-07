@@ -57,7 +57,7 @@ body {
     visibility: hidden;
 }
 .ui-menu-item:hover{
-    background-color: #99D6FF;
+    background-color: #99Di6FF;
 
 }
 
@@ -91,7 +91,10 @@ body {
 
 
 }
+.columns input{
+    width: 100% !important;
 
+}
 #intro {
     font-size: 200%;
     text-align: center;
