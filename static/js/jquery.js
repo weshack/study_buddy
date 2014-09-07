@@ -1,5 +1,6 @@
 var data = 
-    [["AMST", "American Studies"],
+    [["AFAM", "African American Studies Program"],
+    ["AMST", "American Studies"],
     ["ANTH", "Anthropology"],
     ["ARAB", "Arabic"],
     ["ARCP", "Archaeology Program"],
