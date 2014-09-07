@@ -14,7 +14,6 @@ var autocomplete_data = [];
 window.onload = function() {
 	//code that runs when you click the search button
 	document.getElementById("find").onclick = function(){
-		console.log("error");
 		var keyword = document.getElementById("studysearch").value;
 		window.location = "/find?search_keyword="+keyword;
 	}	
@@ -100,16 +99,22 @@ window.onload = function() {
 		autocomplete_data.push(short_namejson);
 		long_namejson["label"] = long_name;
 		autocomplete_data.push(long_namejson);
-	}
+	}	
 
 	$("#studysearch").autocomplete({
 		source: autocomplete_data
 	});
+	
 	window.onresize = function() {
 		var input_size = document.getElementById("studysearch").style.width;
 		document.getElementsByClass("ui-widget-content")[0].style.width = input_size;
 	}
-}
+
+};
+
+
+
+
 
 
 
@@ -146,4 +151,7 @@ function queryURL(url) {
 	request.send();
 }
 
+$(function() {
+	$( "#datepicker" ).datepicker();
+  });
 
