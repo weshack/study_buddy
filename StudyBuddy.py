@@ -285,24 +285,25 @@ def new():
 ##
 @app.route('/edit',methods=['POST'])
 def edit():
-    department = request.args.get('department')
-    course_no = request.args.get('course_no')
-    location = request.args.get('location')
-    time = request.args.get('time')
-    attendees = request.args.get('attendees')
-    course_notes = request.args.get('course_notes')
-    group_id = request.args.get('group_id')
+    return "aa"
+    # department = request.args.get('department')
+    # course_no = request.args.get('course_no')
+    # location = request.args.get('location')
+    # time = request.args.get('time')
+    # attendees = request.args.get('attendees')
+    # course_notes = request.args.get('course_notes')
+    # group_id = request.args.get('group_id')
 
-    coll = db.group_sessions
-    new_data = {DEPARTMENT_KEY    : department,
-                COURSE_NUMBER_KEY : course_no,
-                LOCATION_KEY      : location,
-                TIME_KEY          : time,
-                ATTENDEES_KEY     : attendees,
-                COURSE_NOTES_KEY  : course_notes}
+    # coll = db.group_sessions
+    # new_data = {DEPARTMENT_KEY    : department,
+    #             COURSE_NUMBER_KEY : course_no,
+    #             LOCATION_KEY      : location,
+    #             TIME_KEY          : time,
+    #             ATTENDEES_KEY     : attendees,
+    #             COURSE_NOTES_KEY  : course_notes}
 
-    # verify that user owns the group before updating database.
-    coll.update({'_id' : group_id}, new_data)
+    # # verify that user owns the group before updating database.
+    # coll.update({'_id' : group_id}, new_data)
 
     # Show the updated results page.
 
