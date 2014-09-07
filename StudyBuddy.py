@@ -9,7 +9,7 @@ from pymongo import MongoClient
 import departmentArray
 import random
 import time
-from dateutil.parser import parser
+from dateutil.parser import parse
 
 ##
 # Constants for mongodb keys
@@ -41,25 +41,6 @@ app.config.update(
 
 googlelogin = GoogleLogin(app)
 
-# DATABASE, TODO: Separate out.
-
-# class User(db.Document):
-#     name = db.StringField(max_length=255)
-#     userID = db.StringField(max_length=255)
-
-
-@app.route("/dbtest1")
-def test1():
-    test = db.users.insert({"name":"Aaron Plave","userID":"1234"})
-    return "TEST"
-    
-@app.route("/dbtest2")
-def test2():
-    a = db.users.find_one()
-    print a 
-    b = a['name'] + " " + a['userID']
-    return b
-
 users = {}
 
 @googlelogin.user_loader
@@ -73,7 +54,7 @@ class User(UserMixin):
 
 @app.route("/home")
 def root():
-    return app.send_static_file('html/index.html')
+    return render_template('index.html',username=session['username'])
 
 def return_db_results(results,user,userID):
     return render_template('search_results.html',count=results.count(),results=list(results),user=user,userID=userID)
@@ -82,8 +63,8 @@ def return_db_results(results,user,userID):
 # TODO: search doesn't work correctly, always returns everything from the database, no matter what we search for.
 @app.route('/find')
 def search():
-    user = "John Doe"
-    userID = "12345"
+    user = session['username']
+    userID = session['userid']
     # IMPORTANT, make sure that the dept keyword is ALWAYS short form,
     # so on front end map the dept keyword (if long) to short form.
     dept_keyword = request.args.get('dept_keyword')
@@ -163,8 +144,16 @@ def login(token, userinfo, **params):
         return render_template('login.html',results="meow, you have been denied.")
     login_user(user)
     session['token'] = json.dumps(token)
+    session['userid'] = user.id
+    session['username'] = user.name
     return redirect(params.get('next', url_for('.login_redirect')))
 
+#checking we get session variables
+@app.route('/seshvars')
+def seshvars():
+    print "Lets have fun with these user variables beyotch"
+    print session['userid']
+    print session['username']
 
 @app.route('/login_redirect')
 @login_required
@@ -239,9 +228,9 @@ def new():
         return render_template('create.html',results=errors)
 
     # get user from session
-    print session
+    print session['username']
     #user = session.get_user....?
-    ownerID = "123456"
+    ownerID = session['userid']
 
     # create group session object
     group_session = {
@@ -265,7 +254,7 @@ def new():
     else:
         print "Unique group"
         db.group_sessions.insert(group_session)
-        return app.send_static_file('html/index.html')
+        return render_template('index.html')
 
 ##
 # Responds to a url of the form: 
