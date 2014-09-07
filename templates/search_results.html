@@ -9,26 +9,6 @@
     <title>Study Buddy-search results</title>
 </head>
 <body>
-    <script>
-        function adduser(user,userid){
-            $.ajax({
-        type: "POST",
-        url: "/adduser",
-        data: userid,
-        success: function (response) {
-        $('#container-table tr:last').after('<tr><td>'+'{{user}}'+' </td></tr>');
-        $('#adduser').hide();
-      },
-        error: function(){
-            console.log("error");
-        }
-});
-        }
-
-    
-    </script>
-
-
 <div class="fixed">
 <nav class="top-bar" data-topbar role="navigation">
 
@@ -85,7 +65,14 @@
                     <table id="container-table">
                         {% if not isAttendee[i] %}
                         <tr>
-                            <td><button id="adduser" class="small button" onclick="adduser('{{user}}','{{userID}}')">Join Session</button></td>
+                            <td>
+                                <button   
+                                    id="adduser-{{userID}}"  
+                                    onclick="onAddUserButtonClick('{{results[i]._id}}','{{userID}}')" 
+                                    class="small button">
+                                    Join Session
+                                </button>
+                            </td>
                         </tr>
                         {% endif %}
                         {% for user in results[i].attendees %}

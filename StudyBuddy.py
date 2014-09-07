@@ -313,31 +313,32 @@ def delete():
 #   
 #   group_id : string
 ##
-@app.route('/adduser',methods=['POST'])
-def adduser():
-    return "abc"
-
-##
-# Add the current user to the selected study session group.
-# Responds to route of the form:
-#   /join?group_id=<group_id>
-#   
-#   group_id : string
-##
 @app.route('/join',methods=['POST'])
 def join():
-    user = db.users.find_one({"userID": current_user.id})
-    current_study_group = db.group_sessions.find_one({'_id': group_id})
+    user = db.users.find_one({"userID": session['userid']})
+    group_id = request.args.get('group_id')
+    db_results_list = cursortolst(db.group_sessions.find())
 
+    insert_item = {}
+    
+    for item in db_results_list:
+        print str(item['_id']) + " =? " + str(group_id)
+        if str(group_id) == str(item['_id']):
+            print "we have a match!"
+            item[ATTENDEES_KEY].append([user['userID'], user['name']])
+            insert_item = item
+    # current_study_group = db.group_sessions.find_one({'_id': group_id})
+    print insert_item
     # Check that user is in the attendees of current_study_group
     # if user in usercurrent_study_group.attendees:
         # Show user that he/she is already in the group.
 
     coll = db.group_sessions
-    new_attendees_list = coll.attendees.add(user)
-    coll.update({'_id': current_study_group.id},
-                {ATTENDEES_KEY : new_attendees_list})
+    #new_attendees_list = current_study_group[ATTENDEES_KEY].add(user)
+    coll.update({'_id': insert_item['_id']}, insert_item, True)
+    print list(coll.find())
     # Return that the database was updated and refresh the page with new attendees list.
+    return 'success'
 
 def ISOToEpoch(timestring):
     return time.mktime(parse(timestring).timetuple())

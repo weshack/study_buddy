@@ -94,3 +94,19 @@ $(document).ready(function(){
     });
 });
 
+function onAddUserButtonClick(groupID, userID) {
+    console.log("pressed add user button");
+    console.log("groupID: " + groupID + " userID: " + userID);
+
+    $.ajax({
+        method: 'POST',
+        url: '/join?group_id=' + groupID,
+        success: function(result) {
+            console.log(result);
+            // remove button
+
+            // add name to table
+        }
+    });
+}
+
