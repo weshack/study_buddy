@@ -8,6 +8,26 @@
     <title>Study Buddy-search results</title>
 </head>
 <body>
+    <script>
+        function adduser(user,userid){
+            $.ajax({
+        type: "POST",
+        url: "/adduser",
+        data: userid,
+        success: function (response) {
+        $('#container-table tr:last').after('<tr><td>'+'{{user}}'+' </td></tr>');
+        $('#adduser').hide();
+      },
+        error: function(){
+            console.log("error");
+        }
+});
+        }
+
+    
+    </script>
+
+
 <div class="fixed">
 <nav class="top-bar" data-topbar role="navigation">
 
@@ -23,8 +43,15 @@
                     <a href="logout">Logout</a>
                 </li>
             </ul>
-        </section>
-    </nav>
+        
+            <section class="top-bar-section">
+                <ul class="right">
+                    <li>
+                        <a href="logout">Logout</a>
+                    </li>
+                </ul>
+            </section>
+        </nav>
     </div>
     <div id="page-header">
         <h2 style="display:inline">Search Results</h2>
@@ -32,10 +59,9 @@
 
         <div id="search-input"> 
             <input style="width:50%; margin:none;display:inline;" type="text" id="studysearch" placeholder="Search for a class..."/>     
-        <input style="display:inline-block" type="submit" value="Search" class="small button" id="find">
+            <input style="display:inline-block" type="submit" value="Search" class="small button" id="find">
         </div>
-        </div>
-
+    </div>
         
     <table id="searchresults">	
         <thead>
@@ -61,10 +87,10 @@
                 <td colspan="4">
                     <div class="container hidden" data-id="{{class["course"]}}">
                     <div class="students-table">
-                    <table>
+                    <table id="container-table">
                         {% if not boolen %}
                         <tr>
-                            <td><button value="Join Session"/></td>
+                            <td><button id="adduser" class="small button" onclick="adduser('{{user}}','{{userid}}')">Join Session</button></td>
                         </tr>
                         {% endif %}
                         {% for user in class["users"] %}
