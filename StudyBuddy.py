@@ -301,7 +301,7 @@ def edit():
 
 
     # verify that user owns the group before updating database.
-    coll.update({'_id' : group_id}, new_data)
+    coll.update({'_id' : group_id}, new_data,True)
 
     # Show the updated results page.
     return 'success'
