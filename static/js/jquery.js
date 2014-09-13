@@ -153,17 +153,18 @@ $(document).ready(function(){
 
 });
 
-function onAddUserButtonClick(groupID, userID,username) {
-    console.log("pressed add user button");
-    console.log("groupID: " + groupID + " userID: " + userID);
+function onAddUserButtonClick(groupID, buttonID,username) {
+    console.log("pressed add user button");   
     $.ajax({
         method: 'POST',
+        data: {buttonID:buttonID},
         url: '/join?group_id=' + groupID, 
         success: function(result) {
             console.log(result);
-             window.location.reload();
-
-            
+             $("#"+result.buttonID).hide();
+             console.log(result.username);
+             tablecontent= "<tr><td>"+result.username+"</td></tr>";
+            $(tablecontent).appendTo("#containertable-"+result.groupID+" tbody");
         }
     });
 }

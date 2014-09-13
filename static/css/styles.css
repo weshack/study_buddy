@@ -172,6 +172,8 @@ nav.top-bar {
 }
 .container {
     display: none;
+    max-height:300px;
+    overflow:scroll;
 }
 .click {
     cursor: pointer;
@@ -236,6 +238,7 @@ nav.top-bar {
 .students-table {
     width: 30%;
     display: inline-block;
+    height:100%;
 }
 
 

@@ -1,6 +1,7 @@
 from flask import Flask, url_for, redirect, session, render_template, request
 from flask_login import (UserMixin, login_required, login_user, logout_user,
                          current_user)
+from flask import jsonify
 from flask_googlelogin import GoogleLogin
 import json
 from jinja2 import Template
@@ -354,9 +355,7 @@ def join():
     user = db.users.find_one({"userID": session['userid']})
     group_id = request.args.get('group_id')
     db_results_list = cursortolst(db.group_sessions.find())
-
     insert_item = {}
-    
     for item in db_results_list:
         print str(item['_id']) + " =? " + str(group_id)
         if str(group_id) == str(item['_id']):
@@ -374,7 +373,9 @@ def join():
     coll.update({'_id': insert_item['_id']}, insert_item, True)
     print list(coll.find())
     # Return that the database was updated and refresh the page with new attendees list.
-    return 'success'
+    returnlist={'groupID':group_id,'buttonID':request.form.get('buttonID'),'username':user['name']}
+    print returnlist
+    return jsonify(**returnlist)
 
 def ISOToEpoch(timestring):
     return time.mktime(parse(timestring).timetuple())
