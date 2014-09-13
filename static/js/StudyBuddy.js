@@ -12,15 +12,8 @@ var autocomplete_data = [];
 
 //Code that runs right after window has loaded
 window.onload = function() {
-	//code that runs when you click the search button
-	document.getElementById("find").onclick = function(){
-		var keyword = document.getElementById("studysearch").value;
-		var course_no = document.getElementById("course-search").value;
-		window.location = "/find?search_keyword="+keyword+"&course_no="+course_no;
-	}	
 	document.getElementById("create").onclick = function(){
 		window.location = "/create"
-
 	}
 	document.getElementById("lucky").onclick = function(){
 		window.location = "/lucky"
