@@ -73,11 +73,12 @@ def search():
 
     # IMPORTANT, make sure that the dept keyword is ALWAYS short form,
     # so on front end map the dept keyword (if long) to short form.
-    dept_keyword = request.args.get('search_keyword')
+    dept_keyword = departmentArray.matchSearchTerm(request.args.get('search_keyword'))
+    print "The term to be searched will be: " + dept_keyword
     if not dept_keyword:
         print "NO DEPT KEYWORD"
         grps = db.group_sessions.find()
-        grps=cursortolst(grps)
+        grps = cursortolst(grps)
         isAttendee=attendee(grps,userID)
         print isAttendee
 
