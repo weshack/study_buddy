@@ -20,6 +20,20 @@ def combineShortAndLong(depts_list):
 		combined_list.append(short_name + "-" + long_name)
 	return combined_list
 
+##
+# This function will return the department full and short name that most closely
+# matches the search term, within reasonable limits.
+##
+def matchSearchTerm(search_term):
+	if search_term not in combineShortAndLong(depts):
+		for pair in depts:
+			if search_term.upper() == pair[0] or search_term.upper() == pair[1].upper():
+				return pair[0] + "-" + pair[1]
+				break
+	return search_term
+
+
+
 depts = [["AFAM","African American Studies Program"],
 ["AMST", "American Studies"],
 ["ANTH", "Anthropology"],

@@ -216,7 +216,7 @@ def lucky():
 @app.route('/new',methods=['POST'])
 def new():
     # get the data from the request
-    dept = request.form.get('department')
+    dept = departmentArray.matchSearchTerm(request.form.get('department'))
     course = request.form.get('course')
     location = request.form.get('location')
     time = request.form.get('datetime')
