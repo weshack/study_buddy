@@ -96,11 +96,6 @@ window.onload = function() {
 		source: autocomplete_data
 	});
 
-	window.onresize = function() {
-		var input_size = document.getElementById("studysearch").style.width;
-		document.getElementsByClass("ui-widget-content")[0].style.width = input_size;
-	}
-
 };
 
 
