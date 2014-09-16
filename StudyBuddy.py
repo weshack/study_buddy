@@ -34,12 +34,8 @@ db = client.sbdb
 
 app = Flask(__name__, static_url_path='')
 
-app.config.update(
-    SECRET_KEY='Tieng3us3Xie5meiyae6iKKHVUIUDF',
-    GOOGLE_LOGIN_CLIENT_ID='1002179078501-mdq5hvm940d0hbuhqltr0o1qhsr7sduc.apps.googleusercontent.com',
-    GOOGLE_LOGIN_CLIENT_SECRET='O1kpQ8Is9s2pD3eOpxRfh-7x',
-    GOOGLE_LOGIN_REDIRECT_URI='http://127.0.0.1:5000/oauth2callback',
-)
+# Set configs from file. If this breaks see http://flask.pocoo.org/docs/0.10/config/
+app.config.from_envvar('STUDYBUDDY_SETTINGS')
 
 googlelogin = GoogleLogin(app)
 

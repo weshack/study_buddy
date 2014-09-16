@@ -1,1 +1,3 @@
 *.pyc
+# The settings.cfg file should be specific to the machine running the app.
+settings.cfg
