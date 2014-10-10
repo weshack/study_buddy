@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<head>
+	<link rel="stylesheet" type="text/css" href="css/styles.css">
+    <link rel="stylesheet" href="css/foundations/foundation.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="js/jquery.js"></script>
+
+    <title>Study Buddy-search results</title>
+</head>
+<body>
+    <div class="fixed">
+        <nav class="top-bar" data-topbar role="navigation">
+            <ul class="title-area">
+                <li class="name">
+                    <h1><a href="home">Study Buddy</a></h1>
+                </li>
+            </ul>
+            <section class="top-bar-section">           
+                <ul>
+                    <li>
+                        <h1 id="well">Welcome, {{username}}</h1>
+                    </li>
+                    <li>
+                        <h1>|</h1>
+                    </li>
+                    <li>
+                        <a href="logout">Logout</a>
+                    </li>
+                </ul>
+            </section>
+        </nav>
+    </div>
+
+    <div id="page-header">
+        <h2 style="display:inline">Search Results</h2>
+        <h5 class="subheader" style="display:inline;margin-left:none">Found {{count}} results</h5>
+
+        <div id="search-input"> 
+            <input style="width:50%; margin:none;display:inline;" type="text" id="studysearch" placeholder="Search for a class..."/>     
+            <input style="display:inline-block" type="submit" value="Search" class="small button" id="find">
+        </div>
+    </div>
+        
+    <table id="searchresults">	
+        <thead>
+        <tr>
+                <th> Class</th>
+                <th> Time</th>
+                <th> Location</th>
+                <th> Description</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+
+    	{% for i in range(count) %}
+            <tr>
+    			<td class="click" data-id="{{results[i]._id}}">{{results[i].department}}{{results[i].courseNumber}}</a></td>
+    			<td class="click" data-id="{{results[i]._id}}">{{results[i].time}}</td>
+    			<td class="click" data-id="{{results[i]._id}}">{{results[i].location}}</td>
+    			<td style="overflow:auto"class="click" data-id="{{results[i]._id}}">{{results[i].description}}</td>
+    			
+    		</tr>
+            <tr>
+                <td colspan="4">
+                    <div class="container hidden" data-id="{{results[i]._id}}">
+                    <div class="students-table">
+                    <table id="container-table">
+                        {% if not isAttendee[i] %}
+                        <tr>
+                            <td>
+                                <button   
+                                    id="adduser-{{userID}}"  
+                                    onclick="onAddUserButtonClick('{{results[i]._id}}','{{userID}}')" 
+                                    class="small button">
+                                    Join Session
+                                </button>
+                            </td>
+                        </tr>
+                        {% endif %}
+                        {% for user in results[i].attendees %}
+                        <tr>
+                        <td>{{user[1]}}</td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                    </div>
+                    <div class="notes">
+                        <h5 style="display:inline">Session Notes</h5>
+                        {% if results[i].owner_id==userID %}
+                        <button style="display:inline;float:right"
+                                class="small button edit-button" 
+                                id="{{results[i]._id}}">
+                            Edit
+                        </button>
+                        {% endif %}
+                        <div>
+                        <p>Contact: {{results[i].contact}} <br> {{results[i].course_notes}} </p>
+                    </div>
+                    </div>
+                </td>       
+            </tr>
+            
+    	{% endfor %}
+        </tbody>
+    </table>
+    
+</body>
+</html>
