@@ -1,6 +1,7 @@
 from flask import Flask, url_for, redirect, session, render_template, request
 from flask_login import (UserMixin, login_required, login_user, logout_user,
                          current_user)
+from flask import jsonify
 from flask_googlelogin import GoogleLogin
 import json
 from jinja2 import Template
@@ -33,12 +34,8 @@ db = client.sbdb
 
 app = Flask(__name__, static_url_path='')
 
-app.config.update(
-    SECRET_KEY='Tieng3us3Xie5meiyae6iKKHVUIUDF',
-    GOOGLE_LOGIN_CLIENT_ID='1002179078501-mdq5hvm940d0hbuhqltr0o1qhsr7sduc.apps.googleusercontent.com',
-    GOOGLE_LOGIN_CLIENT_SECRET='O1kpQ8Is9s2pD3eOpxRfh-7x',
-    GOOGLE_LOGIN_REDIRECT_URI='http://127.0.0.1:5000/oauth2callback',
-)
+# Set configs from file. If this breaks see http://flask.pocoo.org/docs/0.10/config/
+app.config.from_envvar('STUDYBUDDY_SETTINGS')
 
 googlelogin = GoogleLogin(app)
 
@@ -55,6 +52,8 @@ class User(UserMixin):
 
 @app.route("/home")
 def root():
+    if (not "username" in session.keys()):
+        return redirect('/')
     return render_template('index.html',username=session['username'])
 
 
@@ -63,16 +62,19 @@ def root():
 # TODO: search doesn't work correctly, always returns everything from the database, no matter what we search for.
 @app.route('/find')
 def search():
+    if (not "username" in session.keys()):
+        return redirect('/')
     user= session['username']
     userID = session['userid']
 
     # IMPORTANT, make sure that the dept keyword is ALWAYS short form,
     # so on front end map the dept keyword (if long) to short form.
-    dept_keyword = request.args.get('search_keyword')
+    dept_keyword = departmentArray.matchSearchTerm(request.args.get('search_keyword'))
+    print "The term to be searched will be: " + dept_keyword
     if not dept_keyword:
         print "NO DEPT KEYWORD"
         grps = db.group_sessions.find()
-        grps=cursortolst(grps)
+        grps = cursortolst(grps)
         isAttendee=attendee(grps,userID)
         print isAttendee
 
@@ -199,15 +201,19 @@ def create():
 ##
 @app.route('/lucky')
 def lucky():
-    number_of_records = db.group_sessions.count()
-    random_number = random.randint(0,number_of_records-1)
-    group_session = db.group_sessions.find().limit(-1).skip(random_number).next()
-    return 'picked random session with id: ' + str(group_session['_id'])
+    r = random.randint(0, 3)
+    if r == 1:
+        return redirect('https://maps.google.com')
+    elif r == 2:
+        return redirect('https://www.youtube.com/watch?v=5NV6Rdv1a3I')
+    else:
+        return redirect('https://www.youtube.com/watch?v=dQw4w9WgXcQ')
+
 
 @app.route('/new',methods=['POST'])
 def new():
     # get the data from the request
-    dept = request.form.get('department')
+    dept = departmentArray.matchSearchTerm(request.form.get('department'))
     course = request.form.get('course')
     location = request.form.get('location')
     time = request.form.get('datetime')
@@ -279,27 +285,55 @@ def new():
 ##
 @app.route('/edit',methods=['POST'])
 def edit():
-    department = request.args.get('department')
-    course_no = request.args.get('course_no')
-    location = request.args.get('location')
-    time = request.args.get('time')
-    attendees = request.args.get('attendees')
-    course_notes = request.args.get('course_notes')
+
+    location = request.form.get('location')
+    time = request.form.get('time')
+    course_notes = request.form.get('session_details')
+    description = request.form.get('description')
     group_id = request.args.get('group_id')
+    print group_id
 
     coll = db.group_sessions
-    new_data = {DEPARTMENT_KEY    : department,
-                COURSE_NUMBER_KEY : course_no,
-                LOCATION_KEY      : location,
-                TIME_KEY          : time,
-                ATTENDEES_KEY     : attendees,
-                COURSE_NOTES_KEY  : course_notes}
+    # new_data = {LOCATION_KEY      : location,
+    #             TIME_KEY          : time,
+    #             COURSE_NOTES_KEY  : course_notes,
+    #             DESCRIPTION_KEY   : description
+    #         }
+
 
     # verify that user owns the group before updating database.
-    coll.update({'_id' : group_id}, new_data)
+    # coll.update({'_id' : group_id}, new_data,True)
+
+
+    db_results_list = cursortolst(db.group_sessions.find())
+
+    insert_item = {}
+    
+    for item in db_results_list:
+        print str(item['_id']) + " =? " + str(group_id)
+        if str(group_id) == str(item['_id']):
+            print "we have a match!"
+            # item[ATTENDEES_KEY].append([user['userID'], user['name']])
+            item[LOCATION_KEY] = location
+            item[TIME_KEY] = time
+            item[COURSE_NOTES_KEY] = course_notes
+            item[DESCRIPTION_KEY] = description
+            insert_item = item
+            break
+
+    # current_study_group = db.group_sessions.find_one({'_id': group_id})
+    print insert_item
+    # Check that user is in the attendees of current_study_group
+    # if user in usercurrent_study_group.attendees:
+        # Show user that he/she is already in the group.
+
+    coll = db.group_sessions
+    #new_attendees_list = current_study_group[ATTENDEES_KEY].add(user)
+    coll.update({'_id': insert_item['_id']}, insert_item, True)
+    print list(coll.find())
 
     # Show the updated results page.
-
+    return 'success'
 
 @app.route('/delete',methods=['POST'])
 def delete():
@@ -318,9 +352,7 @@ def join():
     user = db.users.find_one({"userID": session['userid']})
     group_id = request.args.get('group_id')
     db_results_list = cursortolst(db.group_sessions.find())
-
     insert_item = {}
-    
     for item in db_results_list:
         print str(item['_id']) + " =? " + str(group_id)
         if str(group_id) == str(item['_id']):
@@ -338,7 +370,9 @@ def join():
     coll.update({'_id': insert_item['_id']}, insert_item, True)
     print list(coll.find())
     # Return that the database was updated and refresh the page with new attendees list.
-    return 'success'
+    returnlist={'groupID':group_id,'buttonID':request.form.get('buttonID'),'username':user['name']}
+    print returnlist
+    return jsonify(**returnlist)
 
 def ISOToEpoch(timestring):
     return time.mktime(parse(timestring).timetuple())

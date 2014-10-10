@@ -23,6 +23,7 @@ window.onload = function() {
         });
     var data =
         [
+            ["AFAM","African American Studies Program"],
             ["AMST", "American Studies"],
             ["ANTH", "Anthropology"],
             ["ARAB", "Arabic"],

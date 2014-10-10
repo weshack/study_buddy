@@ -16,6 +16,7 @@ body {
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
+    min-width: 200px;
 }
 
 /*class for centering*/
@@ -39,6 +40,7 @@ body {
     color: beige;
     min-width: 500px;
     text-shadow: 3px 3px #000000;
+    font-family: josefinslab;
 }
 .create-forms {
     margin-top: 120px;
@@ -118,7 +120,6 @@ nav.top-bar {
 #text-input {
     margin-bottom: 15px;
     text-align: center;
-    width: 50%;
 
     padding-left: 8px;
     padding-right: 8px;
@@ -135,14 +136,24 @@ nav.top-bar {
     margin-right: auto;
 }
 
+
 #search-button {
-    width: 35px !important;
-    height: 35px !important;
+    width: 38px !important;
+    height: 38px !important;
     padding-left: 2px;
     padding-right: 2px;
 }
+@media (max-width: 307px) {
+    #studysearch {
+        display: none;
+    }
+}
 
-
+@media (max-width: 175px) {
+    #course-search {
+        display: none;
+    }
+}
 
 #searchresults {
     width: 80%;
@@ -160,6 +171,8 @@ nav.top-bar {
 }
 .container {
     display: none;
+    max-height:300px;
+    overflow:scroll;
 }
 .click {
     cursor: pointer;
@@ -185,10 +198,12 @@ nav.top-bar {
     margin-top: 65px;
     background-color: rgba(255, 255, 255, 0.5);
     font-size: 32px;
+    font-family: josefinslab;
 }
 #about-panel p {
     font-size: 20px;
     margin-top: 7px;
+    font-family: josefinslab;
 }
 
 
@@ -222,7 +237,10 @@ nav.top-bar {
 .students-table {
     width: 30%;
     display: inline-block;
+    height:100%;
 }
+
+
 .notes {
     display: inline-block;
     width: 60%;
@@ -243,6 +261,7 @@ nav.top-bar {
     text-align: center;
     color: beige;
     margin-bottom: 0;
+    font-family: josefinslab;
 }
 
 .wrapper {
