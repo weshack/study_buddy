@@ -1,0 +1,25 @@
+<!doctype html>
+<html>
+  <head>
+    {% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='resources/foundations/css/foundation.css') }}">
+    <script src="{{ url_for('static', filename='resources/foundations/js/vendor/jquery.js') }}"></script>
+    <script src="{{ url_for('static', filename='resources/foundations/js/foundation.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='study_buddy.js') }}"></script>
+    <script src="{{ url_for('static', filename='resources/foundations/js/vendor/modernizr.js') }}"></script>
+    <script src="{{ url_for('static', filename='resources/foundations/js/vendor/fastclick.js' ) }}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min.js"></script>
+    <title>Study Buddy - {% block title %}{% endblock %}</title>
+    {% endblock %}
+  </head>
+  <body>
+    <div id="content">{% block content %}{% endblock %}</div>
+    <div id="footer">
+      {% block footer %}
+      &copy; Copyright 2010 by <a href="http://domain.invalid/">you</a>.
+      {% endblock %}
+    </div>
+  </body>
+</html>

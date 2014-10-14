@@ -57,6 +57,11 @@ class User(UserMixin):
         self.id = userinfo['id']
         self.name = userinfo['name']
 
+
+@app.route("/template")
+def template():
+    return render_template('child_template.html')
+    
 @app.route("/home")
 def root():
     return render_template('index.html',username=session['username'])
