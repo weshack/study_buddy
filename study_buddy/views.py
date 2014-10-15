@@ -13,8 +13,6 @@ import random
 import time
 from dateutil.parser import parse
 
-print "Running views..."
-
 ##
 # Constants for mongodb keys
 ##
@@ -64,7 +62,7 @@ def template():
     
 @app.route("/home")
 def root():
-    return render_template('index.html',username=session['username'])
+    return render_template('index.html')
 
 
 
@@ -93,7 +91,7 @@ def search():
         if not departmentArray.validDept(dept_keyword):
             err = "Invalid department, please enter a valid department."
             print err
-            return render_template('search_results.html',username=session['username'],results=[],error_message=err)
+            return render_template('search_results.html', results=[], error_message=err)
     
 
     course_keyword = request.args.get('course_no')
