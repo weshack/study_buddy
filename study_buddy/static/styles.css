@@ -13,7 +13,7 @@ body {
     width: 100%;
     background: url(resources/images/wesleyan.jpg) !important;
     background-color: #E0E0D1; 
-    background-size: cover;
+    background-size: cover !important;
     background-repeat: no-repeat;
     background-attachment: fixed;
 }

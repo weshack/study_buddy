@@ -1,14 +1,12 @@
-<!DOCTYPE html>
-<head>
-	<link rel="stylesheet" type="text/css" href="css/styles.css">
-    <link rel="stylesheet" href="css/foundations/foundation.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min.js"></script>
-    <script type="text/javascript" src="js/jquery.js"></script>
-
-    <title>Study Buddy-search results</title>
-</head>
-<body>
+{% extends "template.html" %}
+{% block title %}Search Results{% endblock %}
+{% block head %}
+  {{ super() }}
+  <style type="text/css">
+    .important { color: #336699; }
+  </style>
+{% endblock %}
+{% block content %}
     <div class="fixed">
         <nav class="top-bar" data-topbar role="navigation">
             <ul class="title-area">
@@ -105,6 +103,4 @@
     	{% endfor %}
         </tbody>
     </table>
-    
-</body>
-</html>
+{% endblock %}
