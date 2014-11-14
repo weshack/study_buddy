@@ -10,14 +10,18 @@ var BASE_URL = "";
 
 var autocomplete_data = [];
 
+$(document).ready(function() {
+
+});
+
+var search_page = {
+	create: function() {
+
+	}
+}
+
 //Code that runs right after window has loaded
 window.onload = function() {
-	document.getElementById("create").onclick = function(){
-		window.location = "/create"
-	}
-	document.getElementById("lucky").onclick = function(){
-		window.location = "/lucky"
-	}
 
 	var data = 
 	[["AMST", "American Studies"],

@@ -1,7 +1,35 @@
+<<<<<<< HEAD
 {% from '_macros.html' import render_field %}
 
 {% extends 'template.html' %}
 
+=======
+{% extends "template.html" %}
+{% block title %}Login{% endblock %}
+{% block head %}
+  {{ super() }}
+  <style type="text/css">
+    .important { color: #336699; }
+  </style>
+{% endblock %}
+{% block content %}
+    <div class="wrapper">
+        <div class="custom-title">Study Buddy</div>
+    	<div class="row" id="button-wrapper" onclick='window.location.href="{{login_link}}"'>
+    		<div class="button small-3" id="login-button">
+                <a href="{{login_link}}">Login</a>
+            </div>
+    	</div>
+        <div class="panel" id="about-panel">
+            You never have to study alone again.
+            <p>Don't know anyone in your class?
+               Having difficulty finding other people to study with?
+               Study Buddy helps you find a group of students that have the same goal as you: to collaborate and help each other study for exams and homework. 
+        </div>
+        <div class="push"></div>
+    </div>
+{% endblock %}
+>>>>>>> fa9658819cdf065a0172a3099bbb3c46c8321ab4
 
 {% macro social_login(provider_id, display_name) %}
   <form action="{{ url_for('social.login', provider_id=provider_id) }}" method="POST">

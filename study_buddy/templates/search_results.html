@@ -1,37 +1,12 @@
-<!DOCTYPE html>
-<head>
-	<link rel="stylesheet" type="text/css" href="css/styles.css">
-    <link rel="stylesheet" href="css/foundations/foundation.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min.js"></script>
-    <script type="text/javascript" src="js/jquery.js"></script>
-
-    <title>Study Buddy-search results</title>
-</head>
-<body>
-    <div class="fixed">
-        <nav class="top-bar" data-topbar role="navigation">
-            <ul class="title-area">
-                <li class="name">
-                    <h1><a href="home">Study Buddy</a></h1>
-                </li>
-            </ul>
-            <section class="top-bar-section">           
-                <ul>
-                    <li>
-                        <h1 id="well">Welcome, {{username}}</h1>
-                    </li>
-                    <li>
-                        <h1>|</h1>
-                    </li>
-                    <li>
-                        <a href="logout">Logout</a>
-                    </li>
-                </ul>
-            </section>
-        </nav>
-    </div>
-
+{% extends "template.html" %}
+{% block title %}Search Results{% endblock %}
+{% block head %}
+  {{ super() }}
+  <style type="text/css">
+    .important { color: #336699; }
+  </style>
+{% endblock %}
+{% block content %}
     <div id="page-header">
         <h2 style="display:inline">Search Results</h2>
         <h5 class="subheader" style="display:inline;margin-left:none">Found {{count}} results</h5>
@@ -105,6 +80,4 @@
     	{% endfor %}
         </tbody>
     </table>
-    
-</body>
-</html>
+{% endblock %}

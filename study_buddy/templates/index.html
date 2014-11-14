@@ -9,26 +9,6 @@
 
 {% block content %}
     <div class="wrapper">
-        <nav class="top-bar" data-topbar role="navigation">
-            <ul class="title-area">
-                <li class="name">
-                    <h1><a href="home">Study Buddy</a></h1>
-                </li>
-            </ul>
-            <section class="top-bar-section">           
-                <ul>
-                    <li>
-                        <h1 id="well">Welcome, {{username}}</h1>
-                    </li>
-                    <li>
-                        <h1>|</h1>
-                    </li>
-                    <li>
-                        <a href="logout">Logout</a>
-                    </li>
-                </ul>
-            </section>
-        </nav>
 
         <div class="custom-title" id="text-background">Study Buddy</div>
 
@@ -36,29 +16,41 @@
             Find friends to study with!
         </div>
         
-        <div id="text-input" class="row">
-            <div class="large-7 columns">
-                <input type="text" id="studysearch" placeholder="Enter Department.."/>
+        <form action="find">
+            <div class="row">
+                <div class="small-10 columns">
+                    <div class="row collapse">
+                        <div class="small-8 columns">
+                            <input type="text" name="studysearch" placeholder="Enter Department.."/>
+                        </div>
+                        <div class="small-4 columns">
+                            <input type="text" name="course-search" placeholder="Course #"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="small-2 columns">
+                    <input type="submit" value="Search" class="button postfix">
+                </div>
+                </div>
             </div>
-            <div class="large-3 columns" id="course">
-                <input type="text" id="course-search" placeholder="Course #"/>
-            </div>
-            <div class="large-2 columns" style="text-align: center;" id="search-button">
-                <input type="image" value="Search" class="button small-3 small-centered columns" id="find" src="css/magnifying_glass.png">
-            </div>  
-        </div>
-
+        </form>
 
         <div class="row small-centered" id="front-page-buttons">
-            <input type="submit" value="Create a Group" id="create" class="button small-2 small-centered columns">
-            
-            <input type="submit" value="I'm Feeling Lucky" id="lucky" class="button small-3 small-centered columns">
+            <div class="small-6 small-centered columns">
+                <div class="row">
+                    <div class="small-6 columns">
+                        <form action="create">
+                            <input type="submit" value="Create a Group" id="create" class="button small-2 small-centered columns">
+                        </form>
+                    </div>
+                    <div class="small-6 columns">
+                        <form action="lucky">
+                            <input type="submit" value="I'm Feeling Lucky" id="lucky" class="button small-3 small-centered columns">
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
 
-    </div>
-    
-     
-    <div class="footer">
-        <p id="bot">Created by Aaron Plave, Aaron Rosen, Hora, Denise Francisco and Lili Borland at <a href="http://weshack.com/">WesHack 2014</a> <a href="https://github.com/weshack/study_buddy/"><img src="css/githubcat.jpg" alt="Github Code Link" height="30" width="30"/></a></p>
     </div>
 {% endblock %}

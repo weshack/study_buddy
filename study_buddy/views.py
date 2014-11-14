@@ -106,8 +106,13 @@ def register(provider_id=None):
                            login_failed=login_failed,
                            connection_values=connection_values)
     
+<<<<<<< HEAD
 @app.route("/")
 def home():
+=======
+@app.route("/home")
+def root():
+>>>>>>> fa9658819cdf065a0172a3099bbb3c46c8321ab4
     return render_template('index.html')
 
 
@@ -137,7 +142,7 @@ def search():
         if not departmentArray.validDept(dept_keyword):
             err = "Invalid department, please enter a valid department."
             print err
-            return render_template('search_results.html',username=session['username'],results=[],error_message=err)
+            return render_template('search_results.html', results=[], error_message=err)
     
 
     course_keyword = request.args.get('course_no')
