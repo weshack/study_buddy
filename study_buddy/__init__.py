@@ -8,13 +8,13 @@ app = Flask(__name__)
 
 # TODO: move all configs into external file.
 app.config['SOCIAL_FACEBOOK'] = {
-    'consumer_key': 'facebook app id',
-    'consumer_secret': 'facebook app secret'
+    'consumer_key': '804807199563793',
+    'consumer_secret': 'e7d68bbbd3b828743dc3d6fff7cc9406'
 }
 
 app.config['SOCIAL_GOOGLE'] = {
-    'consumer_key': 'xxxx',
-    'consumer_secret': 'xxxx'
+    'consumer_key': '967982158206-146hbl8954b0oa45e71ii9efuuaj4fj0.apps.googleusercontent.com',
+    'consumer_secret': 'JFYgnNsq8FR6qfjSC-uDHFEl'
 }
 
 app.config['SECURITY_POST_LOGIN'] = '/profile'

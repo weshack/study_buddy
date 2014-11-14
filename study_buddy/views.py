@@ -106,16 +106,9 @@ def register(provider_id=None):
                            login_failed=login_failed,
                            connection_values=connection_values)
     
-<<<<<<< HEAD
 @app.route("/")
 def home():
-=======
-@app.route("/home")
-def root():
->>>>>>> fa9658819cdf065a0172a3099bbb3c46c8321ab4
     return render_template('index.html')
-
-
 
 # Search for a class. Dept is fixed but number is free, must be 3 num code
 # TODO: search doesn't work correctly, always returns everything from the database, no matter what we search for.
