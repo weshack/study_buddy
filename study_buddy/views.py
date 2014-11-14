@@ -1,8 +1,11 @@
-from study_buddy import app
+from . import app, db
 
 from flask import Flask, url_for, redirect, session, render_template, request
 from flask_login import (UserMixin, login_required, login_user, logout_user,
                          current_user)
+from flask.ext.security import LoginForm
+from flask.ext.wtf import Form
+from .forms import RegisterForm
 from flask_googlelogin import GoogleLogin
 import json
 from jinja2 import Template
@@ -12,8 +15,6 @@ import departmentArray
 import random
 import time
 from dateutil.parser import parse
-
-print "Running views..."
 
 ##
 # Constants for mongodb keys
@@ -34,37 +35,80 @@ client = MongoClient()
 
 db = client.sbdb
 
-
-app = Flask(__name__, static_url_path='')
-
-app.config.update(
-    SECRET_KEY='Tieng3us3Xie5meiyae6iKKHVUIUDF',
-    GOOGLE_LOGIN_CLIENT_ID='1002179078501-mdq5hvm940d0hbuhqltr0o1qhsr7sduc.apps.googleusercontent.com',
-    GOOGLE_LOGIN_CLIENT_SECRET='O1kpQ8Is9s2pD3eOpxRfh-7x',
-    GOOGLE_LOGIN_REDIRECT_URI='http://127.0.0.1:5000/oauth2callback',
-)
-
 googlelogin = GoogleLogin(app)
 
-users = {}
+# @googlelogin.user_loader
+# def get_user(userid):
+#     return users.get(userid)
 
-@googlelogin.user_loader
-def get_user(userid):
-    return users.get(userid)
+# class User(UserMixin):
+#     def __init__(self, userinfo):
+#         self.id = userinfo['id']
+#         self.name = userinfo['name']
 
-class User(UserMixin):
-    def __init__(self, userinfo):
-        self.id = userinfo['id']
-        self.name = userinfo['name']
+@app.route('/login')
+def login():
+    if current_user.is_authenticated():
+        print "Authenticated!"
+        return redirect(request.referrer or '/')
 
+    print "did not recognize :("
 
-@app.route("/template")
-def template():
-    return render_template('child_template.html')
+    return render_template('login.html', form=LoginForm())
+
+@app.route('/profile')
+@login_required
+def profile():
+    return render_template('profile.html',
+        google_conn=current_app.social.google.get_connection(),
+        facebook_conn=current_app.social.facebook.get_connection())
+
+@app.route('/register', methods=['GET', 'POST'])
+@app.route('/register/<provider_id>', methods=['GET', 'POST'])
+def register(provider_id=None):
+    if current_user.is_authenticated():
+        return redirect(request.referrer or '/')
+
+    form = RegisterForm()
+
+    if provider_id:
+        provider = get_provider_or_404(provider_id)
+        connection_values = session.get('failed_login_connection', None)
+    else:
+        provider = None
+        connection_values = None
+
+    if form.validate_on_submit():
+        ds = current_app.security.datastore
+        user = ds.create_user(email=form.email.data, password=form.password.data)
+        ds.commit()
+
+        # See if there was an attempted social login prior to registering
+        # and if so use the provider connect_handler to save a connection
+        connection_values = session.pop('failed_login_connection', None)
+
+        if connection_values:
+            connection_values['user_id'] = user.id
+            connect_handler(connection_values, provider)
+
+        if login_user(user):
+            ds.commit()
+            flash('Account created successfully', 'info')
+            return redirect(url_for('profile'))
+
+        return render_template('thanks.html', user=user)
+
+    login_failed = int(request.args.get('login_failed', 0))
+
+    return render_template('register.html',
+                           form=form,
+                           provider=provider,
+                           login_failed=login_failed,
+                           connection_values=connection_values)
     
-@app.route("/home")
-def root():
-    return render_template('index.html',username=session['username'])
+@app.route("/")
+def home():
+    return render_template('index.html')
 
 
 
@@ -140,10 +184,10 @@ def search():
     return render_template('search_results.html',username=session['username'],results=[],count=0)
 
 
-@app.route('/')
-def index():
-    return render_template('login.html', 
-        login_link=googlelogin.login_url(approval_prompt='force',scopes=["email"]))
+# @app.route('/')
+# def index():
+#     return render_template('login.html', 
+#         login_link=googlelogin.login_url(approval_prompt='force',scopes=["email"]))
 
 class User(UserMixin):
     def __init__(self,userinfo):
@@ -152,52 +196,30 @@ class User(UserMixin):
         print "\nUSERINFO:",userinfo,"\n"
         self.email = userinfo['email']
 
-# Google OAuth
-@app.route('/oauth2callback')
-@googlelogin.oauth2callback
-def login(token, userinfo, **params):
-    user = users[userinfo['id']] = User(userinfo)
-    # deny access to anyone without an @wesleyan.edu email address
-    if not "@wesleyan.edu" in user.email:
-        # redirect to same page, display error
-        return render_template('login.html',results="meow, you have been denied.")
-    login_user(user)
-    session['token'] = json.dumps(token)
-    session['userid'] = user.id
-    session['username'] = user.name
-    return redirect(params.get('next', url_for('.login_redirect')))
-
-#checking we get session variables
-@app.route('/seshvars')
-def seshvars():
-    print "Lets have fun with these user variables beyotch"
-    print session['userid']
-    print session['username']
-
-@app.route('/login_redirect')
-@login_required
-def login_redirect():
-    # if success, add user to db if not exists
-    #check if user exists
-    if db.users.find_one({"userID": current_user.id}):
-        print "HAVE USER",current_user.id
-    else:
-        print "FOUND THE USER", current_user.id
-        db.users.insert({"name":current_user.name,"userID":current_user.id,"email":current_user.email})
-    return redirect('/home')
+# @app.route('/login_redirect')
+# @login_required
+# def login_redirect():
+#     # if success, add user to db if not exists
+#     #check if user exists
+#     if db.users.find_one({"userID": current_user.id}):
+#         print "HAVE USER",current_user.id
+#     else:
+#         print "FOUND THE USER", current_user.id
+#         db.users.insert({"name":current_user.name,"userID":current_user.id,"email":current_user.email})
+#     return redirect('/home')
 
 
-@app.route('/logout')
-def logout():
-    logout_user()
-    session.clear()
-    return redirect('/')
+# @app.route('/logout')
+# def logout():
+#     logout_user()
+#     session.clear()
+#     return redirect('/')
 
 #accessing the departmentArray information for autofilling department form
-@app.route('/departments')
-def departments():
-    print "searching for departments.."
-    return json.dumps(departmentArray.depts)
+# @app.route('/departments')
+# def departments():
+#     print "searching for departments.."
+#     return json.dumps(departmentArray.depts)
 
 @app.route('/create')
 def create():
