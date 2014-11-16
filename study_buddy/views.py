@@ -221,7 +221,8 @@ class User(UserMixin):
 
 @app.route('/create')
 def create():
-    return render_template('create.html',username=session['username']);
+    return render_template('create.html',username='dummy');
+    #return render_template('create.html',username=session['username']);
 
 ##
 # Responds to route /lucky, returning a random group study session from database.
@@ -266,8 +267,10 @@ def new():
         return render_template('create.html',username=session['username'],results=errors)
 
     # get user from session
-    user=session['username']
-    ownerID = session['userid']
+    user='dummy'
+    ownerID = 'dummy'
+    #user=session['username']
+    #ownerID = session['userid']
 
     # create group session object
     group_session = {
@@ -288,11 +291,13 @@ def new():
         errX = "Group already exists",group_session
         print errX
         # TODO: confirm event created in DB
-        return render_template('create.html',username=session['username'],results=errX)
+        return render_template('create.html',username='dummy',results=errX)
+        #return render_template('create.html',username=session['username'],results=errX)
     else:
         print "Unique group"
         db.group_sessions.insert(group_session)
-        return render_template('index.html',username=session['username'])
+        return render_template('index.html',username='dummy')
+        #return render_template('index.html',username=session['username'])
 
 ##
 # Responds to a url of the form: 
