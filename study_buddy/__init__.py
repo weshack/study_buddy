@@ -36,7 +36,7 @@ db = SQLAlchemy(app)
 
 connection = Connection()
 connection.register([StudySession])
-mongo_db = connection.potlux
+mongo_db = connection.succor
 
 print "Running app..."
 
