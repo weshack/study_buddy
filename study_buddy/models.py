@@ -2,6 +2,33 @@ from flask.ext.security import UserMixin, RoleMixin
 
 from . import db
 
+from mongokit import Document
+
+import datetime
+
+class Idea(Document):
+    __database__ = 'succor'
+    __collection__ = 'study_sessions'
+
+    structure = {
+        'date_creation': datetime.datetime,
+        'department': basestring,
+        'course_no': [basestring],
+        'time': basestring,
+        'location': basestring,
+        'description': basestring,
+        'contact_info': basestring,
+        'details': basestring
+    }
+
+    required_fields = ['department', 'course_no', 'time', 'location']
+
+    default_values = {
+        'date_creation': datetime.datetime.utcnow
+    }
+
+    use_dot_notation = True
+
 roles_users = db.Table('roles_users',
     db.Column('user_id', db.Integer(), db.ForeignKey('users.id')),
     db.Column('role_id', db.Integer(), db.ForeignKey('roles.id')))
