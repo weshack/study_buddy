@@ -6,7 +6,7 @@ from mongokit import Document
 
 import datetime
 
-class Idea(Document):
+class StudySession(Document):
     __database__ = 'succor'
     __collection__ = 'study_sessions'
 
