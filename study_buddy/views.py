@@ -1,4 +1,4 @@
-from . import app, db
+from . import app, db, mongo_db
 
 from flask import Flask, url_for, redirect, session, render_template, request
 from flask_login import (UserMixin, login_required, login_user, logout_user,
@@ -247,15 +247,15 @@ def new():
 
     # validate data
     errors = []
-    if not departmentArray.validDept(dept):
-        err1 = "DEPARTMENT DOES NOT EXIST", dept
-        errors.append(err1)
-    if not len(course) == 3:
-        err2 = "BAD COURSE NUMBER", course
-        errors.append(err2)
-    if len(location) > 255:
-        err3 = "Location too long, please limit to 255 chars or less", location
-        errs.append(err3)
+    # if not departmentArray.validDept(dept):
+    #     err1 = "DEPARTMENT DOES NOT EXIST", dept
+    #     errors.append(err1)
+    # if not len(course) == 3:
+    #     err2 = "BAD COURSE NUMBER", course
+    #     errors.append(err2)
+    # if len(location) > 255:
+    #     err3 = "Location too long, please limit to 255 chars or less", location
+    #     errs.append(err3)
 
     # convert/validate time
     #time = 123456543
@@ -264,7 +264,8 @@ def new():
     if errors:
         print "ERRORS:"
         for i in errors: print i
-        return render_template('create.html',username=session['username'],results=errors)
+        return render_template('create.html',username='dummy',results=errors)
+        #return render_template('create.html',username=session['username'],results=errors)
 
     # get user from session
     user='dummy'
@@ -284,10 +285,19 @@ def new():
         ATTENDEES_KEY: [[ownerID,user]],
         COURSE_NOTES_KEY : session_details
     }
-
+    new_session=mongo_db.study_sessions.StudySession()
+    new_session.department=dept
+    new_session.course_no=course
+    new_session.time=time
+    new_session.location=location
+    new_session.description=description
+    new_session.contact_info=contact
+    new_session.details=session_details
+    new_session.save()
     print "GROUP SESSION:",group_session
     # insert info into dabase 
-    if db.group_sessions.find_one(group_session):
+    if mongo_db.study_sessions.StudySession.find_one(new_session):
+    #if db.group_sessions.find_one(group_session):
         errX = "Group already exists",group_session
         print errX
         # TODO: confirm event created in DB

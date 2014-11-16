@@ -11,7 +11,7 @@ class StudySession(Document):
     structure = {
         'date_creation': datetime.datetime,
         'department': basestring,
-        'course_no': [basestring],
+        'course_no': basestring,
         'time': basestring,
         'location': basestring,
         'description': basestring,
