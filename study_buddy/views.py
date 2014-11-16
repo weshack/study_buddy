@@ -1,4 +1,4 @@
-from . import app, db
+from . import app, db, mongo_db
 
 from flask import Flask, url_for, redirect, session, render_template, request
 from flask_login import (UserMixin, login_required, login_user, logout_user,
@@ -114,72 +114,32 @@ def home():
 # TODO: search doesn't work correctly, always returns everything from the database, no matter what we search for.
 @app.route('/find')
 def search():
-    user= session['username']
-    userID = session['userid']
-
-    # IMPORTANT, make sure that the dept keyword is ALWAYS short form,
-    # so on front end map the dept keyword (if long) to short form.
-    dept_keyword = request.args.get('search_keyword')
-    if not dept_keyword:
-        print "NO DEPT KEYWORD"
-        grps = db.group_sessions.find()
-        grps=cursortolst(grps)
-        isAttendee=attendee(grps,userID)
-        print isAttendee
-
-        return return_db_results(grps,user,userID,isAttendee)
-    # Verify dept is valid
-    
-    skip_validation = True
-    if not skip_validation:
-        if not departmentArray.validDept(dept_keyword):
-            err = "Invalid department, please enter a valid department."
-            print err
-            return render_template('search_results.html', results=[], error_message=err)
-    
 
     course_keyword = request.args.get('course_no')
+    dept_keyword = request.args.get('dept_keyword')
 
     print "DEPT KEYWORD:",dept_keyword
     print "COURSE KEYWORD:",course_keyword
-    # case where no course number is specified
-    if not course_keyword:
-        #just pull all the courses under that dept
-        results0 = db.group_sessions.find({DEPARTMENT_KEY:dept_keyword}).sort(TIME_KEY)
-        results0=cursortolst(results0)
-        print results0
-        if len(results0) > 0:
-            print "Got results0"
-            isAttendee=attendee(results0,user)
-            return return_db_results(results0,user,userID,isAttendee)
 
-    # TODO: verify course number is safe?
-    # Query database with search_keyword. Dept number + 3 num code. If fails,
-    results1 = db.group_sessions.find({DEPARTMENT_KEY:dept_keyword,COURSE_NUMBER_KEY:course_keyword}).sort(TIME_KEY)
-    results1=cursortolst(results1)
-    if len(results1) > 0:
-        print "Got results1, yippee!"
-        isAttendee=attendee(results1,user)
-        return return_db_results(results1,user,userID,isAttendee)
+    search_results = None
 
-    # # try same thing with the first two numbers (if there are 2-3 numbers) to get closest matches. If nothing,
-    # twoOrThree = False
-    # if len(course_keyword) == 2:
-    #     short_course_keyword = course_keyword
-    #     twoOrThree = True
-    # if len(course_keyword) == 3:
-    #     short_course_keyword = course_keyword[0:2]
-    #     twoOrThree = True
-    # if twoOrThree:
-    #     print "TWO OR THREE",short_course_keyword
-    #     results2 = db.group_sessions.find({DEPARTMENT_KEY:dept_keyword,COURSE_NUMBER_KEY:short_course_keyword}).sort(TIME_KEY)
-    #     if results2.count() > 0:
-    #         print "Got results2, yippee!"
-    #         return return_db_results(results2,user,userID)
+    if course_keyword and dept_keyword:
+        search_result = mongo_db.study_sessions.StudySession.find_one(
+            {'course_no' : course_keyword, 'department' : dept_keyword})
+    elif dept_keyword and not course_keyword:
+        search_results = mongo_db.study_sessions.StudySession.find_one(
+            {'dept_keyword' : dept_keyword})
+    else:
+        search_results = mongo_db.study_sessions.StudySession.find()
 
     # else we have no results
-    print "NO RESULTS"
-    return render_template('search_results.html',username=session['username'],results=[],count=0)
+    if search_results:
+        for result in search_results:
+            print result
+    else:
+        return 'No results'
+        
+    return render_template('search_results.html',results = search_results)
 
 
 # @app.route('/')
