@@ -16,68 +16,21 @@
             <input style="display:inline-block" type="submit" value="Search" class="small button" id="find">
         </div>
     </div>
-        
-    <table id="searchresults">	
-        <thead>
-        <tr>
-                <th> Class</th>
-                <th> Time</th>
-                <th> Location</th>
-                <th> Description</th>
-                
-            </tr>
-        </thead>
-        <tbody>
 
-    	{% for i in range(count) %}
-            <tr>
-    			<td class="click" data-id="{{results[i]._id}}">{{results[i].department}}{{results[i].courseNumber}}</a></td>
-    			<td class="click" data-id="{{results[i]._id}}">{{results[i].time}}</td>
-    			<td class="click" data-id="{{results[i]._id}}">{{results[i].location}}</td>
-    			<td style="overflow:auto"class="click" data-id="{{results[i]._id}}">{{results[i].description}}</td>
-    			
-    		</tr>
-            <tr>
-                <td colspan="4">
-                    <div class="container hidden" data-id="{{results[i]._id}}">
-                    <div class="students-table">
-                    <table id="container-table">
-                        {% if not isAttendee[i] %}
-                        <tr>
-                            <td>
-                                <button   
-                                    id="adduser-{{userID}}"  
-                                    onclick="onAddUserButtonClick('{{results[i]._id}}','{{userID}}')" 
-                                    class="small button">
-                                    Join Session
-                                </button>
-                            </td>
-                        </tr>
-                        {% endif %}
-                        {% for user in results[i].attendees %}
-                        <tr>
-                        <td>{{user[1]}}</td>
-                        </tr>
-                        {% endfor %}
-                    </table>
-                    </div>
-                    <div class="notes">
-                        <h5 style="display:inline">Session Notes</h5>
-                        {% if results[i].owner_id==userID %}
-                        <button style="display:inline;float:right"
-                                class="small button edit-button" 
-                                id="{{results[i]._id}}">
-                            Edit
-                        </button>
-                        {% endif %}
-                        <div>
-                        <p>Contact: {{results[i].contact}} <br> {{results[i].course_notes}} </p>
-                    </div>
-                    </div>
-                </td>       
-            </tr>
-            
-    	{% endfor %}
-        </tbody>
-    </table>
+    <div class="row">
+        <div class="small-4 columns">Class</div>
+        <div class="small-1 columns">Time</div>
+        <div class="small-2 columns">Location</div>
+        <div class="small-5 columns">Description</div>
+    </div>
+
+    {% for results in results: %}
+        <div class="row">
+            <div class="small-4 columns">{{ result.department + result.course_no }}</div>
+            <div class="small-1 columns">{{ result.time }}</div>
+            <div class="small-2 columns">{{ result.location }}</div>
+            <div class="small-5 columns">{{ result.description }}</div>
+        </div>
+    {% endfor %}
+        
 {% endblock %}
