@@ -15,6 +15,7 @@ import departmentArray
 import random
 import time
 from dateutil.parser import parse
+from bson.json_util import dumps
 
 ##
 # Constants for mongodb keys
@@ -122,24 +123,31 @@ def search():
     print "COURSE KEYWORD:",course_keyword
 
     search_results = None
+    results_exist = True
 
     if course_keyword and dept_keyword:
-        search_result = mongo_db.study_sessions.StudySession.find_one(
+        search_results = mongo_db.study_sessions.StudySession.find(
             {'course_no' : course_keyword, 'department' : dept_keyword})
+        print search_results , "We are in if condition"
     elif dept_keyword and not course_keyword:
-        search_results = mongo_db.study_sessions.StudySession.find_one(
+        search_results = mongo_db.study_sessions.StudySession.find(
             {'dept_keyword' : dept_keyword})
     else:
         search_results = mongo_db.study_sessions.StudySession.find()
 
     # else we have no results
-    if search_results:
+    search_results_list = list(search_results)
+    print search_results_list, "This is a list of search results"
+    if len(search_results_list) > 0:
+        print "Text"
         for result in search_results:
-            print result
+            print result, search_results[result]
     else:
-        return 'No results'
-        
-    return render_template('search_results.html',results = search_results)
+        results_exist = False
+    
+    search_results.rewind()
+    return render_template('search_results.html', results = search_results, 
+        results_exist = results_exist)
 
 
 # @app.route('/')

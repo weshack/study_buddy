@@ -16,21 +16,27 @@
             <input style="display:inline-block" type="submit" value="Search" class="small button" id="find">
         </div>
     </div>
-
-    <div class="row">
-        <div class="small-4 columns">Class</div>
-        <div class="small-1 columns">Time</div>
-        <div class="small-2 columns">Location</div>
-        <div class="small-5 columns">Description</div>
-    </div>
-
-    {% for results in results: %}
+    {% if results_exist: %}
         <div class="row">
-            <div class="small-4 columns">{{ result.department + result.course_no }}</div>
-            <div class="small-1 columns">{{ result.time }}</div>
-            <div class="small-2 columns">{{ result.location }}</div>
-            <div class="small-5 columns">{{ result.description }}</div>
+            <div class="small-4 columns">Class</div>
+            <div class="small-1 columns">Time</div>
+            <div class="small-2 columns">Location</div>
+            <div class="small-5 columns">Description</div>
         </div>
-    {% endfor %}
+
+        {% for result in results: %}
+            <div class="row">
+                <div class="small-4 columns">{{ result['department'] + result['course_no'] }}</div>
+                <div class="small-1 columns">{{ result.time }}</div>
+                <div class="small-2 columns">{{ result.location }}</div>
+                <div class="small-5 columns">{{ result.description }}</div>
+            </div>
+        {% endfor %}
+    {% else: %}
+        <div>
+            There are no sessions matching your search, click <a href = "{{ url_for('create') }}">here</a> to create a new one 
+        </div> 
+    {% endif %}
+
         
 {% endblock %}
