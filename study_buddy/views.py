@@ -30,6 +30,7 @@ DESCRIPTION_KEY = "description"
 OWNER_NAME_KEY = "owner"
 OWNER_ID_KEY = "owner_id"
 ATTENDEES_KEY = "attendees"
+NAME = "name"  
 
 client = MongoClient()
 
@@ -197,6 +198,7 @@ def lucky():
 @app.route('/new',methods=['POST'])
 def new():
     # get the data from the request
+    name = request.form.get('name')
     dept = request.form.get('department')
     course = request.form.get('course')
     location = request.form.get('location')
@@ -243,7 +245,8 @@ def new():
         CONTACT_KEY : contact,
         DESCRIPTION_KEY : description,
         ATTENDEES_KEY: [[ownerID,user]],
-        COURSE_NOTES_KEY : session_details
+        COURSE_NOTES_KEY : session_details,
+        NAME : name
     }
     new_session=mongo_db.study_sessions.StudySession()
     new_session.department=dept
@@ -253,6 +256,7 @@ def new():
     new_session.description=description
     new_session.contact_info=contact
     new_session.details=session_details
+    new_session.name=name
     new_session.save()
     print "GROUP SESSION:",group_session
     # insert info into dabase 
