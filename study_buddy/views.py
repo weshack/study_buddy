@@ -1,6 +1,6 @@
 from . import app, db, mongo_db
 
-from flask import Flask, url_for, redirect, session, render_template, request
+from flask import Flask, url_for, redirect, session, render_template, request, flash
 from flask_login import (UserMixin, login_required, login_user, logout_user,
                          current_user)
 from flask.ext.security import LoginForm
@@ -130,18 +130,20 @@ def search():
             {'course_no' : course_keyword, 'department' : dept_keyword})
         print search_results , "We are in if condition"
     elif dept_keyword and not course_keyword:
+        print "only department entered"
         search_results = mongo_db.study_sessions.StudySession.find(
-            {'dept_keyword' : dept_keyword})
-    else:
+            {'department' : dept_keyword})
+    elif not dept_keyword and not course_keyword:
         search_results = mongo_db.study_sessions.StudySession.find()
+    else:
+        flash('Enter something to search!')
+        return render_template('index.html')
 
     # else we have no results
-    search_results_list = list(search_results)
-    print search_results_list, "This is a list of search results"
-    if len(search_results_list) > 0:
+    if search_results.count() > 0:
         print "Text"
         for result in search_results:
-            print result, search_results[result]
+            print result
     else:
         results_exist = False
     
