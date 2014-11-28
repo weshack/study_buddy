@@ -7,15 +7,29 @@
   </style>
 {% endblock %}
 {% block content %}
-    <div id="page-header">
-        <h2 style="display:inline">Search Results</h2>
-        <h5 class="subheader" style="display:inline;margin-left:none">Found {{count}} results</h5>
-
-        <form id="search-input" action="find" method="get"> 
-            <input name="new_find" placeholder="Search for a class..."/> <input type="submit" value="Search" class="small button">
-        </form>
+    <div id="page-header" class="row">
+        <div class="small-6 column">
+            <h2 style="display:inline;" class="header">Search Results</h2>
+            <span class="subheader">
+                Found {{ results.count() }} results
+            </span>
+        </div>
+        <div class="small-4 column">
+            <form action="find" method="get"> 
+                <div class="row collapse">
+                    <div class="small-8 columns">
+                        <input type="text" name="new_find"
+                        placeholder="Search for a class..."/>
+                    </div>
+                    <div class="small-4 columns">
+                        <input type="submit" value="Search" 
+                        class="button postfix">
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
-    <div id="search-results-container" class="center-elmt">
+    <div id="search-results-container" class="center-elmt row">
     {% if results_exist: %}
         <div class="row">
             <div class="small-4 columns">Class</div>
