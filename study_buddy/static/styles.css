@@ -18,6 +18,35 @@ body {
     background-attachment: fixed;
 }
 
+.center-elmt {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.center-txt {
+    text-align: center;
+}
+
+.search-row-odd {
+    padding-bottom: 5px;
+    padding-top: 5px; 
+    background-color: rgba(51, 51, 51, 0.7);
+}
+
+.search-row-even {
+    padding-bottom: 2px;
+    padding-top: 5px;
+    background-color: rgba(0, 51, 102, 0.7);
+}
+
+#search-results-container {
+    color: white;
+}
+
+#no-search-results {
+    margin: 15px 0;
+}
+
 #ui-datepicker-div {
     width: 20%;
     text-decoration: none;
@@ -134,7 +163,6 @@ nav.top-bar {
     margin-right: auto;
 }
 
-
 #searchresults {
     width: 80%;
     margin-left: 10%;
@@ -222,13 +250,15 @@ nav.top-bar {
     margin-left: auto;
     margin-right: auto;
     text-shadow: 0.7px 0.7px #000000;
-
+    position: fixed;
+    bottom: 0;
 }
 #bot {
     font-size: 16px;
     text-align: center;
     color: beige;
     margin-bottom: 0;
+    
 }
 
 .wrapper {

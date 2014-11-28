@@ -16,6 +16,7 @@ import random
 import time
 from dateutil.parser import parse
 from bson.json_util import dumps
+from helpers import *
 
 ##
 # Constants for mongodb keys
@@ -116,8 +117,12 @@ def home():
 @app.route('/find')
 def search():
 
-    course_keyword = request.args.get('course_no')
-    dept_keyword = request.args.get('dept_keyword')
+    if 'new_find' in request.args: # request coming from /find page
+        search_query = request.args.get('new_find')
+        dept_keyword, course_keyword = parse_new_find(search_query)
+    else:
+        course_keyword = request.args.get('course_no')
+        dept_keyword = request.args.get('dept_keyword')
 
     print "DEPT KEYWORD:",dept_keyword
     print "COURSE KEYWORD:",course_keyword

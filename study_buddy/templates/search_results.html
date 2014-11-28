@@ -11,11 +11,11 @@
         <h2 style="display:inline">Search Results</h2>
         <h5 class="subheader" style="display:inline;margin-left:none">Found {{count}} results</h5>
 
-        <div id="search-input"> 
-            <input style="width:50%; margin:none;display:inline;" type="text" id="studysearch" placeholder="Search for a class..."/>     
-            <input style="display:inline-block" type="submit" value="Search" class="small button" id="find">
-        </div>
+        <form id="search-input" action="find" method="get"> 
+            <input name="new_find" placeholder="Search for a class..."/> <input type="submit" value="Search" class="small button">
+        </form>
     </div>
+    <div id="search-results-container" class="center-elmt">
     {% if results_exist: %}
         <div class="row">
             <div class="small-4 columns">Class</div>
@@ -23,9 +23,9 @@
             <div class="small-2 columns">Location</div>
             <div class="small-5 columns">Description</div>
         </div>
-
+        
         {% for result in results: %}
-            <div class="row">
+            <div class="row search-row-{{ loop.cycle('odd', 'even') }}">
                 <div class="small-4 columns">{{ result['department'] + result['course_no'] }}</div>
                 <div class="small-1 columns">{{ result.time }}</div>
                 <div class="small-2 columns">{{ result.location }}</div>
@@ -33,10 +33,11 @@
             </div>
         {% endfor %}
     {% else: %}
-        <div>
+        <div class="center-txt" id="no-search-results">
             There are no sessions matching your search, click <a href = "{{ url_for('create') }}">here</a> to create a new one 
         </div> 
     {% endif %}
+    </div>
 
         
 {% endblock %}
