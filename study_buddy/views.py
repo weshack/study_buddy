@@ -119,11 +119,11 @@ def home():
 def search():
 
     if 'new_find' in request.args: # request coming from /find page
-        search_query = request.args.get('new_find')
+        search_query = request.args.get('new_find').lower()
         dept_keyword, course_keyword = parse_new_find(search_query)
     else:
         course_keyword = request.args.get('course_no')
-        dept_keyword = request.args.get('dept_keyword')
+        dept_keyword = request.args.get('dept_keyword').lower()
 
     print "DEPT KEYWORD:",dept_keyword
     print "COURSE KEYWORD:",course_keyword
@@ -213,12 +213,11 @@ def lucky():
 @app.route('/new',methods=['POST'])
 def new():
     # get the data from the request
-    dept = request.form.get('department')
+    dept = request.form.get('department').lower()
     course = request.form.get('course')
     location = request.form.get('location')
     time =  datetime.strptime(request.form.get('datetime'), '%Y-%m-%dT%H:%M')
-    print time
-    contact = request.form.get('contact')
+    contact = request.form.get('contact').lower()
     description = request.form.get('description')
     session_details = request.form.get('details')
 

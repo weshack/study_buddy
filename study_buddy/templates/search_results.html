@@ -40,7 +40,7 @@
         
         {% for result in results: %}
             <div class="row search-row-{{ loop.cycle('odd', 'even') }}">
-                <div class="small-4 columns">{{ result['department'] + result['course_no'] }}</div>
+                <div class="small-4 columns">{{ result['department'] + " " + result['course_no'] }}</div>
                 <div class="small-1 columns">{{ result.time }}</div>
                 <div class="small-2 columns">{{ result.location }}</div>
                 <div class="small-5 columns">{{ result.description }}</div>
