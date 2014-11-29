@@ -17,6 +17,7 @@ import time
 from dateutil.parser import parse
 from bson.json_util import dumps
 from helpers import *
+from datetime import datetime
 
 ##
 # Constants for mongodb keys
@@ -215,7 +216,8 @@ def new():
     dept = request.form.get('department')
     course = request.form.get('course')
     location = request.form.get('location')
-    time = request.form.get('datetime')
+    time =  datetime.strptime(request.form.get('datetime'), '%Y-%m-%dT%H:%M')
+    print time
     contact = request.form.get('contact')
     description = request.form.get('description')
     session_details = request.form.get('details')
