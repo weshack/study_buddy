@@ -11,4 +11,4 @@
 
 from study_buddy import app
 print "Starting server..."
-app.run(debug=True)
+app.run(debug=False)
