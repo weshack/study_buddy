@@ -12,7 +12,7 @@ class StudySession(Document):
         'date_creation': datetime.datetime,
         'department': basestring,
         'course_no': basestring,
-        'time': basestring,
+        'time': datetime.datetime,
         'location': basestring,
         'description': basestring,
         'contact_info': basestring,
