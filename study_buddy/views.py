@@ -33,6 +33,7 @@ DESCRIPTION_KEY = "description"
 OWNER_NAME_KEY = "owner"
 OWNER_ID_KEY = "owner_id"
 ATTENDEES_KEY = "attendees"
+NAME="name"
 
 client = MongoClient()
 
@@ -213,6 +214,7 @@ def lucky():
 @app.route('/new',methods=['POST'])
 def new():
     # get the data from the request
+    name=request.form.get('name')
     dept = request.form.get('department').lower()
     course = request.form.get('course')
     location = request.form.get('location')
@@ -223,9 +225,9 @@ def new():
 
     # validate data
     errors = []
-    # if not departmentArray.validDept(dept):
-    #     err1 = "DEPARTMENT DOES NOT EXIST", dept
-    #     errors.append(err1)
+     if not departmentArray.validDept(dept):
+         err1 = "DEPARTMENT DOES NOT EXIST", dept
+         errors.append(err1)
     # if not len(course) == 3:
     #     err2 = "BAD COURSE NUMBER", course
     #     errors.append(err2)
@@ -259,7 +261,8 @@ def new():
         CONTACT_KEY : contact,
         DESCRIPTION_KEY : description,
         ATTENDEES_KEY: [[ownerID,user]],
-        COURSE_NOTES_KEY : session_details
+        COURSE_NOTES_KEY : 
+        NAME:name
     }
     new_session=mongo_db.study_sessions.StudySession()
     new_session.department=dept
@@ -269,6 +272,7 @@ def new():
     new_session.description=description
     new_session.contact_info=contact
     new_session.details=session_details
+    new_session.name=name
     new_session.save()
     print "GROUP SESSION:",group_session
     # insert info into dabase 
