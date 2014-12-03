@@ -23,19 +23,27 @@
                     <h1><a href="/">Succor</a></h1>
                 </li>
             </ul>
-            {% if session['username'] %}
+            {% if current_user.is_authenticated(): %}
               <section class="top-bar-section">           
-                  <ul>
-                      <li>
-                          <h1 id="well">Welcome, {{ session['username'] }}</h1>
-                      </li>
-                      <li>
-                          <h1>|</h1>
-                      </li>
-                      <li>
-                          <a href="logout">Logout</a>
-                      </li>
-                  </ul>
+                <ul>
+                    <li>
+                        <h1 id="well">Welcome, {{ current_user.email }}</h1>
+                    </li>
+                    <li>
+                        <h1>|</h1>
+                    </li>
+                    <li>
+                        <a href="logout">Logout</a>
+                    </li>
+                </ul>
+              </section>
+            {% else: %}
+              <section class="top-bar-section">
+                <ul>
+                  <li>
+                    <a href="login">Login</a>
+                  </li>
+                </ul>
               </section>
             {% endif %}
         </nav>
