@@ -13,7 +13,7 @@ var autocomplete_data = [];
 $(document).ready(function() {
 	init_autocomplete("#search-bar");
 	init_autocomplete("#createdepartment");
-	$("#datepicker").datepicker();
+	jQuery('#datepicker').datetimepicker();
 
 
 	$('#add-class').click(function() {
