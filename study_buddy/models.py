@@ -16,7 +16,8 @@ class StudySession(Document):
         'location': basestring,
         'description': basestring,
         'contact_info': basestring,
-        'details': basestring
+        'details': basestring,
+        'name': basestring
    }
 
     required_fields = ['name','department', 'course_no', 'time', 'location']

@@ -32,18 +32,20 @@
     <div id="search-results-container" class="center-elmt row">
     {% if results_exist: %}
         <div class="row">
-            <div class="small-4 columns">Class</div>
-            <div class="small-1 columns">Time</div>
+            <div class="small-3 columns">Class</div>
+            <div class="small-2 columns">Time</div>
             <div class="small-2 columns">Location</div>
-            <div class="small-5 columns">Description</div>
+            <div class="small-3 columns">Description</div>
+            <div class="small-2 columns">Created By</div>
         </div>
         
         {% for result in results: %}
             <div class="row search-row-{{ loop.cycle('odd', 'even') }}">
-                <div class="small-4 columns">{{ result['department'] + " " + result['course_no'] }}</div>
-                <div class="small-1 columns">{{ result.time }}</div>
+                <div class="small-3 columns">{{ result['department'] + " " + result['course_no'] }}</div>
+                <div class="small-2 columns">{{output_time(result.time)}}</div>
                 <div class="small-2 columns">{{ result.location }}</div>
-                <div class="small-5 columns">{{ result.description }}</div>
+                <div class="small-3 columns">{{ result.description }}</div>
+                <div class="small-2 columns">{{result.name}}</div>
             </div>
         {% endfor %}
     {% else: %}

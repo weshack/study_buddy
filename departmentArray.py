@@ -17,7 +17,8 @@ def combineShortAndLong(depts_list):
 	for dept in depts_list:
 		short_name = dept[0]
 		long_name = dept[1]
-		combined_list.append(short_name + "-" + long_name)
+		combined_list.append(short_name.lower() + "-" + long_name.lower())
+		print combined_list
 	return combined_list
 
 ##

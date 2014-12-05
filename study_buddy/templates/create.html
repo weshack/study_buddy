@@ -12,6 +12,15 @@
         <div class="title-area">
             <div class="custom-title">Create a New Group</div>
         </div>
+        {% if results %}
+        <div class="large-12 columns" id="errors">
+        <p class="error">The following error(s) occured:</p>
+        {% for error in results %}
+        <li>{{error}}</li>
+        {% endfor %}
+
+        </div>
+        {% endif %}
         <form action="new" method="post" class="create-forms" id="create-group">
             <div class="row">
                 <div class="large-6 columns">
@@ -32,7 +41,7 @@
             </div>
             <div class="row">
                  <div class="large-6 columns">
-                    <input type="text" placeholder="Date and Time" name="datetime" id='datetimepicker' required/>
+                    <input type="datetime-local" placeholder="Date and Time" name="datetime" id='datetimepicker' required/>
                 </div>
                 <div class="large-6 columns">
                     <input type="text" placeholder="Location" name="location" required/>
