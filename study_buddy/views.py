@@ -20,31 +20,15 @@ from datetime import datetime
 from werkzeug.security import generate_password_hash
 from mongokit import ObjectId
 
-##
-# Constants for mongodb keys
-##
-
-DEPARTMENT_KEY = "department"
-COURSE_NUMBER_KEY = "courseNumber"
-LOCATION_KEY = "location"
-TIME_KEY = "time"
-COURSE_NOTES_KEY = "course_notes"
-CONTACT_KEY = "contact"
-DESCRIPTION_KEY = "description"
-OWNER_NAME_KEY = "owner"
-OWNER_ID_KEY = "owner_id"
-ATTENDEES_KEY = "attendees"
-NAME="name"
-
-@app.route('/login', methods=["GET", "POST"])
-def login():
-    form = LoginForm(request.form)
-    if form.validate_on_submit():
-        print "form validated"
-        login_user(form.get_user(), remember=form.remember.data) # login_user(user, remember=True)
-        flash("Logged in succesfully")
-        return redirect(request.args.get("next") or url_for('home'))
-    return render_template('login.html', form=form)
+# @app.route('/login', methods=["GET", "POST"])
+# def login():
+#     form = LoginForm(request.form)
+#     if form.validate_on_submit():
+#         print "form validated"
+#         login_user(form.get_user(), remember=form.remember.data) # login_user(user, remember=True)
+#         flash("Logged in succesfully")
+#         return redirect(request.args.get("next") or url_for('home'))
+#     return render_template('login.html', form=form)
 
 @app.route('/user', defaults={'user_id' : None})
 @app.route('/user/<user_id>', methods=["GET", "POST"])
@@ -72,31 +56,31 @@ def user(user_id):
             user = mongo_db.users.User.find_one({'_id' : ObjectId(user_id)})
             return render_template('profile.html', user=user)
 
-@app.route('/register', methods=['GET', 'POST'])
-def register():
-    form = RegistrationForm(request.form)
-    if form.validate_on_submit():
-        # Create user
-        user_email = form.email.data
-        password = form.password.data
+# @app.route('/register', methods=['GET', 'POST'])
+# def register():
+#     form = RegistrationForm(request.form)
+#     if form.validate_on_submit():
+#         # Create user
+#         user_email = form.email.data
+#         password = form.password.data
 
-        if mongo_db.users.User.find({'email' : user_email}).count() > 0:
-            flash('An account with that email already exists!')
-            form = RegistrationForm()
-            return render_template('register.html', form=form)
-        else:
-            new_user = mongo_db.users.User()
-            new_user.email = user_email
-            new_user.password = generate_password_hash(password)
-            new_user.save()
+#         if mongo_db.users.User.find({'email' : user_email}).count() > 0:
+#             flash('An account with that email already exists!')
+#             form = RegistrationForm()
+#             return render_template('register.html', form=form)
+#         else:
+#             new_user = mongo_db.users.User()
+#             new_user.email = user_email
+#             new_user.password = generate_password_hash(password)
+#             new_user.save()
 
-        # log user in
-        login_user(new_user)
-        return redirect(url_for('home'))
-    if 'user_email' in session:
-        return render_template('register.html', email=session['user_email'], form=form)
-    else:
-        return render_template('register.html', form=form)
+#         # log user in
+#         login_user(new_user)
+#         return redirect(url_for('home'))
+#     if 'user_email' in session:
+#         return render_template('register.html', email=session['user_email'], form=form)
+#     else:
+#         return render_template('register.html', form=form)
 
 @app.route("/")
 def home():
@@ -151,10 +135,10 @@ def search():
         results_exist = results_exist)
 
 
-@app.route('/logout')
-def logout():
-    logout_user()
-    return redirect(url_for('home'))
+# @app.route('/logout')
+# def logout():
+#     logout_user()
+#     return redirect(url_for('home'))
 
 @app.route('/create', methods=["POST","GET"])
 def create():
