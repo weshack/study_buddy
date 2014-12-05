@@ -95,10 +95,14 @@ window.onload = function() {
 		name_json["label"] = short_name+"-"+long_name;
 		autocomplete_data.push(name_json);
 	}	
+	console.log("this is a string");
+	$("#datepicker").datepicker();
 
-	$("#studysearch").autocomplete({
-		source: autocomplete_data
-	});
+
+	 // $("#studysearch").autocomplete({
+	 // 	source: autocomplete_data
+	 // });
+
 
 };
 
@@ -134,7 +138,5 @@ function queryURL(url) {
 	request.send();
 }
 
-$(function() {
-	$( "#datepicker" ).datepicker();
-  });
+
 
