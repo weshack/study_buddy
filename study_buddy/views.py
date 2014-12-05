@@ -104,11 +104,10 @@ def home():
 
 @app.route("/group/<group_id>")
 def group(group_id):
-    group = mongo_db.study_sessions.StudySession.find({'id' : ObjectId()})
+    group = mongo_db.study_sessions.StudySession.find_one({'_id' : ObjectId(group_id)})
     return render_template('group.html', group=group)
 
 # Search for a class. Dept is fixed but number is free, must be 3 num code
-# TODO: search doesn't work correctly, always returns everything from the database, no matter what we search for.
 @app.route('/find')
 def search():
 
