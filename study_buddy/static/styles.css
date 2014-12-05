@@ -98,10 +98,6 @@ nav.top-bar {
     opacity: 0.8;
 }
 
-.top-bar-section ul {
-    float: right;
-}
-
 .top-bar-section ul li > h1 {
     width: 100%;
     color: white;
@@ -110,10 +106,6 @@ nav.top-bar {
     font-weight: normal;
     text-transform: none;
     padding-top: 11px;
-}
-
-#well {
-    padding-right: 14px;
 }
 
 #text-background {
