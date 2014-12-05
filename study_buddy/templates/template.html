@@ -5,6 +5,7 @@
     <link rel="shortcut icon" href="{{ url_for('static', filename='resources/images/favicon.ico') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='resources/foundations/css/foundation.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='resources/js/datetimepicker/jquery.datetimepicker.css') }}" >
     <script src="{{ url_for('static', filename='resources/foundations/js/vendor/jquery.js') }}"></script>
     <script src="{{ url_for('static', filename='resources/foundations/js/foundation.min.js') }}"></script>
     <script src="{{ url_for('static', filename='study_buddy.js') }}"></script>
@@ -12,6 +13,9 @@
     <script src="{{ url_for('static', filename='resources/foundations/js/vendor/fastclick.js' ) }}"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min.js"></script>
+   
+    <script src="{{ url_for('static', filename='resources/js/datetimepicker/jquery.js') }}"></script>
+    <script src="{{ url_for('static', filename='resources/js/datetimepicker/jquery.datetimepicker.js') }}"></script>
     <title>Succor - {% block title %}{% endblock %}</title>
     {% endblock %}
   </head>
