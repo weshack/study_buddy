@@ -175,7 +175,7 @@ def lucky():
 def new():
     # get the data from the request
     name=request.form.get('name')
-    dept = request.form.get('department').lower()
+    dept = request.form.get('department')
     course = request.form.get('course')
     location = request.form.get('location')
     time =  datetime.strptime(request.form.get('datetime'), '%Y-%m-%dT%H:%M')
@@ -184,16 +184,19 @@ def new():
     session_details = request.form.get('details')
 
     # validate data
+    tempdept=dept.lower()
     errors = []
-    if not departmentArray.validDept(dept):
-        err1 = "DEPARTMENT DOES NOT EXIST", dept
+<<<<<<< HEAD
+    if not departmentArray.validDept(tempdept):
+        err1 = "DEPARTMENT '" +dept+ "' DOES NOT EXIST"
         errors.append(err1)
-    # if not len(course) == 3:
-    #     err2 = "BAD COURSE NUMBER", course
-    #     errors.append(err2)
-    # if len(location) > 255:
-    #     err3 = "Location too long, please limit to 255 chars or less", location
-    #     errs.append(err3)
+    if not len(course) == 3 or int(course)>1000:
+        err2 = "BAD COURSE NUMBER: " + course
+        errors.append(err2)
+    if len(location) > 255:
+        err3 = "Location too long, please limit to 255 chars or less"
+        errors.append(err3)
+
 
     # convert/validate time
     #time = 123456543
@@ -212,6 +215,7 @@ def new():
     #ownerID = session['userid']
 
     # create group session object
+
     new_session=mongo_db.study_sessions.StudySession()
     new_session.department=dept
     new_session.course_no=course
@@ -224,17 +228,19 @@ def new():
     new_session.save()
     print "GROUP SESSION:",group_session
     # insert info into dabase 
-    if mongo_db.study_sessions.StudySession.find_one(new_session):
+    #if mongo_db.study_sessions.StudySession.find_one(new_session):
     #if db.group_sessions.find_one(group_session):
-        errX = "Group already exists",group_session
-        print errX
-        # TODO: confirm event created in DB
-        return render_template('create.html',username='dummy',results=errX)
+    #    errX = "Group already exists",group_session
+    #    print errX
+    #   errors.append(errX)
+        #TODO: confirm event created in DB
+    #    return render_template('create.html',username='dummy',results=errors)
         #return render_template('create.html',username=session['username'],results=errX)
-    else:
-        print "Unique group"
-        db.group_sessions.insert(group_session)
-        return render_template('index.html',username='dummy')
+    #else:
+        #print "Unique group"
+        #db.group_sessions.insert(group_session)
+    #    flash('Study group created')
+    return render_template('index.html',username='dummy')
         #return render_template('index.html',username=session['username'])
 
 ##

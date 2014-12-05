@@ -7,6 +7,8 @@ from flask.ext.social import Social, SQLAlchemyConnectionDatastore, \
 from flask.ext.wtf.csrf import CsrfProtect
 from mongokit import *
 from models import *
+from datetime import datetime
+
 
 app = Flask(__name__)
 
@@ -33,6 +35,8 @@ app.config.update(
     GOOGLE_LOGIN_REDIRECT_URI='http://127.0.0.1:5000/oauth2callback',
 )
 #################################################
+def output_time(result):
+	return result.strftime("%M/%d %I:%M %p")
 
 db = SQLAlchemy(app)
 
@@ -48,7 +52,7 @@ login_manager.login_view = 'login'
 # csrf.init_app(app)
 
 print "Running app..."
-
+app.jinja_env.globals.update(output_time=output_time)
 from . import views, models
 
 @login_manager.user_loader

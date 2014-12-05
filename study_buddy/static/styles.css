@@ -276,4 +276,8 @@ nav.top-bar {
 .footer, .push {
     height: 2em;
 }
+#errors{
+    margin-top: 5%;
+
+}
 
