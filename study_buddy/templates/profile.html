@@ -1,0 +1,18 @@
+{% from '_macros.html' import render_field %}
+
+{% extends 'template.html' %}
+
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+  <p>{{ current_user.email }} is logged in</p>
+  <p>{{ user.email }}'s profile</p>
+  <div class="row">
+    <div class="small-6 column">
+      {{ user.name.first }}
+    </div>
+    <div class="small-6 column">
+      {{ user.name.last }}
+    </div>
+  </div>
+{% endblock %}

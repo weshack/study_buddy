@@ -18,6 +18,7 @@ from bson.json_util import dumps
 from helpers import *
 from datetime import datetime
 from werkzeug.security import generate_password_hash
+from mongokit import ObjectId
 
 ##
 # Constants for mongodb keys
@@ -45,10 +46,31 @@ def login():
         return redirect(request.args.get("next") or url_for('home'))
     return render_template('login.html', form=form)
 
-# @app.route('/profile')
-# @login_required
-# def profile():
+@app.route('/user', defaults={'user_id' : None})
+@app.route('/user/<user_id>', methods=["GET", "POST"])
+#@login_required
+def user(user_id):
+    if user_id is None:
+        user = current_user
+    else:
+        user = mongo_db.users.User.find_one({'_id' : ObjectId(user_id)})
 
+    if request.method == "POST":
+        # /user/<user_id>?new_class=<class name>
+        if 'new_class' in request.args:
+            old_classes = user.classes
+            old_classes.append(request.args.get('new_class'))
+            user.classes = old_classes
+            if user.save():
+                return 'success!'
+            else:
+                return "didn't work"
+    else:
+        if user_id is None:
+            return render_template('profile.html', user=current_user)      
+        else:
+            user = mongo_db.users.User.find_one({'_id' : ObjectId(user_id)})
+            return render_template('profile.html', user=user)
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -80,9 +102,13 @@ def register():
 def home():
     return render_template('index.html')
 
+@app.route("/group/<group_id>")
+def group(group_id):
+
+
 # Search for a class. Dept is fixed but number is free, must be 3 num code
 # TODO: search doesn't work correctly, always returns everything from the database, no matter what we search for.
-@app.route('/find')
+@app.route("/find")
 def search():
 
     if 'new_find' in request.args: # request coming from /find page
