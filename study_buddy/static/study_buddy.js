@@ -13,8 +13,9 @@ var autocomplete_data = [];
 $(document).ready(function() {
 	init_autocomplete("#search-bar");
 	init_autocomplete("#createdepartment");
+	$("#datepicker").datepicker();
 
-	console.log(user_id);
+
 	$('#add-class').click(function() {
 		// change child of anchor tag to form field
 		console.log(this.innerHTML);
@@ -96,9 +97,15 @@ function init_autocomplete(search_bar) {
 		autocomplete_data.push(name_json);
 	}	
 
-	$(search_bar).autocomplete({
-		source: autocomplete_data
-	});
+
+	// $("#studysearch").autocomplete({
+	//  	source: autocomplete_data
+	//  });
+
+	// $(search_bar).autocomplete({
+	// 	source: autocomplete_data
+	// });
+
 
 }
 
@@ -132,7 +139,5 @@ function queryURL(url) {
 	request.send();
 }
 
-$(function() {
-	$( "#datepicker" ).datepicker();
-  });
+
 
