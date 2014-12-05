@@ -8,7 +8,7 @@ from flask.ext.wtf.csrf import CsrfProtect
 from mongokit import *
 from models import *
 from datetime import datetime
-
+from flask.ext.lesscss import lesscss
 
 app = Flask(__name__)
 

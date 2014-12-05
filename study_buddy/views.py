@@ -4,7 +4,7 @@ from flask import Flask, url_for, redirect, session, render_template, request, f
 from flask_login import (UserMixin, login_required, login_user, logout_user,
                          current_user)
 from flask.ext.wtf import Form
-from .forms import RegistrationForm, LoginForm
+from .forms import RegistrationForm, LoginForm, GroupForm
 from flask_googlelogin import GoogleLogin
 import json
 from jinja2 import Template
@@ -156,9 +156,23 @@ def logout():
     logout_user()
     return redirect(url_for('home'))
 
-@app.route('/create')
+@app.route('/create', methods=["POST","GET"])
 def create():
-    return render_template('create.html',username='dummy');
+    create_form = GroupForm(request.form)
+    if create_form.validate_on_submit():
+        new_session=mongo_db.study_sessions.StudySession()
+        new_session.department=create_form.department.data
+        new_session.course_no=str(create_form.course_no.data)
+        new_session.time=create_form.datetime.data
+        new_session.location=create_form.location.data
+        new_session.description=create_form.assignment.data
+        new_session.contact_info=create_form.email.data
+        new_session.details=create_form.details.data
+        new_session.name=create_form.name.data
+        new_session.save()
+        flash("Group Created!")
+        return redirect(url_for('group', group_id=new_session._id))
+    return render_template('create.html',username='dummy', form=create_form);
     #return render_template('create.html',username=session['username']);
 
 ##
@@ -170,78 +184,6 @@ def lucky():
     random_number = random.randint(0,number_of_records-1)
     group_session = db.group_sessions.find().limit(-1).skip(random_number).next()
     return 'picked random session with id: ' + str(group_session['_id'])
-
-@app.route('/new',methods=['POST'])
-def new():
-    # get the data from the request
-    name=request.form.get('name')
-    dept = request.form.get('department')
-    course = request.form.get('course')
-    location = request.form.get('location')
-    time =  datetime.strptime(request.form.get('datetime'), '%Y-%m-%dT%H:%M')
-    contact = request.form.get('contact').lower()
-    description = request.form.get('description')
-    session_details = request.form.get('details')
-
-    # validate data
-    tempdept=dept.lower()
-    errors = []
-<<<<<<< HEAD
-    if not departmentArray.validDept(tempdept):
-        err1 = "DEPARTMENT '" +dept+ "' DOES NOT EXIST"
-        errors.append(err1)
-    if not len(course) == 3 or int(course)>1000:
-        err2 = "BAD COURSE NUMBER: " + course
-        errors.append(err2)
-    if len(location) > 255:
-        err3 = "Location too long, please limit to 255 chars or less"
-        errors.append(err3)
-
-
-    # convert/validate time
-    #time = 123456543
-
-    #add more future validation here
-    if errors:
-        print "ERRORS:"
-        for i in errors: print i
-        return render_template('create.html',username='dummy',results=errors)
-        #return render_template('create.html',username=session['username'],results=errors)
-
-    # get user from session
-    user='dummy'
-    ownerID = 'dummy'
-    #user=session['username']
-    #ownerID = session['userid']
-
-    # create group session object
-
-    new_session=mongo_db.study_sessions.StudySession()
-    new_session.department=dept
-    new_session.course_no=course
-    new_session.time=time
-    new_session.location=location
-    new_session.description=description
-    new_session.contact_info=contact
-    new_session.details=session_details
-    new_session.name=name
-    new_session.save()
-    print "GROUP SESSION:",group_session
-    # insert info into dabase 
-    #if mongo_db.study_sessions.StudySession.find_one(new_session):
-    #if db.group_sessions.find_one(group_session):
-    #    errX = "Group already exists",group_session
-    #    print errX
-    #   errors.append(errX)
-        #TODO: confirm event created in DB
-    #    return render_template('create.html',username='dummy',results=errors)
-        #return render_template('create.html',username=session['username'],results=errX)
-    #else:
-        #print "Unique group"
-        #db.group_sessions.insert(group_session)
-    #    flash('Study group created')
-    return render_template('index.html',username='dummy')
-        #return render_template('index.html',username=session['username'])
 
 ##
 # Responds to a url of the form: 

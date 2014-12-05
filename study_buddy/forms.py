@@ -1,7 +1,32 @@
 from flask.ext.wtf import Form
-from wtforms import TextField, PasswordField, ValidationError, BooleanField, validators
+from wtforms import TextField, PasswordField, ValidationError, BooleanField, IntegerField, DateTimeField, validators
 from study_buddy import mongo_db
 from werkzeug.security import check_password_hash
+
+class GroupForm(Form):
+    name = TextField('Name', [
+        validators.Required()
+    ])
+    email = TextField('Contact', [
+        validators.Email()
+    ])
+    department = TextField('Department', [
+        validators.Required()
+    ])
+    course_no = IntegerField('Course Number', [
+        validators.Required(),
+        validators.NumberRange(min=100, max=999)
+    ])
+    datetime = DateTimeField('Date and time', format="%Y/%m/%d %H:%M")
+    location = TextField('Location', [
+        validators.Required()
+    ])
+    assignment = TextField('Assignment', [
+        validators.Required()
+    ])
+    details = TextField('Details')
+
+
 
 class LoginForm(Form):
     email = TextField('Email', [

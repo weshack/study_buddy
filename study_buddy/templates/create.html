@@ -7,6 +7,8 @@
   </style>
 {% endblock %}
 
+{% from '_macros.html' import render_field %}
+
 {% block content %}
     <div class="wrapper">
         <div class="title-area">
@@ -21,42 +23,40 @@
 
         </div>
         {% endif %}
-        <form action="new" method="post" class="create-forms" id="create-group">
+        <form action="create" method="post" class="create-forms" id="create-group">
+            {{ form.csrf_token }}
             <div class="row">
                 <div class="large-6 columns">
-                    <input type="text" placeholder="Name" name="name" />
+                    {{ render_field(form.name) }}
                 </div>
                 <div class="large-6 columns">
-                    <input type="text" placeholder="Contact Info (optional)" name="contact" />
+                    {{ render_field(form.email) }}
                 </div>
             </div>
             <div class="row">
                 <div class="large-6 columns">
-                    <input type="text" placeholder="Department" name="department"
-                    id="createdepartment" required/>
+                    {{ render_field(form.department) }}
                 </div>
-               <!--  <div class="large-6 columns">
-                    <input type="text" placeholder="Course No." name="course" required/>
-                </div> -->
+                <div class="large-6 columns">
+                    {{ render_field(form.course_no) }}
+                </div>
             </div>
             <div class="row">
                  <div class="large-6 columns">
-
-                    <input type="text" placeholder="Date and Time" name="datetime" id="datepicker" required/>
-
+                    {{ render_field(form.datetime) }}
                 </div>
                 <div class="large-6 columns">
-                    <input type="text" placeholder="Location" name="location" required/>
+                    {{ render_field(form.location) }}
                 </div>
             </div>
             <div class="row">
                 <div class="large-12 columns">
-                    <input type="text" placeholder="Assignment Description" name="description" required/>
+                    {{ render_field(form.assignment) }}
                 </div>
             </div>
             <div class="row">
                 <div class="large-12 columns">
-                    <input type="text" placeholder="Session Details (optional)" name="details" required/>
+                    {{ render_field(form.details) }}
                 </div>
             </div>
             <div class="row small-centered" id="front-page-buttons">
