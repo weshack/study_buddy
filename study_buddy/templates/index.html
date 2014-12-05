@@ -10,7 +10,7 @@
 {% block content %}
     <div class="wrapper">
 
-        <div class="custom-title" id="text-background">Study Buddy</div>
+        <div class="custom-title" id="text-background">Succor</div>
 
         <div id="intro">
             Find friends to study with!
@@ -21,7 +21,7 @@
                 <div class="small-10 columns">
                     <div class="row collapse">
                         <div class="small-8 columns">
-                            <input type="text" name="dept_keyword" placeholder="Enter Department.."/>
+                            <input type="text" name="dept_keyword" placeholder="Enter Department.." id="search-bar"/>
                         </div>
                         <div class="small-4 columns">
                             <input type="text" name="course_no" placeholder="Course #"/>
@@ -53,4 +53,10 @@
         </div>
 
     </div>
+    <div id="footer">
+        <p id="bot">
+          Created by Aaron Plave, Yekaterina Sapozhnina, Aaron Rosen, Hora, Denise Francisco, Lili Borland and Aditya Gupta <a href="https://github.com/weshack/study_buddy/"><img src="{{ url_for('static', filename='resources/images/githubcat.jpg') }}" alt="Github Code Link" height="30" width="30"/></a>
+        </p>
+    </div>
 {% endblock %}
+

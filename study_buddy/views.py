@@ -3,9 +3,8 @@ from . import app, db, mongo_db
 from flask import Flask, url_for, redirect, session, render_template, request, flash
 from flask_login import (UserMixin, login_required, login_user, logout_user,
                          current_user)
-from flask.ext.security import LoginForm
 from flask.ext.wtf import Form
-from .forms import RegisterForm
+from .forms import RegistrationForm, LoginForm
 from flask_googlelogin import GoogleLogin
 import json
 from jinja2 import Template
@@ -18,6 +17,8 @@ from dateutil.parser import parse
 from bson.json_util import dumps
 from helpers import *
 from datetime import datetime
+from werkzeug.security import generate_password_hash
+from mongokit import ObjectId
 
 ##
 # Constants for mongodb keys
@@ -35,88 +36,79 @@ OWNER_ID_KEY = "owner_id"
 ATTENDEES_KEY = "attendees"
 NAME="name"
 
-client = MongoClient()
-
-db = client.sbdb
-
-googlelogin = GoogleLogin(app)
-
-# @googlelogin.user_loader
-# def get_user(userid):
-#     return users.get(userid)
-
-# class User(UserMixin):
-#     def __init__(self, userinfo):
-#         self.id = userinfo['id']
-#         self.name = userinfo['name']
-
-@app.route('/login')
+@app.route('/login', methods=["GET", "POST"])
 def login():
-    if current_user.is_authenticated():
-        print "Authenticated!"
-        return redirect(request.referrer or '/')
+    form = LoginForm(request.form)
+    if form.validate_on_submit():
+        print "form validated"
+        login_user(form.get_user(), remember=form.remember.data) # login_user(user, remember=True)
+        flash("Logged in succesfully")
+        return redirect(request.args.get("next") or url_for('home'))
+    return render_template('login.html', form=form)
 
-    print "did not recognize :("
+@app.route('/user', defaults={'user_id' : None})
+@app.route('/user/<user_id>', methods=["GET", "POST"])
+#@login_required
+def user(user_id):
+    if user_id is None:
+        user = current_user
+    else:
+        user = mongo_db.users.User.find_one({'_id' : ObjectId(user_id)})
 
-    return render_template('login.html', form=LoginForm())
-
-@app.route('/profile')
-@login_required
-def profile():
-    return render_template('profile.html',
-        google_conn=current_app.social.google.get_connection(),
-        facebook_conn=current_app.social.facebook.get_connection())
+    if request.method == "POST":
+        # /user/<user_id>?new_class=<class name>
+        if 'new_class' in request.args:
+            old_classes = user.classes
+            old_classes.append(request.args.get('new_class'))
+            user.classes = old_classes
+            if user.save():
+                return 'success!'
+            else:
+                return "didn't work"
+    else:
+        if user_id is None:
+            return render_template('profile.html', user=current_user)      
+        else:
+            user = mongo_db.users.User.find_one({'_id' : ObjectId(user_id)})
+            return render_template('profile.html', user=user)
 
 @app.route('/register', methods=['GET', 'POST'])
-@app.route('/register/<provider_id>', methods=['GET', 'POST'])
-def register(provider_id=None):
-    if current_user.is_authenticated():
-        return redirect(request.referrer or '/')
-
-    form = RegisterForm()
-
-    if provider_id:
-        provider = get_provider_or_404(provider_id)
-        connection_values = session.get('failed_login_connection', None)
-    else:
-        provider = None
-        connection_values = None
-
+def register():
+    form = RegistrationForm(request.form)
     if form.validate_on_submit():
-        ds = current_app.security.datastore
-        user = ds.create_user(email=form.email.data, password=form.password.data)
-        ds.commit()
+        # Create user
+        user_email = form.email.data
+        password = form.password.data
 
-        # See if there was an attempted social login prior to registering
-        # and if so use the provider connect_handler to save a connection
-        connection_values = session.pop('failed_login_connection', None)
+        if mongo_db.users.User.find({'email' : user_email}).count() > 0:
+            flash('An account with that email already exists!')
+            form = RegistrationForm()
+            return render_template('register.html', form=form)
+        else:
+            new_user = mongo_db.users.User()
+            new_user.email = user_email
+            new_user.password = generate_password_hash(password)
+            new_user.save()
 
-        if connection_values:
-            connection_values['user_id'] = user.id
-            connect_handler(connection_values, provider)
+        # log user in
+        login_user(new_user)
+        return redirect(url_for('home'))
+    if 'user_email' in session:
+        return render_template('register.html', email=session['user_email'], form=form)
+    else:
+        return render_template('register.html', form=form)
 
-        if login_user(user):
-            ds.commit()
-            flash('Account created successfully', 'info')
-            return redirect(url_for('profile'))
-
-        return render_template('thanks.html', user=user)
-
-    login_failed = int(request.args.get('login_failed', 0))
-
-    return render_template('register.html',
-                           form=form,
-                           provider=provider,
-                           login_failed=login_failed,
-                           connection_values=connection_values)
-    
 @app.route("/")
 def home():
     return render_template('index.html')
 
-# Search for a class. Dept is fixed but number is free, must be 3 num code
-# TODO: search doesn't work correctly, always returns everything from the database, no matter what we search for.
-@app.route('/find')
+@app.route("/group/<group_id>")
+def group(group_id):
+    group = mongo_db.study_sessions.StudySession.find_one({'_id' : ObjectId(group_id)})
+    return render_template('group.html', group=group)
+
+
+@app.route("/find")
 def search():
 
     if 'new_find' in request.args: # request coming from /find page
@@ -159,42 +151,10 @@ def search():
         results_exist = results_exist)
 
 
-# @app.route('/')
-# def index():
-#     return render_template('login.html', 
-#         login_link=googlelogin.login_url(approval_prompt='force',scopes=["email"]))
-
-class User(UserMixin):
-    def __init__(self,userinfo):
-        self.id = userinfo['id']
-        self.name = userinfo['name']
-        print "\nUSERINFO:",userinfo,"\n"
-        self.email = userinfo['email']
-
-# @app.route('/login_redirect')
-# @login_required
-# def login_redirect():
-#     # if success, add user to db if not exists
-#     #check if user exists
-#     if db.users.find_one({"userID": current_user.id}):
-#         print "HAVE USER",current_user.id
-#     else:
-#         print "FOUND THE USER", current_user.id
-#         db.users.insert({"name":current_user.name,"userID":current_user.id,"email":current_user.email})
-#     return redirect('/home')
-
-
-# @app.route('/logout')
-# def logout():
-#     logout_user()
-#     session.clear()
-#     return redirect('/')
-
-#accessing the departmentArray information for autofilling department form
-# @app.route('/departments')
-# def departments():
-#     print "searching for departments.."
-#     return json.dumps(departmentArray.depts)
+@app.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('home'))
 
 @app.route('/create')
 def create():
@@ -226,6 +186,7 @@ def new():
     # validate data
     tempdept=dept.lower()
     errors = []
+<<<<<<< HEAD
     if not departmentArray.validDept(tempdept):
         err1 = "DEPARTMENT '" +dept+ "' DOES NOT EXIST"
         errors.append(err1)
@@ -235,6 +196,7 @@ def new():
     if len(location) > 255:
         err3 = "Location too long, please limit to 255 chars or less"
         errors.append(err3)
+
 
     # convert/validate time
     #time = 123456543
@@ -253,18 +215,7 @@ def new():
     #ownerID = session['userid']
 
     # create group session object
-    group_session = {
-        OWNER_ID_KEY : ownerID,
-        DEPARTMENT_KEY : dept,
-        COURSE_NUMBER_KEY : course,
-        LOCATION_KEY : location,
-        TIME_KEY : time,
-        CONTACT_KEY : contact,
-        DESCRIPTION_KEY : description,
-        ATTENDEES_KEY: [[ownerID,user]],
-        COURSE_NOTES_KEY :session_details ,
-        NAME:name
-    }
+
     new_session=mongo_db.study_sessions.StudySession()
     new_session.department=dept
     new_session.course_no=course

@@ -30,13 +30,17 @@ body {
 .search-row-odd {
     padding-bottom: 5px;
     padding-top: 5px; 
+    margin-bottom: 2px;
     background-color: rgba(51, 51, 51, 0.7);
+    color: white;
 }
 
 .search-row-even {
     padding-bottom: 2px;
     padding-top: 5px;
+    margin-bottom: 2px;
     background-color: rgba(0, 51, 102, 0.7);
+    color: white;
 }
 
 #search-results-container {
@@ -98,10 +102,6 @@ nav.top-bar {
     opacity: 0.8;
 }
 
-.top-bar-section ul {
-    float: right;
-}
-
 .top-bar-section ul li > h1 {
     width: 100%;
     color: white;
@@ -110,10 +110,6 @@ nav.top-bar {
     font-weight: normal;
     text-transform: none;
     padding-top: 11px;
-}
-
-#well {
-    padding-right: 14px;
 }
 
 #text-background {

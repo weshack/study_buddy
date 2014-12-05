@@ -5,6 +5,7 @@
     <link rel="shortcut icon" href="{{ url_for('static', filename='resources/images/favicon.ico') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='resources/foundations/css/foundation.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='resources/js/datetimepicker/jquery.datetimepicker.css') }}" >
     <script src="{{ url_for('static', filename='resources/foundations/js/vendor/jquery.js') }}"></script>
     <script src="{{ url_for('static', filename='resources/foundations/js/foundation.min.js') }}"></script>
     <script src="{{ url_for('static', filename='study_buddy.js') }}"></script>
@@ -12,7 +13,8 @@
     <script src="{{ url_for('static', filename='resources/foundations/js/vendor/fastclick.js' ) }}"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min.js"></script>
-    <title>Study Buddy - {% block title %}{% endblock %}</title>
+    <script src="{{ url_for('static', filename='resources/js/datetimepicker/jquery.datetimepicker.js') }}"></script>
+    <title>Succor - {% block title %}{% endblock %}</title>
     {% endblock %}
   </head>
   <body>
@@ -20,35 +22,42 @@
       <nav class="top-bar" data-topbar role="navigation">
             <ul class="title-area">
                 <li class="name">
-                    <h1><a href="/">Study Buddy</a></h1>
+                    <h1><a href="/">Succor</a></h1>
                 </li>
             </ul>
-            {% if session['username'] %}
+            {% if current_user.is_authenticated(): %}
               <section class="top-bar-section">           
-                  <ul>
-                      <li>
-                          <h1 id="well">Welcome, {{ session['username'] }}</h1>
-                      </li>
-                      <li>
-                          <h1>|</h1>
-                      </li>
-                      <li>
-                          <a href="logout">Logout</a>
-                      </li>
-                  </ul>
+                <ul class="right">
+                    <li class="has-dropdown not-click">
+                        <a href="/user/{{ current_user._id }}">Welcome, {{ current_user.email }}</a>
+                        <ul class="dropdown">
+                          {% for class in current_user.classes: %}
+                            <li><a href="/find?new_find={{ class }}">{{ class }}</a></li>
+                          {% endfor %}
+                          <li id="add-class"><a href="#">Add another class</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <h1>|</h1>
+                    </li>
+                    <li>
+                        <a href="logout">Logout</a>
+                    </li>
+                </ul>
+              </section>
+            {% else: %}
+              <section class="top-bar-section">
+                <ul>
+                  <li>
+                    <a href="login">Login</a>
+                  </li>
+                </ul>
               </section>
             {% endif %}
         </nav>
     </div>
     <div id="content">
       {% block content %}{% endblock %}
-    </div>
-    <div id="footer">
-      {% block footer %}
-        <p id="bot">
-          Created by Aaron Rosen, Hora, Denise Francisco and Aditya Gupta <a href="https://github.com/weshack/study_buddy/"><img src="{{ url_for('static', filename='resources/images/githubcat.jpg') }}" alt="Github Code Link" height="30" width="30"/></a>
-        </p>
-      {% endblock %}
     </div>
   </body>
 </html>

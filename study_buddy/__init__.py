@@ -1,8 +1,10 @@
 from flask import Flask
 from flask.ext.sqlalchemy import SQLAlchemy
+from flask.ext.login import LoginManager
 from flask.ext.security import Security, SQLAlchemyUserDatastore
 from flask.ext.social import Social, SQLAlchemyConnectionDatastore, \
 	 login_failed
+from flask.ext.wtf.csrf import CsrfProtect
 from mongokit import *
 from models import *
 from datetime import datetime
@@ -39,12 +41,23 @@ def output_time(result):
 db = SQLAlchemy(app)
 
 connection = Connection()
-connection.register([StudySession])
+connection.register([StudySession, User])
 mongo_db = connection.succor
+
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = 'login'
+
+# csrf = CsrfProtect()
+# csrf.init_app(app)
 
 print "Running app..."
 app.jinja_env.globals.update(output_time=output_time)
 from . import views, models
+
+@login_manager.user_loader
+def load_user(user_id):
+	return mongo_db.users.User.find_one({'_id' : ObjectId(user_id)})
 
 # security_ds = SQLAlchemyUserDatastore(db, models.User, models.Role)
 # social_ds = SQLAlchemyConnectionDatastore(db, models.Connection)

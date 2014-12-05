@@ -11,17 +11,20 @@ var BASE_URL = "";
 var autocomplete_data = [];
 
 $(document).ready(function() {
+	init_autocomplete("#search-bar");
+	init_autocomplete("#createdepartment");
+	jQuery('#datepicker').datetimepicker();
 
+
+	$('#add-class').click(function() {
+		// change child of anchor tag to form field
+		console.log(this.innerHTML);
+		this.innerHTML = "<form method='post' action='/user/{{ current_user._id }}'><input type='text' /></form>"		
+	});
 });
 
-var search_page = {
-	create: function() {
-
-	}
-}
-
 //Code that runs right after window has loaded
-window.onload = function() {
+function init_autocomplete(search_bar) {
 
 	var data = 
 	[["AMST", "American Studies"],
@@ -89,18 +92,22 @@ window.onload = function() {
 	for (i in data) {
 		var name_json = {};
 		var short_name = data[i][0];
-		console.log(short_name);
 		var long_name = data[i][1];
-		console.log(long_name);
 		name_json["label"] = short_name+"-"+long_name;
 		autocomplete_data.push(name_json);
 	}	
 
-	$("#studysearch").autocomplete({
-		source: autocomplete_data
-	});
 
-};
+	// $("#studysearch").autocomplete({
+	//  	source: autocomplete_data
+	//  });
+
+	// $(search_bar).autocomplete({
+	// 	source: autocomplete_data
+	// });
+
+
+}
 
 
 function parseJson(json) {
@@ -111,9 +118,7 @@ function parseJson(json) {
 		var time_of_meeting = item[TIME_TAG];
 		var study_location = item[LOCATION_TAG];
 		var list_of_partners = item[STUDY_PARTNER_TAG];
-
-	}
-	
+	}	
 }
 
 // Return data in json form from url.
@@ -134,7 +139,5 @@ function queryURL(url) {
 	request.send();
 }
 
-$(function() {
-	$( "#datepicker" ).datepicker();
-  });
+
 
