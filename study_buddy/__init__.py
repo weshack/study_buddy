@@ -52,7 +52,7 @@ login_manager.login_view = 'login'
 
 print "Running app..."
 app.jinja_env.globals.update(output_time=output_time)
-from . import views, models
+from study_buddy import views, models
 
 @login_manager.user_loader
 def load_user(user_id):
