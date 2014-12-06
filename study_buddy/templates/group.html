@@ -8,13 +8,16 @@
 {% endblock %}
 
 {% block content %}
-	<div class="row">
-		<h1>{{ group.department }} {{ group.course_no }} <small>{{ group.time }}</small></h1>
-	</div>
-	<div class="row">
-		<h3>Location: <small>{{ group.location }}</small></h3>
-		<h3>Description: <small>{{ group.description }}</small></h3>
-		<h3>Contact: <small>{{ group.contact_info }}</small></h3>
-		<h3>Details: <small>{{ group.details }}</small></h3>
+	<div class="info-card">
+		<a href="{{ request.referrer }}">Back</a>
+		<div class="row">
+			<h2>{{ group.department }} {{ group.course_no }} <small>{{ output_time(group.time) }}</small></h2>
+		</div>
+		<div class="row">
+			<h3>Location: <small>{{ group.location }}</small></h3>
+			<h3>Description: <small>{{ group.description }}</small></h3>
+			<h3>Contact: <small>{{ group.contact_info }}</small></h3>
+			<h3>Details: <small>{{ group.details }}</small></h3>
+		</div>
 	</div>
 {% endblock %}

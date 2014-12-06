@@ -21,6 +21,10 @@ $(document).ready(function() {
 		console.log(this.innerHTML);
 		this.innerHTML = "<form method='post' action='/user/{{ current_user._id }}'><input type='text' /></form>"		
 	});
+
+	$('.clickableRow').click(function() {
+		window.document.location = $(this).attr('href');
+	});
 });
 
 //Code that runs right after window has loaded

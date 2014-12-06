@@ -1,283 +1,264 @@
 /*
-*
 * Grey: #C7D0D5;
 * Blue: #93B1C6;
 * White: #F5F5F5;
 * Orange: #FF7148;
 * Red: #EC583A;
 */
-
+/*Grey*/
+/*Orange*/
+/*Red*/
+/*Blue*/
 @font-face {
-    font-family: josefinslab;
-    src: url(josefinslab-bold-webfont.woff);
+  font-family: josefinslab;
+  src: url(josefinslab-bold-webfont.woff);
 }
-
 html {
-    font-family: josefinslab;
+  font-family: bitstream-regular !important;
 }
-html, body {
-    height: 100%;
+html,
+body {
+  height: 100%;
 }
 body {
-    width: 100%;
-    background: url(resources/images/wesleyan.jpg) !important;
-    background-color: #E0E0D1; 
-    background-size: cover !important;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
+  width: 100%;
+  background: linear-gradient(rgba(22, 160, 133, 0.8), rgba(22, 160, 133, 0.3)), url('resources/images/congruent_pentagon.png'); 
+/*  background-size: cover !important;
+*/  background-repeat: repeat-x repeat-y;
+  background-attachment: fixed;
 }
-
+ 
+table tr td, table thead tr th {
+    color: #4ABA9A;
+}
 .center-elmt {
-    margin-left: auto;
-    margin-right: auto;
+  margin-left: auto;
+  margin-right: auto;
 }
-
 .center-txt {
-    text-align: center;
+  text-align: center;
 }
-
 .search-row-odd {
-    padding-bottom: 5px;
-    padding-top: 5px; 
-    margin-bottom: 2px;
-    background-color: rgba(51, 51, 51, 0.7);
-    color: white;
+  padding-bottom: 5px;
+  padding-top: 5px;
+  margin-bottom: 2px;
+  background-color: rgba(51, 51, 51, 0.7);
+  color: white;
 }
-
 .search-row-even {
-    padding-bottom: 2px;
-    padding-top: 5px;
-    margin-bottom: 2px;
-    background-color: rgba(0, 51, 102, 0.7);
-    color: white;
+  padding-bottom: 2px;
+  padding-top: 5px;
+  margin-bottom: 2px;
+  background-color: rgba(0, 51, 102, 0.7);
+  color: white;
 }
-
 #search-results-container {
-    color: white;
+  color: white;
 }
-
 #no-search-results {
-    margin: 15px 0;
+  margin: 15px 0;
 }
-
 #ui-datepicker-div {
-    width: 20%;
-    text-decoration: none;
-    list-style-type: none;
-    margin-left: auto;
-    margin-right: auto;
+  width: 20%;
+  text-decoration: none;
+  list-style-type: none;
+  margin-left: auto;
+  margin-right: auto;
 }
-
 /*class for centering*/
 .center {
-    width: 100%;
-    text-align: center;
-    margin-top: 100px;
+  width: 100%;
+  text-align: center;
+  margin-top: 100px;
 }
 .custom-title {
-    font-size: 500%;
-    text-align: center;
-    margin-top: 100px;
-    font-weight: bold;
-    color: beige;
-    min-width: 500px;
-    text-shadow: 3px 3px #000000;
+  font-size: 500%;
+  text-align: center;
+  margin-top: 100px;
+  font-weight: bold;
+  color: beige;
+  min-width: 500px;
 }
 .create-forms {
-    margin-top: 120px;
+  margin-top: 120px;
 }
-.ui-helper-hidden-accessible {
-    visibility: hidden;
-}
-.ui-menu-item:hover{
-    background-color: #99D6FF;
-}
-.ui-menu-item {
-    padding-left: 10px;
-}
-.ui-widget-content {
-    width: 73%;
-    border: 1px solid black;
-    color: #222222;
-    background-color: white;
-    text-decoration: none;
-    list-style-type: none;
-    margin-left: auto;
-    margin-right: auto;
-    font-size: 12px;
-}
-
 nav.top-bar {
-    opacity: 0.8;
+  opacity: 0.8;
 }
-
 .top-bar-section ul li > h1 {
-    width: 100%;
-    color: white;
-    font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
-    font-size: 0.8125rem;
-    font-weight: normal;
-    text-transform: none;
-    padding-top: 11px;
+  width: 100%;
+  color: white;
+  font-size: 0.8125rem;
+  font-weight: normal;
+  text-transform: none;
+  padding-top: 11px;
 }
-
 #text-background {
-    /*background-color: rgba(51,51,51,0.5);*/
-    margin-left: 30%;
-    margin-right: 30%;
-    padding: 5px;
-    line-height: initial;
-    border-radius: 25px;
-    text-shadow: 3px 3px #000000;
-    font-family:josefinslab;
+  /*background-color: rgba(51,51,51,0.5);*/
+  margin-left: 30%;
+  margin-right: 30%;
+  padding: 5px;
+  line-height: initial;
+  border-radius: 25px;
 }
 .columns input {
-    width: 100% !important;
+  width: 100% !important;
 }
 #intro {
-    font-size: 200%;
-    text-align: center;
-    margin-top: 65px;
-    margin-bottom: 50px;
-    color: beige;
-    /*background-color: rgba(51,51,51,0.5);*/
-    line-height: initial;
-    margin-left: 22%;
-    margin-right: 22%;
-    padding: 10px;
-    border-radius: 10px;
-    text-shadow: 2px 2px #000000;
-    font-family:josefinslab;
+  font-size: 100%;
+  font-family: josefinslab;
+  margin-top: 65px;
+  margin-bottom: 50px;
+  color: #fff;
+  /*background-color: rgba(51,51,51,0.5);*/
+  line-height: 150%;
+  margin-left: 22%;
+  margin-right: 22%;
+  padding: 10px;
 }
-
 #text-input {
-    margin-bottom: 15px;
-    text-align: center;
-
-    padding-left: 8px;
-    padding-right: 8px;
+  margin-bottom: 15px;
+  text-align: center;
+  padding-left: 8px;
+  padding-right: 8px;
 }
-
 #text-input input {
-    padding-top: 8px;
-    padding-bottom: 8px;
-    padding-left: 8px;
-    padding-right: 8px;
-    font-size: 25px;
-    margin-left: auto;
-    margin-right: auto;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 8px;
+  padding-right: 8px;
+  font-size: 25px;
+  margin-left: auto;
+  margin-right: auto;
 }
-
 #searchresults {
-    width: 80%;
-    margin-left: 10%;
+  width: 80%;
+  margin-left: 10%;
 }
 #searchbar {
-    width: 20%;
-    float: right;
-    margin-right: 20%;
+  width: 20%;
+  float: right;
+  margin-right: 20%;
 }
 #front-page-buttons {
-    margin-left: auto;
-    margin-right: auto;
-    text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
 }
 .container {
-    display: none;
+  display: none;
 }
 .click {
-    cursor: pointer;
+  cursor: pointer;
 }
-
 #login-button a {
-    color: white;
+  color: white;
 }
 #login-button {
-    margin-left: auto;
-    margin-right: auto;
-    text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
 }
 #button-wrapper {
-    width: 100%;
-    text-align: center;
-    margin-top: 100px;
+  width: 100%;
+  text-align: center;
+  margin-top: 100px;
 }
 #about-panel {
-    width: 75%;
-    margin-right: auto;
-    margin-left: auto;
-    margin-top: 65px;
-    background-color: rgba(255, 255, 255, 0.5);
-    font-size: 32px;
+  width: 75%;
+  margin-right: auto;
+  margin-left: auto;
+  margin-top: 65px;
+  background-color: rgba(255, 255, 255, 0.5);
+  font-size: 32px;
 }
 #about-panel p {
-    font-size: 20px;
-    margin-top: 7px;
+  font-size: 20px;
+  margin-top: 7px;
 }
-
-
 #course {
-    width: 35.5%;
+  width: 35.5%;
 }
-
-
-#page-header{
-    width:90%;
-    margin-top: 8%;
-    margin-left: 10%;
-    margin-bottom: none;
-    display: inline-block;
+#page-header {
+  width: 90%;
+  margin-top: 8%;
+  margin-left: 10%;
+  margin-bottom: none;
+  display: inline-block;
 }
 #create-group {
-    width: 60%;
-    margin-left: auto;
-    margin-right: auto;
+  width: 60%;
+  margin-left: auto;
+  margin-right: auto;
 }
 #search-input {
-    width: 50%;
-    margin-left: 10%;
-    display: inline-block;
+  width: 50%;
+  margin-left: 10%;
+  display: inline-block;
 }
 .students-table {
-    width: 30%;
-    display: inline-block;
+  width: 30%;
+  display: inline-block;
 }
 .notes {
-    display: inline-block;
-    width: 60%;
-    float: right;
-    height: 100%;
-    overflow: auto;
+  display: inline-block;
+  width: 60%;
+  float: right;
+  height: 100%;
+  overflow: auto;
 }
 /*footer stuff*/
-
 .footer {
-    margin-left: auto;
-    margin-right: auto;
-    text-shadow: 0.7px 0.7px #000000;
-    position: fixed;
-    bottom: 0;
+  margin-left: auto;
+  margin-right: auto;
+  text-shadow: 0.7px 0.7px #000000;
+  position: fixed;
+  bottom: 0;
 }
 #bot {
-    font-size: 16px;
-    text-align: center;
-    color: beige;
-    margin-bottom: 0;
-    
+  font-size: 16px;
+  text-align: center;
+  color: beige;
+  margin-bottom: 0;
 }
-
 .wrapper {
-    min-height: 95%;
-    height: auto !important;
-    height: 95%;
-    margin: ;0
-    0 auto -2em;
+  min-height: 95%;
+  height: auto !important;
+  height: 95%;
+  margin: ;
+  0auto: -2em;
 }
-.footer, .push {
-    height: 2em;
+.footer,
+.push {
+  height: 2em;
 }
-#errors{
-    margin-top: 5%;
+#errors {
+  margin-top: 5%;
+}
 
+.button {
+    background-color: #1676a0 !important;
+}
+.header {
+    color: #FFFFFF !important;
+}
+.subheader {
+    color: #CDCDCD !important;
 }
 
+.top-bar {
+    background-color: rgba(22, 118, 160, 1) !important;
+}
+
+.info-card {
+    background-color: rgba(255, 255, 255, 0.7);
+    margin-top: 100px !important;
+    max-width: 35%;
+    margin: auto;
+    padding: 15px;
+    border-radius: 10px;
+}
+
+.info-card h2, h3 {
+    color: #4aba9a;
+}
