@@ -4,7 +4,7 @@ from study_buddy import mongo_db
 from werkzeug.security import check_password_hash
 
 class GroupForm(Form):
-    name = TextField('Name', [
+    name = TextField('Your Name', [
         validators.Required()
     ])
     email = TextField('Contact', [
@@ -18,7 +18,7 @@ class GroupForm(Form):
         validators.NumberRange(min=100, max=999)
     ])
     datetime = DateTimeField('Date and time', format="%Y/%m/%d %H:%M")
-    location = TextField('Location', [
+    where = TextField('Where', [
         validators.Required()
     ])
     assignment = TextField('Assignment', [

@@ -149,7 +149,7 @@ def create():
         new_session.department=create_form.department.data.lower() 
         new_session.course_no=str(create_form.course_no.data)
         new_session.time=create_form.datetime.data
-        new_session.location=create_form.location.data
+        new_session.location=create_form.where.data
         new_session.description=create_form.assignment.data
         new_session.contact_info=create_form.email.data
         new_session.details=create_form.details.data
