@@ -31,6 +31,11 @@ body {
 table tr td, table thead tr th {
     color: #4ABA9A;
 }
+.time-subheader {
+    color: rgb(111,111,111);
+    font-size: 120%;
+    margin-bottom: 5px;
+}
 .center-elmt {
   margin-left: auto;
   margin-right: auto;
