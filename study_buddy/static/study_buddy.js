@@ -15,6 +15,13 @@ $(document).ready(function() {
 	init_autocomplete("#createdepartment");
 	jQuery('#datetime').datetimepicker();
 
+	$('#search-bar').on('input', function() {
+		if ($(this).val() != '') {
+			$('#main-search-button').attr('Value', 'Search');
+		} else {
+			$('#main-search-button').attr('Value', 'Search All');
+		}
+	});
 
 	$('#add-class').click(function() {
 		// change child of anchor tag to form field
