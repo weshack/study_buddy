@@ -26,6 +26,10 @@ class GroupForm(Form):
     ])
     details = TextField('Details')
 
+    def validate_email(self, field):
+        if '.edu' not in self.email.data:
+            raise validators.ValidationError('Please use a .edu email')
+
 
 
 class LoginForm(Form):
