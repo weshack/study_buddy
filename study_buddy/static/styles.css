@@ -22,6 +22,7 @@ body {
 }
 body {
   width: 100%;
+  background-color: rgb(22, 160, 133);
   background: linear-gradient(rgba(22, 160, 133, 0.8), rgba(22, 160, 133, 0.3)), url('resources/images/congruent_pentagon.png'); 
 /*  background-size: cover !important;
 */  background-repeat: repeat-x repeat-y;

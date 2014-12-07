@@ -9,7 +9,7 @@ from flask_googlelogin import GoogleLogin
 import json
 from jinja2 import Template
 # from flask.ext.pymongo import PyMongo
-from pymongo import MongoClient
+from pymongo import MongoClient, ASCENDING
 import departmentArray
 import random
 import time
