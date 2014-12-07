@@ -145,7 +145,8 @@ def create():
     create_form = GroupForm(request.form)
     if create_form.validate_on_submit():
         new_session=mongo_db.study_sessions.StudySession()
-        new_session.department=create_form.department.data
+        # store department as lower case so search works
+        new_session.department=create_form.department.data.lower() 
         new_session.course_no=str(create_form.course_no.data)
         new_session.time=create_form.datetime.data
         new_session.location=create_form.location.data
