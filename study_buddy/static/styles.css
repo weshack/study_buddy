@@ -13,6 +13,13 @@
   font-family: josefinslab;
   src: url(josefinslab-bold-webfont.woff);
 }
+@mixin vertical-align {
+  position: relative;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
 html {
   font-family: bitstream-regular !important;
 }
@@ -268,4 +275,11 @@ nav.top-bar {
     padding-left: 16px;
     text-align: center;
     color: #236E90;
+}
+
+#four-o-four {
+  font-size: 250pt;
+  line-height: 100% !important;
+  margin-bottom: 82px;
+  height: 200px;
 }

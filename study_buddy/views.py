@@ -2,7 +2,7 @@ from study_buddy import app, mongo_db
 from forms import RegistrationForm, LoginForm, GroupForm
 from helpers import *
 
-from flask import Flask, url_for, redirect, session, render_template, request, flash
+from flask import url_for, redirect, session, render_template, request, flash
 from pymongo import ASCENDING, DESCENDING
 from mongokit import ObjectId
 from datetime import datetime, timedelta

@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template
 from flask.ext.login import LoginManager
 from flask.ext.wtf.csrf import CsrfProtect
 from flask.ext.assets import Environment, Bundle
@@ -35,6 +35,10 @@ mongo_db = connection.succor
 print "Running app..."
 app.jinja_env.globals.update(output_time=output_time)
 from study_buddy import views, models
+
+@app.errorhandler(404)
+def page_not_found(e):
+	return render_template('404.html'), 404
 
 # @login_manager.user_loader
 # def load_user(user_id):
