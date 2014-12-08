@@ -160,15 +160,15 @@ def create():
     return render_template('create.html',username='dummy', form=create_form);
     #return render_template('create.html',username=session['username']);
 
-##
-# Responds to route /lucky, returning a random group study session from database.
-##
-@app.route('/lucky')
-def lucky():
-    number_of_records = db.group_sessions.count()
-    random_number = random.randint(0,number_of_records-1)
-    group_session = db.group_sessions.find().limit(-1).skip(random_number).next()
-    return 'picked random session with id: ' + str(group_session['_id'])
+# ##
+# # Responds to route /lucky, returning a random group study session from database.
+# ##
+# @app.route('/lucky')
+# def lucky():
+#     number_of_records = db.group_sessions.count()
+#     random_number = random.randint(0,number_of_records-1)
+#     group_session = db.group_sessions.find().limit(-1).skip(random_number).next()
+#     return 'picked random session with id: ' + str(group_session['_id'])
 
 ##
 # Responds to a url of the form: 
@@ -182,34 +182,34 @@ def lucky():
 #   course_notes : string
 #   group_id : string
 ##
-@app.route('/edit',methods=['POST'])
-def edit():
-    department = request.args.get('department')
-    course_no = request.args.get('course_no')
-    location = request.args.get('location')
-    time = request.args.get('time')
-    attendees = request.args.get('attendees')
-    course_notes = request.args.get('course_notes')
-    group_id = request.args.get('group_id')
+# @app.route('/edit',methods=['POST'])
+# def edit():
+#     department = request.args.get('department')
+#     course_no = request.args.get('course_no')
+#     location = request.args.get('location')
+#     time = request.args.get('time')
+#     attendees = request.args.get('attendees')
+#     course_notes = request.args.get('course_notes')
+#     group_id = request.args.get('group_id')
 
-    coll = db.group_sessions
-    new_data = {DEPARTMENT_KEY    : department,
-                COURSE_NUMBER_KEY : course_no,
-                LOCATION_KEY      : location,
-                TIME_KEY          : time,
-                ATTENDEES_KEY     : attendees,
-                COURSE_NOTES_KEY  : course_notes}
+#     coll = db.group_sessions
+#     new_data = {DEPARTMENT_KEY    : department,
+#                 COURSE_NUMBER_KEY : course_no,
+#                 LOCATION_KEY      : location,
+#                 TIME_KEY          : time,
+#                 ATTENDEES_KEY     : attendees,
+#                 COURSE_NOTES_KEY  : course_notes}
 
-    # verify that user owns the group before updating database.
-    coll.update({'_id' : group_id}, new_data)
+#     # verify that user owns the group before updating database.
+#     coll.update({'_id' : group_id}, new_data)
 
-    # Show the updated results page.
+#     # Show the updated results page.
 
 
-@app.route('/delete',methods=['POST'])
-def delete():
-    # TODO: verify that user in session owns the group session to be deleted
-    pass
+# @app.route('/delete',methods=['POST'])
+# def delete():
+#     # TODO: verify that user in session owns the group session to be deleted
+#     pass
 
 ##
 # Add the current user to the selected study session group.
@@ -218,32 +218,32 @@ def delete():
 #   
 #   group_id : string
 ##
-@app.route('/join',methods=['POST'])
-def join():
-    user = db.users.find_one({"userID": session['userid']})
-    group_id = request.args.get('group_id')
-    db_results_list = cursortolst(db.group_sessions.find())
+# @app.route('/join',methods=['POST'])
+# def join():
+#     user = db.users.find_one({"userID": session['userid']})
+#     group_id = request.args.get('group_id')
+#     db_results_list = cursortolst(db.group_sessions.find())
 
-    insert_item = {}
+#     insert_item = {}
     
-    for item in db_results_list:
-        print str(item['_id']) + " =? " + str(group_id)
-        if str(group_id) == str(item['_id']):
-            print "we have a match!"
-            item[ATTENDEES_KEY].append([user['userID'], user['name']])
-            insert_item = item
-    # current_study_group = db.group_sessions.find_one({'_id': group_id})
-    print insert_item
-    # Check that user is in the attendees of current_study_group
-    # if user in usercurrent_study_group.attendees:
-        # Show user that he/she is already in the group.
+#     for item in db_results_list:
+#         print str(item['_id']) + " =? " + str(group_id)
+#         if str(group_id) == str(item['_id']):
+#             print "we have a match!"
+#             item[ATTENDEES_KEY].append([user['userID'], user['name']])
+#             insert_item = item
+#     # current_study_group = db.group_sessions.find_one({'_id': group_id})
+#     print insert_item
+#     # Check that user is in the attendees of current_study_group
+#     # if user in usercurrent_study_group.attendees:
+#         # Show user that he/she is already in the group.
 
-    coll = db.group_sessions
-    #new_attendees_list = current_study_group[ATTENDEES_KEY].add(user)
-    coll.update({'_id': insert_item['_id']}, insert_item, True)
-    print list(coll.find())
-    # Return that the database was updated and refresh the page with new attendees list.
-    return 'success'
+#     coll = db.group_sessions
+#     #new_attendees_list = current_study_group[ATTENDEES_KEY].add(user)
+#     coll.update({'_id': insert_item['_id']}, insert_item, True)
+#     print list(coll.find())
+#     # Return that the database was updated and refresh the page with new attendees list.
+#     return 'success'
 
 def ISOToEpoch(timestring):
     return time.mktime(parse(timestring).timetuple())

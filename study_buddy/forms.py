@@ -15,7 +15,6 @@ class GroupForm(Form):
     ])
     course_no = IntegerField('Course Number', [
         validators.Required(),
-        validators.NumberRange(min=100, max=999)
     ])
     datetime = DateTimeField('Date and time', format="%Y/%m/%d %H:%M")
     where = TextField('Where', [
@@ -25,6 +24,10 @@ class GroupForm(Form):
         validators.Required()
     ])
     details = TextField('Details')
+
+    def validate_course_no(self, field):
+        if not self.course_no.data < 1000 or len(str(self.course_no.data)) != 3:
+            raise validators.ValidationError('Please enter a 3 digit course number')
 
     def validate_email(self, field):
         if '.edu' not in self.email.data:
