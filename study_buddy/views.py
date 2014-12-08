@@ -1,4 +1,4 @@
-from . import app, db, mongo_db
+from . import app, mongo_db
 
 from flask import Flask, url_for, redirect, session, render_template, request, flash
 from flask_login import (UserMixin, login_required, login_user, logout_user,
@@ -9,14 +9,14 @@ from flask_googlelogin import GoogleLogin
 import json
 from jinja2 import Template
 # from flask.ext.pymongo import PyMongo
-from pymongo import MongoClient, ASCENDING
+from pymongo import ASCENDING, DESCENDING
 import departmentArray
 import random
 import time
 from dateutil.parser import parse
 from bson.json_util import dumps
 from helpers import *
-from datetime import datetime
+from datetime import datetime, timedelta
 from werkzeug.security import generate_password_hash
 from mongokit import ObjectId
 
@@ -108,31 +108,41 @@ def search():
     search_results = None
     results_exist = True
 
+    date_now = datetime.today() - timedelta(hours=1)
     if course_keyword and dept_keyword:
-        search_results = mongo_db.study_sessions.StudySession.find(
-            {'course_no' : course_keyword, 'department' : dept_keyword})
-        print search_results , "We are in if condition"
+        upcoming_search_results = mongo_db.study_sessions.StudySession.find(
+            {'course_no' : course_keyword, 
+             'department' : dept_keyword,  
+             'time' : {'$gte' : date_now}})
+        old_search_results = mongo_db.study_sessions.StudySession.find(
+            {'course_no' : course_keyword, 
+             'department' : dept_keyword,  
+             'time' : {'$lt' : date_now}})
     elif dept_keyword and not course_keyword:
         print "only department entered"
-        search_results = mongo_db.study_sessions.StudySession.find(
-            {'department' : dept_keyword})
+        upcoming_search_results = mongo_db.study_sessions.StudySession.find(
+            {'department' : dept_keyword,
+             'time' : {'$gte' : date_now}})
+        old_search_results = mongo_db.study_sessions.StudySession.find(
+            {'department' : dept_keyword,
+             'time' : {'$lt' : date_now}})
     elif not dept_keyword and not course_keyword:
-        search_results = mongo_db.study_sessions.StudySession.find()
+        upcoming_search_results = mongo_db.study_sessions.StudySession.find(
+            {'time' : {'$gte' : date_now}})
+        old_search_results = mongo_db.study_sessions.StudySession.find(
+            {'time' : {'$lt' : date_now}})
     else:
         flash('Enter something to search!')
         return render_template('index.html')
-
-    # else we have no results
-    if search_results.count() > 0:
-        print "Text"
-        for result in search_results:
-            print result
-    else:
-        results_exist = False
     
-    search_results.rewind()
-    return render_template('search_results.html', results = search_results, 
-        results_exist = results_exist)
+    upcoming_search_results.sort('time', ASCENDING)
+    old_search_results.sort('time', DESCENDING)
+
+    upcoming_search_results.rewind()
+    return render_template('search_results.html', 
+        upcoming_results = upcoming_search_results,
+        old_results = old_search_results, 
+        results_exist = (upcoming_search_results.count() > 0 or old_search_results > 0))
 
 
 # @app.route('/logout')

@@ -22,8 +22,6 @@ def output_time(result):
     format = "%a, %-d at %-I:%M %p" # "%M/%d %I:%M %p"
     return result.strftime(format)
 
-db = SQLAlchemy(app)
-
 connection = Connection()
 connection.register([StudySession, User])
 mongo_db = connection.succor
