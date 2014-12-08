@@ -1,14 +1,9 @@
 from flask import Flask
-from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.login import LoginManager
-from flask.ext.security import Security, SQLAlchemyUserDatastore
-from flask.ext.social import Social, SQLAlchemyConnectionDatastore, \
-	 login_failed
 from flask.ext.wtf.csrf import CsrfProtect
 from flask.ext.assets import Environment, Bundle
-from mongokit import *
+from mongokit import ObjectId, Connection
 from models import *
-from datetime import datetime
 
 app = Flask(__name__)
 

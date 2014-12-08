@@ -1,24 +1,16 @@
-from . import app, mongo_db
+from study_buddy import app, mongo_db
+from forms import RegistrationForm, LoginForm, GroupForm
+from helpers import *
 
 from flask import Flask, url_for, redirect, session, render_template, request, flash
-from flask_login import (UserMixin, login_required, login_user, logout_user,
-                         current_user)
-from flask.ext.wtf import Form
-from .forms import RegistrationForm, LoginForm, GroupForm
-from flask_googlelogin import GoogleLogin
-import json
-from jinja2 import Template
-# from flask.ext.pymongo import PyMongo
 from pymongo import ASCENDING, DESCENDING
-import departmentArray
-import random
-import time
-from dateutil.parser import parse
-from bson.json_util import dumps
-from helpers import *
+from mongokit import ObjectId
 from datetime import datetime, timedelta
 from werkzeug.security import generate_password_hash
-from mongokit import ObjectId
+
+from flask.ext.login import login_required, login_user, logout_user, current_user
+from flask.ext.wtf import Form
+
 
 # @app.route('/login', methods=["GET", "POST"])
 # def login():
@@ -255,33 +247,8 @@ def create():
 #     # Return that the database was updated and refresh the page with new attendees list.
 #     return 'success'
 
-def ISOToEpoch(timestring):
-    return time.mktime(parse(timestring).timetuple())
-
-def return_db_results(results,user,userID,isAttendee):
-    return render_template('search_results.html',username=session['username'],count=len(results),results=list(results),user=user,userID=userID,isAttendee=list(isAttendee))
-
-def attendee(grps,userID):
-    print "user id is: " + userID
-    isAttendee=[]
-    for grp_session in grps:
-        isAttendeeInGroup = False
-        for user in grp_session[ATTENDEES_KEY]:
-            if userID == user[0]:
-                isAttendeeInGroup = True
-                break
-        isAttendee.append(isAttendeeInGroup)
-    return isAttendee
-
-def cursortolst(grps):
-    return_list=[]
-    for item in grps:
-        return_list.append(item)
-    return return_list
 
 
-if __name__ == "__main__":
-	app.run(debug=True)
 
 
 
