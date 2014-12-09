@@ -82,8 +82,17 @@ table tr td, table thead tr th {
 .create-forms {
   margin-top: 120px;
 }
+nav.top-bar section {
+  margin: 0 12px;
+}
 nav.top-bar {
   opacity: 0.8;
+}
+nav.top-bar a {
+  color: white;
+}
+nav.top-bar section a :hover {
+  color: rgb(22, 160, 133);
 }
 .top-bar-section ul li > h1 {
   width: 100%;
@@ -372,4 +381,3 @@ nav.top-bar {
   width: 640px;
   height: 360px;
 }
-
