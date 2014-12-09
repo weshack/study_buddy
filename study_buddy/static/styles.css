@@ -286,3 +286,16 @@ nav.top-bar {
 .clickableRow :hover{
   cursor:pointer;
 }
+
+.aboutheading{
+    text-align: center;
+}
+.names p{
+    display: block;
+    float: left;
+}
+.photos{
+    float: left;
+    margin-right: 24px;
+}
+
