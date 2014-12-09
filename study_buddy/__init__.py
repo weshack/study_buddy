@@ -25,9 +25,9 @@ mongo_db = connection.succor
 # scss = Bundle('', filters='pyscss', output='all.css')
 # assets.register('scss_all', scss)
 
-# login_manager = LoginManager()
-# login_manager.init_app(app)
-# login_manager.login_view = 'login'
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = 'login'
 
 # csrf = CsrfProtect()
 # csrf.init_app(app)
@@ -40,6 +40,6 @@ from study_buddy import views, models
 def page_not_found(e):
 	return render_template('404.html'), 404
 
-# @login_manager.user_loader
-# def load_user(user_id):
-# 	return mongo_db.users.User.find_one({'_id' : ObjectId(user_id)})
+@login_manager.user_loader
+def load_user(user_id):
+	return mongo_db.users.User.find_one({'_id' : ObjectId(user_id)})

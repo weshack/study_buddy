@@ -242,7 +242,7 @@ nav.top-bar {
     color: #CDCDCD !important;
 }
 
-.top-bar {
+.top-bar, .top-bar-section a, .top-bar-section li {
     background-color: rgba(22, 118, 160, 1) !important;
 }
 

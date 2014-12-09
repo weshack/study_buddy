@@ -5,7 +5,7 @@
 {% block title %}Login{% endblock %}
 
 {% block content %}
-  <div class="row">
+  <div class="row info-card">
     <form method="post" action="/login">
         <dl>
           {{ form.csrf_token }}
@@ -13,7 +13,7 @@
           {{ render_field(form.password) }}
           {{ render_field(form.remember) }}
         </dl>
-        <p><input type=submit value="Log In">
+        <p><input type=submit value="Log In" class="button">
     </form>
     <div>Don't have an account? Sign up <a href='register'>here</a>!</div>
   </div>
