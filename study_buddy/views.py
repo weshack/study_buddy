@@ -83,6 +83,10 @@ def group(group_id):
     group = mongo_db.study_sessions.StudySession.find_one({'_id' : ObjectId(group_id)})
     return render_template('group.html', group=group)
 
+@app.route("/about")
+def about():
+    return render_template('about.html')
+
 
 @app.route("/find")
 def search():
