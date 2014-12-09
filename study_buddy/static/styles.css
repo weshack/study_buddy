@@ -283,6 +283,6 @@ nav.top-bar {
   margin-bottom: 82px;
   height: 200px;
 }
-.clickableRow{
+.clickableRow :hover{
   cursor:pointer;
 }
