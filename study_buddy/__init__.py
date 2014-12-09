@@ -2,6 +2,7 @@ from flask import Flask, render_template
 from flask.ext.login import LoginManager
 from flask.ext.wtf.csrf import CsrfProtect
 from flask.ext.assets import Environment, Bundle
+from inflection import titleize
 from mongokit import ObjectId, Connection
 from models import *
 
@@ -34,6 +35,7 @@ login_manager.login_view = 'login'
 
 print "Running app..."
 app.jinja_env.globals.update(output_time=output_time)
+app.jinja_env.globals.update(titleize=titleize)
 from study_buddy import views, models
 
 @app.errorhandler(404)

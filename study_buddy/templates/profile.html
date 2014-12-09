@@ -5,14 +5,18 @@
 {% block title %}Profile{% endblock %}
 
 {% block content %}
-  <p>{{ current_user.email }} is logged in</p>
-  <p>{{ user.email }}'s profile</p>
-  <div class="row">
-    <div class="small-6 column">
-      {{ user.name.first }}
-    </div>
-    <div class="small-6 column">
-      {{ user.name.last }}
-    </div>
+  <div class="info-card">
+    <form>
+      <div class="row">
+        <div class="small-6 columns">
+          First name: <input type="text" value="{{ titleize(user.name.first) or "" }}">
+        </div>
+        <div class="small-6 columns">
+          Last name: <input type="text" value="{{ titleize(user.name.last) or "" }}">
+        </div>
+      </div>
+      <div class="row">
+
+    </form>
   </div>
 {% endblock %}
