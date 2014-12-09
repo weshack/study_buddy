@@ -87,7 +87,6 @@ def group(group_id):
 def about():
     return render_template('about.html')
 
-
 @app.route("/find")
 def search():
 

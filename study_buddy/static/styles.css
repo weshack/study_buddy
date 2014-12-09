@@ -249,7 +249,6 @@ nav.top-bar {
 .info-card {
     background-color: rgba(255, 255, 255, 0.7);
     margin-top: 100px !important;
-    max-width: 35%;
     margin: auto;
     padding: 15px;
     border-radius: 10px;
@@ -297,5 +296,80 @@ nav.top-bar {
 .photos{
     float: left;
     margin-right: 24px;
+}
+
+.circular {
+  width: 200px;
+  height: 200px;
+  max-height: 200px;
+  border-radius: 150px;
+  -webkit-border-radius: 150px;
+  -moz-border-radius: 150px;
+}
+
+.flip-container {
+  perspective: 1000;
+  width: 80%;
+  margin:auto;
+}
+
+.flip-container:hover .flipper, .flip-container.hover .flipper {
+  transform: rotateY(180deg);
+}
+
+/* flip speed goes here */
+.flipper {
+  transition: 0.6s;
+  transform-style: preserve-3d;
+
+  position: relative;
+  height: 400px;
+}
+
+/* hide back of pane during swap */
+.front, .back {
+  backface-visibility: hidden;
+  width: 100%;
+
+  position: absolute;
+  top: 30px;
+  left: 0;
+}
+
+/* front pane, placed above back */
+.front {
+  text-align: center;
+  z-index: 2;
+  /* for firefox 31 */
+  transform: rotateY(0deg);
+}
+
+/* back, initially hidden pane */
+.back {
+  transform: rotateY(180deg);
+}
+
+.back div {
+  width: 85%;
+  margin: auto;
+}
+
+#group-content {
+  max-width: 35%;
+}
+
+#about-content {
+  width: 80%;
+  margin-bottom: 30px;
+}
+
+#intro-video {
+  margin: auto;
+  text-align: center;
+}
+
+#intro-video object {
+  width: 640px;
+  height: 360px;
 }
 
