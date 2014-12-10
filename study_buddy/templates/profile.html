@@ -15,8 +15,18 @@
           Last name: <input type="text" value="{{ titleize(user.name.last) or "" }}">
         </div>
       </div>
-      <div class="row">
-
     </form>
+    {% for class in user.classes: %}
+      <div class="row course" href='{{ class }}'>
+        <div class="small-6 columns small-centered">
+          {{ class }}
+        </div>
+      </div>
+    {% endfor %}
+    <div class="row add-course">
+      <div class="small-6 columns small-centered">
+        Add a class
+      </div>
+    </div>
   </div>
 {% endblock %}

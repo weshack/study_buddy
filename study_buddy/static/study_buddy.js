@@ -11,9 +11,9 @@ var BASE_URL = "";
 var autocomplete_data = [];
 
 $(document).ready(function() {
-	init_autocomplete("#search-bar");
-	init_autocomplete("#createdepartment");
-	jQuery('#datetime').datetimepicker();
+	// init_autocomplete("#search-bar");
+	// init_autocomplete("#createdepartment");
+	$('#datetime').datetimepicker();
 
 	$('#search-bar').on('input', function() {
 		if ($(this).val() != '') {
@@ -31,6 +31,14 @@ $(document).ready(function() {
 
 	$('.clickableRow').click(function() {
 		window.document.location = $(this).attr('href');
+	});
+
+	$('.course').click(function() {
+		window.document.location = '/find?dept_keyword=' + $(this).attr('href');
+	});
+
+	$('.add-course').click(function() {
+		$(this).html('<form><input type="text"></form>');
 	});
 });
 
@@ -108,14 +116,9 @@ function init_autocomplete(search_bar) {
 		autocomplete_data.push(name_json);
 	}	
 
-
-	// $("#studysearch").autocomplete({
-	//  	source: autocomplete_data
-	//  });
-
-	// $(search_bar).autocomplete({
-	// 	source: autocomplete_data
-	// });
+	$(search_bar).autocomplete({
+		source: autocomplete_data
+	});
 
 
 }
