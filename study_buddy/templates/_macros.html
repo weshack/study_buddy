@@ -10,3 +10,22 @@
   {% endif %}
   </dd>
 {% endmacro %}
+
+{% macro render_about_card(image, name, position, bio) %}
+  <div class="flip-container">
+    <div class="flipper info-card">
+      <div class="front">
+        <div class="circular" 
+              style="background-image: url('{{ image }}'); background-size: cover; margin:auto;">
+        </div>
+        <h2>{{ name }}</h2>
+        <h3>{{ position }}</h3>
+      </div>
+      <div class="back">
+        <div>
+           {{ bio }}
+        </div>
+      </div>
+    </div>
+  </div>
+{% endmacro %}

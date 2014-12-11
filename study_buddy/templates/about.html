@@ -7,6 +7,7 @@
   </style>
 {% endblock %}
 {% block content %}
+
 <html>
 <head>
   <link rel="stylesheet" type="text/css" href="styles.css" />
@@ -27,3 +28,52 @@
 	</p>
 
 {% endblock %}
+{% from "_macros.html" import render_about_card %}
+	<div id="about-content" class="center-elmt">
+		<h1 class="center-txt header">A Little About Us</h1>
+		<div id="intro-video">
+			<object data="http://www.youtube.com/v/H3JLBqdKuMc"></object>
+		</div>
+		<div>
+			<h2 class="subheader">What is Succor?</h2> 
+			<div>
+				Succor connects students to classmates who are studying for the same tests. Students can create new study groups or find existing study groups by simply searching through their classes.
+			</div>
+		</div>
+		<div>
+			<h2 class="subheader">Our story</h2>
+			<div>
+				Katya had the Idea for Succor her freshman year. She wanted to meet more people in her classes and realized that the best way to do that is through studying with them. Succor was born out of the Wesleyan Hackathon. Katya brought the idea to us, we liked it, submitted it and it was selected . We built an initial product in a weekend and then struggled through a semester of rebuilding from the ground up to make a prettier, more robust version, which we now call Succor.
+			</div>
+		</div>
+		<div>
+			<h2 class="subheader">Our Mission</h2>
+				<div>
+					The first thing you usually ask a new person that you meet in school is about his/her classes. We are interested in each other’s academic life, and that connection is even more special when we find out that this random person who we’ve just met is in one of our classes. With Succor, our mission is to connect students through this dynamic.
+				</div>				
+		</div>
+
+		<div class="row">
+			<div class="small-8 columns small-centered">
+				<div class="small-6 columns">
+					{{ render_about_card('static/resources/images/katya.png', 'Katya Sapozhnina', 'CEO', 'Katyas Bio') }}
+				</div>
+				<div class="small-6 columns">
+					{{ render_about_card('static/resources/images/aaron.png', 'Aaron Rosen', 'CTO', 'Aarons bio') }}
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="small-4 columns">
+				{{ render_about_card('static/resources/images/hora.png', 'Hora', 'VP of Engineering', 'Horas Bio') }}
+			</div>
+			<div class="small-4 columns">
+				{{ render_about_card('static/resources/images/katya.png', 'Denise Francisco', 'VP of Engineering', 'Katyas Bio') }}
+			</div>
+			<div class="small-4 columns">
+				{{ render_about_card('static/resources/images/adii.png', 'Aditya Gupta', 'Engineer', 'Katyas Bio') }}
+			</div>
+		</div>
+	</div>
+{% endblock %}
+
