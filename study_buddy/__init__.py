@@ -2,7 +2,10 @@ from flask import Flask, render_template
 from flask.ext.login import LoginManager
 from flask.ext.wtf.csrf import CsrfProtect
 from flask.ext.assets import Environment, Bundle
+
 from mongokit import ObjectId, Connection
+from json import loads
+
 from models import *
 
 app = Flask(__name__)
@@ -31,6 +34,9 @@ mongo_db = connection.succor
 
 # csrf = CsrfProtect()
 # csrf.init_app(app)
+
+people_bios = open('study_buddy/people_bios.json').read()
+people_data = loads(people_bios)
 
 print "Running app..."
 app.jinja_env.globals.update(output_time=output_time)

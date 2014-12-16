@@ -1,0 +1,26 @@
+{	
+	"Katya Sapozhnina" : {"picture" : "katya.png",
+						  "name" : "Katya Sapozhnina",
+						  "position" : "CEO",
+						  "bio" : "Katya is the Founder and President of the Wesleyan Entrepreneurship Society.  She founded the society her freshman year to spearhead entrepreneurship culture at Wesleyan and since it has grown to a popular and active society at Wesleyan.  Katya will co-lead a for-credit class on Entrepreneurship this Spring for the second year in a row.  She is also a Peer Advisor for the Patricelli Center of Social Entrepreneurship. She advises many startups on campus. She came up with the idea for Succor her freshman year and is excited that it is now a tool Wesleyan student use. She wishes Succor existed her freshman year when she was studying for her Biology tests. She currently uses Succor to study with friends for Statistics."},
+
+	"Aaron Rosen" : {"picture" : "aaron.png",
+					 "name" : "Aaron Rosen",
+					 "position" : "CTO",
+					 "bio" : "Aaron is a former Google engineering intern and has been the lead engineer on several startups at Wesleyan to date. Some of his favorite projects have been involved with environmentalism at Wesleyan. Aaron loves to hike, travel, and cook and dreams of one day learning how to fly planes. He has been using Succor to advertise all of his study sessions for finals!"},
+
+	"Hora" : {"picture" : "hora.png",
+			  "name" : "Hora",
+			  "position" : "VP of Engineering",
+			  "bio" : "Hora is currently a part of the Varsity Crew team at Wesleyan. In addition to Succor, he is involved with research in Physics and is a course assistant for the Physics department. In the future, he wants to explore the field of machine learning. Hora likes to play the drums, travel and do physical activity."},
+
+	"Denise Fransisco" : {"picture" : "denise.png",
+						  "name" : "Denise Fransisco",
+						  "position" : "VP of Engineering",
+						  "bio" : "Denise is a Junior at Wesleyan University majoring in Computer Science. She is currently involved with two dance groups on campus and is a Programmer for Instructional Media Services. She is currently interested in Web Development. She helped create the front end of Succor in September 2014 during the Wesleyan Hackathon. She hopes that Succor will be widely used on campus  and will continue making studying more convenient for everyone."},
+
+	"Aditya Gupta" : {"picture" : "adii.png",
+					  "name" : "Aditya Gupta",
+					  "position" : "Engineer",
+					  "bio" : "Aditya is a Computer Science major. He hopes to improve his programming skills while helping people through ventures such as Succor. He is a big Liverpool F.C. fan and likes to play chess. He hopes to become an internationally rated chess player soon. He has been using Succor to create study groups as he does not want to leave the comfort of his room but also wants to study with other people."}
+}

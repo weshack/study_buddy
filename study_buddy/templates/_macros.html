@@ -11,19 +11,19 @@
   </dd>
 {% endmacro %}
 
-{% macro render_about_card(image, name, position, bio) %}
+{% macro render_about_card(data) %}
   <div class="flip-container">
-    <div class="flipper info-card">
+    <div class="flipper">
       <div class="front">
         <div class="circular" 
-              style="background-image: url('{{ image }}'); background-size: cover; margin:auto;">
+              style="background-image: url('static/resources/images/{{ data['picture'] }}'); background-size: cover; margin:auto;">
         </div>
-        <h2>{{ name }}</h2>
-        <h3>{{ position }}</h3>
+        <h2>{{ data['name'] }}</h2>
+        <h3>{{ data['position'] }}</h3>
       </div>
       <div class="back">
         <div>
-           {{ bio }}
+           {{ data['bio'] }}
         </div>
       </div>
     </div>

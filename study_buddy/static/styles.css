@@ -256,33 +256,29 @@ nav.top-bar section a :hover {
 }
 
 .info-card {
-    background-color: rgba(255, 255, 255, 0.7);
-    margin-top: 100px !important;
-    margin: auto;
-    padding: 15px;
-    border-radius: 10px;
+  background-color: rgba(255, 255, 255, 0.7);
+  margin-top: 100px !important;
+  margin: auto;
+  padding: 15px;
+  border-radius: 10px;
 }
 
 .info-card h2, h3 {
-    color: #4aba9a;
-}
-
-.info-card a :hover{
-    
+  color: #4aba9a;
 }
 
 .flashes {
-    width: 35%;
-    margin: auto;
-    position: relative;
-    top: 40px;
-    list-style: none;
-    background-color: rgba(255, 255, 255, 0.7);
-    border-radius: 5px;
-    padding: 12px 0;
-    padding-left: 16px;
-    text-align: center;
-    color: #236E90;
+  width: 35%;
+  margin: auto;
+  position: relative;
+  top: 40px;
+  list-style: none;
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 5px;
+  padding: 12px 0;
+  padding-left: 16px;
+  text-align: center;
+  color: #236E90;
 }
 
 #four-o-four {
@@ -355,12 +351,16 @@ nav.top-bar section a :hover {
 
 /* back, initially hidden pane */
 .back {
+  height: 320px;
   transform: rotateY(180deg);
 }
 
 .back div {
+  overflow: scroll;
   width: 85%;
+  height: 100%;
   margin: auto;
+  color: #4aba9a;
 }
 
 #group-content {

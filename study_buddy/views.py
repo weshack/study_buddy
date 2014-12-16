@@ -1,4 +1,4 @@
-from study_buddy import app, mongo_db
+from study_buddy import app, mongo_db, people_data
 from forms import RegistrationForm, LoginForm, GroupForm
 from helpers import *
 
@@ -85,7 +85,7 @@ def group(group_id):
 
 @app.route("/about")
 def about():
-    return render_template('about.html')
+    return render_template('about.html', people_data=people_data)
 
 @app.route("/find")
 def search():
