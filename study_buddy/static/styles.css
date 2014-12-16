@@ -34,7 +34,6 @@ body {
 /*  background-size: cover !important;
 */  background-repeat: repeat-x repeat-y;
   background-attachment: fixed;
-  margin: 50px 50px 50px 50px;
 }
  
 table tr td, table thead tr th {
