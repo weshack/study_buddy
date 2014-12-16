@@ -6,6 +6,8 @@ from flask.ext.assets import Environment, Bundle
 from mongokit import ObjectId, Connection
 from json import loads
 
+import os
+
 from models import *
 
 app = Flask(__name__)
@@ -15,6 +17,8 @@ app.config['SECURITY_POST_LOGIN'] = '/profile'
 app.config.update(
     SECRET_KEY='Tieng3us3Xie5meiyae6iKKHVUIUDF'
 )
+
+APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 
 def output_time(result):
     format = "%a, %-d at %-I:%M %p" # "%M/%d %I:%M %p"
@@ -35,7 +39,7 @@ mongo_db = connection.succor
 # csrf = CsrfProtect()
 # csrf.init_app(app)
 
-people_bios = open('study_buddy/people_bios.json').read()
+people_bios = open(APP_ROOT + '/people_bios.json').read()
 people_data = loads(people_bios)
 
 print "Running app..."
