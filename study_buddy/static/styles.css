@@ -294,14 +294,6 @@ nav.top-bar section a :hover {
 .aboutheading{
     text-align: center;
 }
-.names p{
-    display: block;
-    float: left;
-}
-.photos{
-    float: left;
-    margin-right: 24px;
-}
 
 .circular {
   width: 200px;
@@ -314,7 +306,7 @@ nav.top-bar section a :hover {
 
 .flip-container {
   perspective: 1000;
-  width: 80%;
+  width: 40%;
   margin:auto;
 }
 
@@ -328,22 +320,19 @@ nav.top-bar section a :hover {
   transform-style: preserve-3d;
 
   position: relative;
-  height: 400px;
 }
 
 /* hide back of pane during swap */
 .front, .back {
   backface-visibility: hidden;
-  width: 100%;
 
   position: absolute;
-  top: 30px;
+  top: 0;
   left: 0;
 }
 
 /* front pane, placed above back */
 .front {
-  text-align: center;
   z-index: 2;
   /* for firefox 31 */
   transform: rotateY(0deg);
@@ -351,17 +340,16 @@ nav.top-bar section a :hover {
 
 /* back, initially hidden pane */
 .back {
-  height: 320px;
   transform: rotateY(180deg);
 }
 
-.back div {
+/*.back div {
   overflow: scroll;
   width: 85%;
   height: 100%;
   margin: auto;
   color: #4aba9a;
-}
+}*/
 
 #group-content {
   max-width: 35%;

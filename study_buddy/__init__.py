@@ -21,7 +21,7 @@ app.config.update(
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 
 def output_time(result):
-    format = "%a, %-d at %-I:%M %p" # "%M/%d %I:%M %p"
+    format = "%a, %-d at %-I:%M %p"
     return result.strftime(format)
 
 connection = Connection()
