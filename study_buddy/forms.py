@@ -13,6 +13,7 @@ class GroupForm(Form):
     department = TextField('Department', [
         validators.Required()
     ])
+
     course_no = IntegerField('Course Number', [
         validators.Required(),
     ])
@@ -24,6 +25,7 @@ class GroupForm(Form):
         validators.Required()
     ])
     details = TextField('Details')
+    all_nighter=BooleanField('All nighter')
 
     def validate_course_no(self, field):
         if not self.course_no.data < 1000 or len(str(self.course_no.data)) != 3:

@@ -165,6 +165,9 @@ def create():
     return render_template('create.html',username='dummy', form=create_form);
     #return render_template('create.html',username=session['username']);
 
+@app.route('/all-nighter')
+def allnighter():
+    return render_template('index.html')
 # ##
 # # Responds to route /lucky, returning a random group study session from database.
 # ##
@@ -249,7 +252,6 @@ def create():
 #     print list(coll.find())
 #     # Return that the database was updated and refresh the page with new attendees list.
 #     return 'success'
-
 
 
 

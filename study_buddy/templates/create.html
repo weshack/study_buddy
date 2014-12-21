@@ -26,36 +26,40 @@
         <form action="create" method="post" class="create-forms" id="create-group">
             {{ form.csrf_token }}
             <div class="row">
-                <div class="large-6 columns">
+                <div class="small-6 columns">
                     {{ render_field(form.name) }}
                 </div>
-                <div class="large-6 columns">
+                <div class="small-6 columns">
                     {{ render_field(form.email) }}
                 </div>
             </div>
             <div class="row">
-                <div class="large-6 columns">
+                <div class="small-6 columns">
                     {{ render_field(form.department) }}
                 </div>
-                <div class="large-6 columns">
+                <div class="small-6 columns">
                     {{ render_field(form.course_no) }}
                 </div>
             </div>
             <div class="row">
-                 <div class="large-6 columns">
+                 <div class="small-4 columns">
                     {{ render_field(form.datetime) }}
                 </div>
-                <div class="large-6 columns">
+                <div class="small-2 columns">
+                     {{render_field(form.all_nighter) }}
+                </div>
+                <div class="small-6 columns">
                     {{ render_field(form.where) }}
                 </div>
+
             </div>
             <div class="row">
-                <div class="large-12 columns">
+                <div class="small-12 columns">
                     {{ render_field(form.assignment) }}
                 </div>
             </div>
             <div class="row">
-                <div class="large-12 columns">
+                <div class="small-12 columns">
                     {{ render_field(form.details) }}
                 </div>
             </div>
