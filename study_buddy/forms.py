@@ -3,6 +3,12 @@ from wtforms import TextField, PasswordField, ValidationError, BooleanField, Int
 from study_buddy import mongo_db
 from werkzeug.security import check_password_hash
 
+class EmailForm(Form):
+    email = TextField('Email', validators = [validators.Email(), validators.Required()])
+
+class PasswordForm(Form):
+    password = PasswordField('Password', validators = [validators.Required()])
+
 class GroupForm(Form):
     name = TextField('Your Name', [
         validators.Required()

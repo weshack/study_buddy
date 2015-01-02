@@ -1,5 +1,5 @@
 from study_buddy import app, mongo_db
-from forms import RegistrationForm, LoginForm, GroupForm
+from forms import RegistrationForm, LoginForm, GroupForm, EmailForm, PasswordForm
 from helpers import *
 
 from flask import url_for, redirect, session, render_template, request, flash
@@ -84,6 +84,39 @@ def verify(token):
     login_user(user)
     return redirect(url_for('login'))
 
+@app.route('/reset', methods=["GET", "POST"])
+def reset_password():
+    form = EmailForm()
+    if form.validate_on_submit():
+        user = mongo_db.users.User.find_one({'email' : form.email.data})
+
+        subject = "Succor password reset requested"
+        token = ts.dumps(user.email, salt='recover-key')
+        recover_url = url_for('reset_with_token', token=token, _external=True)
+        body = render_template('email/recover.txt', url=recover_url)
+        html = render_template('email/recover.html', url=recover_url)
+        send_email(subject, app.config['ADMINS'][0], [user.email], body, html)
+
+        flash('Check your email for password reset link')
+        return redirect(url_for('home'))
+    return render_template('reset.html', form=form)
+
+@app.route('/reset/<token>', methods=["GET", "POST"])
+def reset_with_token(token):
+    try:
+        email = ts.loads(token, salt="recover-key", max_age=86400)
+    except:
+        abort(404)
+
+    form = PasswordForm()
+
+    if form.validate_on_submit():
+        user = mongo_db.users.User.find_one({'email' : email})
+        user.password = generate_password_hash(form.password.data)
+        user.save()
+
+        return redirect(url_for('login'))
+    return render_template('reset_with_token.html', form=form, token=token)
 @app.route("/")
 def home():
     return render_template('index.html')
