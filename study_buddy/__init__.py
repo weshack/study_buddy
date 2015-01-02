@@ -2,6 +2,8 @@ from flask import Flask, render_template
 from flask.ext.login import LoginManager
 from flask.ext.wtf.csrf import CsrfProtect
 from flask.ext.assets import Environment, Bundle
+from flask.ext.mail import Mail, Message
+from itsdangerous import URLSafeTimedSerializer
 from inflection import titleize
 from mongokit import ObjectId, Connection
 from models import *
@@ -11,6 +13,13 @@ app = Flask(__name__)
 app.config['SECURITY_POST_LOGIN'] = '/profile'
 
 app.config.update(
+	MAIL_SERVER = 'smtp.gmail.com',
+    MAIL_PORT = 587,
+    MAIL_USE_TLS = True,
+    MAIL_USE_SSL = False,
+    MAIL_USERNAME = 'succorapp@gmail.com',
+    MAIL_PASSWORD = 'wearewinners',
+    ADMINS = ['succorapp@gmail.com'],
     SECRET_KEY='Tieng3us3Xie5meiyae6iKKHVUIUDF'
 )
 
@@ -32,6 +41,10 @@ login_manager.login_view = 'login'
 
 # csrf = CsrfProtect()
 # csrf.init_app(app)
+
+ts = URLSafeTimedSerializer(app.config["SECRET_KEY"])
+
+mail = Mail(app)
 
 print "Running app..."
 app.jinja_env.globals.update(output_time=output_time)

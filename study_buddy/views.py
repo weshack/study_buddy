@@ -7,6 +7,7 @@ from pymongo import ASCENDING, DESCENDING
 from mongokit import ObjectId
 from datetime import datetime, timedelta
 from werkzeug.security import generate_password_hash
+from uuid import uuid4
 
 from flask.ext.login import login_required, login_user, logout_user, current_user
 from flask.ext.wtf import Form
@@ -53,26 +54,35 @@ def register():
     form = RegistrationForm(request.form)
     if form.validate_on_submit():
         # Create user
-        user_email = form.email.data
-        password = form.password.data
-
-        if mongo_db.users.User.find({'email' : user_email}).count() > 0:
-            flash('An account with that email already exists!')
-            form = RegistrationForm()
-            return render_template('register.html', form=form)
-        else:
-            new_user = mongo_db.users.User()
-            new_user.email = user_email
-            new_user.password = generate_password_hash(password)
-            new_user.save()
+        new_user = mongo_db.users.User()
+        new_user.email = form.email.data
+        new_user.password = generate_password_hash(form.password.data)
+        new_user.verified = False
+        new_user.save()
 
         # log user in
         login_user(new_user)
+        flash('Check your email for verification!')
+        send_verification_email(new_user.email)
         return redirect(url_for('home'))
     if 'user_email' in session:
         return render_template('register.html', email=session['user_email'], form=form)
     else:
         return render_template('register.html', form=form)
+
+@app.route('/verify/<token>')
+def verify(token):
+    try:
+        email = ts.loads(token, salt="email-confirm-key", max_age=86400)
+    except:
+        abort(404)
+
+    user = mongo_db.users.User.find_one({'email' : email})
+    print "User:", user.email
+    user.verified = True
+    user.save()
+    login_user(user)
+    return redirect(url_for('login'))
 
 @app.route("/")
 def home():

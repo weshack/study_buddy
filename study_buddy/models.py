@@ -12,6 +12,7 @@ class User(Document, UserMixin):
         'date_creation' : datetime.datetime,
         'email' : basestring,
         'password' : basestring,
+        'verified' : bool,
         'name' : {
             'first' : basestring,
             'last' : basestring
