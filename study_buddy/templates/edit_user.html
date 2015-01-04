@@ -1,0 +1,34 @@
+{% from '_macros.html' import render_field %}
+
+{% extends 'template.html' %}
+
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+	<div class="info-card">
+		<form method="post" action="/edit/{{ user._id }}">
+		    <div class="row">
+		    	<div class="small-6 columns">
+		    		<input type="text" name="first_name" value="{{ user.name.first }}" />
+		    	</div>
+		    	<div class="small-6 columns">
+		    		<input type="text" name="last_name" value="{{ user.name.last }}" />
+		    	</div>
+		    </div>
+		    <input type=submit value="Edit" class="button">
+		</form>
+		    {% for class in user.classes: %}
+		      <div class="row">
+		        <div class="small-12 columns small-centered">
+		          <span class="course" href='{{ class }}'>{{ class }}</span>
+		          <span class="remove-icon">
+			          <form method="post" action="/user/delete/{{ class }}">
+			          	<input type="submit" class="remove-icon" value="X" />
+			          </form>
+		          </span>
+		        </div>
+		      </div>
+		    {% endfor %}
+		    
+	</div>
+{% endblock %}
