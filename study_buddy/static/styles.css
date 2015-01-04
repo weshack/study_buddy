@@ -246,6 +246,14 @@ nav.top-bar {
     background-color: rgba(22, 118, 160, 1) !important;
 }
 
+.remove-icon {
+  float: right;
+}
+
+.remove-icon :hover {
+  cursor: pointer;
+}
+
 .info-card {
     background-color: rgba(255, 255, 255, 0.7);
     margin-top: 100px !important;

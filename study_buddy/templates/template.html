@@ -33,7 +33,7 @@
                         <a href="/user/{{ current_user._id }}">Welcome, {{ current_user.name.first or current_user.email }}</a>
                         <ul class="dropdown">
                             <li><a href="/find?new_find={{ class }}">{{ class }}</a></li>
-                          <li id="add-class"><a href="#">Add another class</a></li>
+                          <li id="add-class"><a href="/edit/{{ current_user._id }}">Edit Profile</a></li>
                         </ul>
                     </li>
                     <li>

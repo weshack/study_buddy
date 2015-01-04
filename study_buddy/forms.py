@@ -39,7 +39,10 @@ class GroupForm(Form):
         if '.edu' not in self.email.data:
             raise validators.ValidationError('Please use a .edu email')
 
-
+class EditUserForm(Form):
+    first_name = TextField('First Name')
+    last_name = TextField('Last Name')
+    course = TextField('Class')
 
 class LoginForm(Form):
     email = TextField('Email', [

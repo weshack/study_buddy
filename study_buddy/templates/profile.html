@@ -6,16 +6,11 @@
 
 {% block content %}
   <div class="info-card">
-    <form>
-      <div class="row">
+    <div class="row">
         <div class="small-6 columns">
-          First name: <input type="text" value="{{ titleize(user.name.first) or "" }}">
-        </div>
-        <div class="small-6 columns">
-          Last name: <input type="text" value="{{ titleize(user.name.last) or "" }}">
+          {{ user.name.first }} {{ user.name.last }}
         </div>
       </div>
-    </form>
     {% for class in user.classes: %}
       <div class="row course" href='{{ class }}'>
         <div class="small-6 columns small-centered">
@@ -23,10 +18,5 @@
         </div>
       </div>
     {% endfor %}
-    <div class="row add-course">
-      <div class="small-6 columns small-centered">
-        Add a class
-      </div>
-    </div>
   </div>
 {% endblock %}

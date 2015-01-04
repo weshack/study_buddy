@@ -1,5 +1,5 @@
 from study_buddy import app, mongo_db
-from forms import RegistrationForm, LoginForm, GroupForm, EmailForm, PasswordForm
+from forms import RegistrationForm, LoginForm, GroupForm, EmailForm, PasswordForm, EditUserForm
 from helpers import *
 
 from flask import url_for, redirect, session, render_template, request, flash
@@ -23,31 +23,44 @@ def login():
         return redirect(request.args.get("next") or url_for('home'))
     return render_template('login.html', form=form)
 
-@app.route('/user', defaults={'user_id' : None})
-@app.route('/user/<user_id>', methods=["GET", "POST"])
-#@login_required
+@app.route('/user/<user_id>')
 def user(user_id):
-    if user_id is None:
-        user = current_user
-    else:
-        user = mongo_db.users.User.find_one({'_id' : ObjectId(user_id)})
+    user = mongo_db.users.User.find_one({'_id' : ObjectId(user_id)})
+    return render_template('profile.html', user=current_user)
 
+@app.route('/user/delete/<class_name>', methods=["POST"])
+@login_required
+def delete_class(class_name):
+    print "deleting class", class_name
+    if current_user.is_authenticated():
+        mongo_db.users.update({'_id' : ObjectId(current_user._id)}, {'$pull' : {'classes' : class_name}})
+    return redirect(url_for('user', user_id=current_user._id))
+
+
+@app.route('/edit/<user_id>', methods=["GET", "POST", "DELETE"])  
+@login_required
+def edit_user(user_id):
+    user = mongo_db.users.User.find_one({'_id' : ObjectId(user_id)})  
     if request.method == "POST":
-        # /user/<user_id>?new_class=<class name>
-        if 'new_class' in request.args:
-            old_classes = user.classes
-            old_classes.append(request.args.get('new_class'))
-            user.classes = old_classes
-            if user.save():
-                return 'success!'
+        user.name.first = request.form['first_name']
+        user.name.last = request.form['last_name']
+        print request.form['first_name'], request.form['last_name'], request.form['course']
+        if len(request.form['course']) > 0:
+            print "New class", request.form['course']
+            if user.classes:
+                print "class list exists", user.classes
+                user.classes.append(request.form['course'])
             else:
-                return "didn't work"
-    else:
-        if user_id is None:
-            return render_template('profile.html', user=current_user)      
-        else:
-            user = mongo_db.users.User.find_one({'_id' : ObjectId(user_id)})
-            return render_template('profile.html', user=user)
+                user.classes = [request.form['course']]
+        user.save()
+        return redirect(url_for('user', user_id=user_id))
+    if request.method == "DELETE":
+        # Delete class from users class list.
+
+        return None
+    return render_template('edit_user.html', user=user)
+
+
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():

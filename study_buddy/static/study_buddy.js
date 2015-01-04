@@ -23,10 +23,11 @@ $(document).ready(function() {
 		}
 	});
 
-	$('#add-class').click(function() {
-		// change child of anchor tag to form field
-		console.log(this.innerHTML);
-		this.innerHTML = "<form method='post' action='/user/{{ current_user._id }}'><input type='text' /></form>"		
+	$('.remove-icon').click(function() {
+		var class_name = $($(this).parent().children()[0]).attr('href');
+		$.ajax({
+			url: 'localhost:5000/remove/'
+		})
 	});
 
 	$('.clickableRow').click(function() {
@@ -34,11 +35,7 @@ $(document).ready(function() {
 	});
 
 	$('.course').click(function() {
-		window.document.location = '/find?dept_keyword=' + $(this).attr('href');
-	});
-
-	$('.add-course').click(function() {
-		$(this).html('<form><input type="text"></form>');
+		window.document.location = '/find?new_find=' + $(this).attr('href');
 	});
 });
 
