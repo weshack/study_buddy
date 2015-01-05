@@ -1,7 +1,24 @@
 from study_buddy import mail, Message, app, ts
 from flask import url_for, render_template
 from threading import Thread
+from pymongo import MongoClient
 import re
+
+##
+# Finds the school name based on the email domain name given.
+#
+# @param email_ending The email domain name of the users email address.
+#
+# @return Returns the school name based on the email address given.
+##
+def school_name_from_email(email_ending):
+	client = MongoClient()
+	conn = client.succor.schools
+	result = conn.find_one({'email' : email_ending})
+	if result:
+		return result['school']
+	else:
+		return email_ending
 
 ##
 # Sends an email to a user who has just registered, with

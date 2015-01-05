@@ -29,12 +29,16 @@
               {% if current_user.is_authenticated(): %}
               <section class="top-bar-section">           
                 <ul class="right">
-                    <li class="has-dropdown not-click">
-                        <a href="/user/{{ current_user._id }}">Welcome, {{ current_user.name.first or current_user.email }}</a>
+                    <li class="has-dropdown not-click" id="user-dropdown">
+                        <a href="/user/{{ current_user._id }}"
+                            data-name="{{current_user.name.first or current_user.email}}">
+                              Welcome, {{ current_user.name.first or current_user.email }}
+                        </a>
                         <ul class="dropdown">
                             {% for class in current_user.classes: %}
                             <li><a href="/find?new_find={{ class }}">{{ class }}</a></li>
                             {% endfor %}
+                          <li class="divider"></li>
                           <li id="add-class"><a href="/edit/{{ current_user._id }}">Edit Profile</a></li>
                         </ul>
                     </li>
@@ -42,7 +46,7 @@
                         <h1>|</h1>
                     </li>
                     <li>
-                        <a href="logout">Logout</a>
+                        <a href="{{url_for('logout')}}">Logout</a>
                     </li>
                 </ul>
               </section>

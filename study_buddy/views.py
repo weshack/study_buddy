@@ -79,6 +79,7 @@ def register():
         new_user = mongo_db.users.User()
         new_user.email = form.email.data
         new_user.password = generate_password_hash(form.password.data)
+        new_user.school = school_name_from_email(form.email.data.split('@')[1].strip())
         new_user.verified = False
         new_user.save()
 

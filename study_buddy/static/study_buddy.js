@@ -23,6 +23,16 @@ $(document).ready(function() {
 		}
 	});
 
+	$('#user-dropdown').hover(function() {
+		anchor = $(this).children()[0];
+		name = $(anchor).attr('data-name');
+		anchor.innerHTML = name + "'s profile";
+	}, function() {
+		anchor = $(this).children()[0];
+		name = $(anchor).attr('data-name');
+		anchor.innerHTML = "Welcome, " + name;
+	});
+
 	$('.clickableRow').click(function() {
 		window.document.location = $(this).attr('href');
 	});
