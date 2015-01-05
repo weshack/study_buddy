@@ -32,7 +32,9 @@
                     <li class="has-dropdown not-click">
                         <a href="/user/{{ current_user._id }}">Welcome, {{ current_user.name.first or current_user.email }}</a>
                         <ul class="dropdown">
+                            {% for class in current_user.classes: %}
                             <li><a href="/find?new_find={{ class }}">{{ class }}</a></li>
+                            {% endfor %}
                           <li id="add-class"><a href="/edit/{{ current_user._id }}">Edit Profile</a></li>
                         </ul>
                     </li>

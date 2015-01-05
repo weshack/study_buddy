@@ -23,13 +23,6 @@ $(document).ready(function() {
 		}
 	});
 
-	$('.remove-icon').click(function() {
-		var class_name = $($(this).parent().children()[0]).attr('href');
-		$.ajax({
-			url: 'localhost:5000/remove/'
-		})
-	});
-
 	$('.clickableRow').click(function() {
 		window.document.location = $(this).attr('href');
 	});

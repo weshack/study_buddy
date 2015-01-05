@@ -34,10 +34,23 @@ def delete_class(class_name):
     print "deleting class", class_name
     if current_user.is_authenticated():
         mongo_db.users.update({'_id' : ObjectId(current_user._id)}, {'$pull' : {'classes' : class_name}})
-    return redirect(url_for('user', user_id=current_user._id))
+    return redirect(url_for('edit_user', user_id=current_user._id))
+
+@app.route('/user/add', methods=["POST"])
+@login_required
+def add_class():
+    if current_user.is_authenticated():
+        class_name = request.form['new_class']
+        if mongo_db.users.find({'_id' : ObjectId(current_user._id), 
+                                'classes' : {'$in' : [class_name]}}).count() <= 0:
+            mongo_db.users.update({'_id' : ObjectId(current_user._id)}, {'$push' : {'classes' : class_name}})
+        return redirect(url_for('edit_user', user_id=current_user._id))
+    else:
+        flash('You are not allowed to do this!')
+        return redirect(url_for('home'))
 
 
-@app.route('/edit/<user_id>', methods=["GET", "POST", "DELETE"])  
+@app.route('/edit/<user_id>', methods=["GET", "POST"])  
 @login_required
 def edit_user(user_id):
     user = mongo_db.users.User.find_one({'_id' : ObjectId(user_id)})  
@@ -45,7 +58,7 @@ def edit_user(user_id):
         user.name.first = request.form['first_name']
         user.name.last = request.form['last_name']
         print request.form['first_name'], request.form['last_name'], request.form['course']
-        if len(request.form['course']) > 0:
+        if len(request.form['new_class']) > 0:
             print "New class", request.form['course']
             if user.classes:
                 print "class list exists", user.classes
@@ -54,10 +67,6 @@ def edit_user(user_id):
                 user.classes = [request.form['course']]
         user.save()
         return redirect(url_for('user', user_id=user_id))
-    if request.method == "DELETE":
-        # Delete class from users class list.
-
-        return None
     return render_template('edit_user.html', user=user)
 
 
