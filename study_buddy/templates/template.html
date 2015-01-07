@@ -30,10 +30,17 @@
               <section class="top-bar-section">           
                 <ul class="right">
                     <li class="has-dropdown not-click" id="user-dropdown">
+                      {% if current_user.name.first: %}
                         <a href="/user/{{ current_user._id }}"
-                            data-name="{{ titleize(current_user.name.first) or current_user.email}}">
-                              Welcome, {{ titleize(current_user.name.first) or current_user.email }}
+                            data-name="{{ titleize(current_user.name.first) }}">
+                              Welcome, {{ titleize(current_user.name.first) }}
                         </a>
+                      {% else: %}
+                        <a href="/user/{{ current_user._id }}"
+                            data-name="{{ current_user.email }}">
+                              Welcome, {{ current_user.email }}
+                        </a>
+                      {% endif %}
                         <ul class="dropdown">
                             {% for class in current_user.classes: %}
                             <li><a href="/find?new_find={{ class }}">{{ titleize(class) }}</a></li>

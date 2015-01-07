@@ -31,16 +31,15 @@ def user(user_id):
 @app.route('/user/delete/<class_name>', methods=["POST"])
 @login_required
 def delete_class(class_name):
-    print "deleting class", class_name
     if current_user.is_authenticated():
-        mongo_db.users.update({'_id' : ObjectId(current_user._id)}, {'$pull' : {'classes' : class_name}})
+        mongo_db.users.update({'_id' : ObjectId(current_user._id)}, {'$pull' : {'classes' : class_name.lower()}})
     return redirect(url_for('edit_user', user_id=current_user._id))
 
 @app.route('/user/add', methods=["POST"])
 @login_required
 def add_class():
     if current_user.is_authenticated():
-        class_name = request.form['new_class']
+        class_name = request.form['new_class'].lower()
         if mongo_db.users.find({'_id' : ObjectId(current_user._id), 
                                 'classes' : {'$in' : [class_name]}}).count() <= 0:
             mongo_db.users.update({'_id' : ObjectId(current_user._id)}, {'$push' : {'classes' : class_name}})
@@ -69,7 +68,7 @@ def register():
     if form.validate_on_submit():
         # Create user
         new_user = mongo_db.users.User()
-        new_user.email = form.email.data
+        new_user.email = form.email.data.lower()
         new_user.password = generate_password_hash(form.password.data)
         new_user.school = school_name_from_email(form.email.data.split('@')[1].strip())
         new_user.verified = False

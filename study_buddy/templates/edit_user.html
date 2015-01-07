@@ -8,12 +8,24 @@
 	<div class="info-card">
 		<form method="post" action="/edit/{{ user._id }}">
 		    <div class="row">
-		    	<div class="small-6 columns">
-		    		<input type="text" name="first_name" value="{{ titleize(user.name.first) or '' }}" placeholder="First"/>
-		    	</div>
-		    	<div class="small-6 columns">
-		    		<input type="text" name="last_name" value="{{ titleize(user.name.last) or '' }}" placeholder="Last" />
-		    	</div>
+		    	{% if user.name.first: %}
+			    	<div class="small-6 columns">
+			    		<input type="text" name="first_name" value="{{ titleize(user.name.first) }}" />
+			    	</div>
+			    {% else: %}
+			    	<div class="small-6 columns">
+			    		<input type="text" name="first_name" placeholder="First"/>
+			    	</div>
+			    {% endif %}
+			    {% if user.name.last: %}
+			    	<div class="small-6 columns">
+			    		<input type="text" name="last_name" value="{{ titleize(user.name.last) }}" />
+			    	</div>
+			    {% else: %}
+			    	<div class="small-6 columns">
+			    		<input type="text" name="last_name" placeholder="Last" />
+			    	</div>
+			    {% endif %}
 		    </div>
 		    <div class="row">
 		    	<div class="small-4 columns small-centered">
@@ -24,7 +36,7 @@
 		    {% for class in user.classes: %}
 		      <div class="row course">
 		        <div class="small-12 columns small-centered">
-		          <span class="course-edit" href='{{ class }}'>{{ class }}</span>
+		          <span class="course-edit" href='{{ class }}'>{{ titleize(class) }}</span>
 		          <span class="remove-icon">
 			          <form method="post" action="/user/delete/{{ class }}">
 			          	<input type="submit" class="remove-icon" value="X" />
