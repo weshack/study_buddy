@@ -16,7 +16,7 @@
         });
     </script>
     <link rel="image_src" href="{{ url_for('static', filename='resources/images/thumbnail.png') }}" />
-    <link rel="shortcut icon" href="{{ url_for('static', filename='resources/images/favicon.ico') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='resources/images/succor-favicon.ico') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='resources/foundations/css/foundation.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='resources/js/datetimepicker/jquery.datetimepicker.css') }}" >
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
@@ -35,36 +35,56 @@
   <body>
     <div id="nav">
       <nav class="top-bar" data-topbar role="navigation">
-            <section class="top-bar-section left">
-                  <a href="/">Succor</a>
-            </section>
-            <section class="top-bar-section left">
-              <a href="/about">About</a>
-            </section>
-<!--               <section class="top-bar-section">           
-                <ul class="right">
-                    <li class="has-dropdown not-click">
-                        <a href="/user/">Welcome,</a>
-                        <ul class="dropdown">
-                            <li><a href="/find?new_find={{ class }}">{{ class }}</a></li>
-                          <li id="add-class"><a href="#">Add another class</a></li>
-                        </ul>
-                    </li>
-                    <li>
-                        <h1>|</h1>
-                    </li>
-                    <li>
-                        <a href="logout">Logout</a>
-                    </li>
-                </ul>
-              </section>
-              <section class="top-bar-section">
-                <ul>
-                  <li>
-                    <a href="login">Login</a>
-                  </li>
-                </ul>
-              </section> -->
+          <section class="top-bar-section">
+            <ul class="left">
+              <li>
+                <a href="/">Succor</a>
+              </li>
+              <li>
+                <a href="/about">About</a>
+              </li>
+            </ul>
+          </section>
+          {% if current_user.is_authenticated(): %}
+          <section class="top-bar-section">           
+            <ul class="right">
+                <li class="has-dropdown not-click" id="user-dropdown">
+                  {% if current_user.name.first: %}
+                    <a href="/user/{{ current_user._id }}"
+                        data-name="{{ titleize(current_user.name.first) }}">
+                          Welcome, {{ titleize(current_user.name.first) }}
+                    </a>
+                  {% else: %}
+                    <a href="/user/{{ current_user._id }}"
+                        data-name="{{ current_user.email }}">
+                          Welcome, {{ current_user.email }}
+                    </a>
+                  {% endif %}
+                    <ul class="dropdown">
+                        {% for class in current_user.classes: %}
+                        <li><a href="/find?new_find={{ class }}">{{ titleize(class) }}</a></li>
+                        {% endfor %}
+                      <li class="divider"></li>
+                      <li id="add-class"><a href="/edit/{{ current_user._id }}">Edit Profile</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <h1>|</h1>
+                </li>
+                <li>
+                    <a href="{{url_for('logout')}}">Logout</a>
+                </li>
+            </ul>
+          </section>
+          {% else: %}
+          <section class="top-bar-section">
+            <ul class="right">
+              <li>
+                <a href="login">Login</a>
+              </li>
+            </ul>
+          </section>
+          {% endif %}
         </nav>
     </div>
     <div id="content">

@@ -12,6 +12,8 @@ class User(Document, UserMixin):
         'date_creation' : datetime.datetime,
         'email' : basestring,
         'password' : basestring,
+        'school' : basestring,
+        'verified' : bool,
         'name' : {
             'first' : basestring,
             'last' : basestring
@@ -23,7 +25,7 @@ class User(Document, UserMixin):
         'date_creation' : datetime.datetime.utcnow
     }
 
-    required_fields = ['email', 'password']
+    required_fields = ['email', 'password', 'school']
 
     use_dot_notation = True
 

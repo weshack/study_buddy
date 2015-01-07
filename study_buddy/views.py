@@ -1,5 +1,5 @@
 from study_buddy import app, mongo_db, people_data
-from forms import RegistrationForm, LoginForm, GroupForm
+from forms import RegistrationForm, LoginForm, GroupForm, EmailForm, PasswordForm, EditUserForm
 from helpers import *
 
 from flask import url_for, redirect, session, render_template, request, flash
@@ -7,73 +7,130 @@ from pymongo import ASCENDING, DESCENDING
 from mongokit import ObjectId
 from datetime import datetime, timedelta
 from werkzeug.security import generate_password_hash
+from uuid import uuid4
 
 from flask.ext.login import login_required, login_user, logout_user, current_user
 from flask.ext.wtf import Form
 
 
-# @app.route('/login', methods=["GET", "POST"])
-# def login():
-#     form = LoginForm(request.form)
-#     if form.validate_on_submit():
-#         print "form validated"
-#         login_user(form.get_user(), remember=form.remember.data) # login_user(user, remember=True)
-#         flash("Logged in succesfully")
-#         return redirect(request.args.get("next") or url_for('home'))
-#     return render_template('login.html', form=form)
+@app.route('/login', methods=["GET", "POST"])
+def login():
+    form = LoginForm(request.form)
+    if form.validate_on_submit():
+        print "form validated"
+        login_user(form.get_user(), remember=form.remember.data) # login_user(user, remember=True)
+        flash("Logged in succesfully")
+        return redirect(request.args.get("next") or url_for('home'))
+    return render_template('login.html', form=form)
 
-@app.route('/user', defaults={'user_id' : None})
-@app.route('/user/<user_id>', methods=["GET", "POST"])
-#@login_required
+@app.route('/user/<user_id>')
 def user(user_id):
-    if user_id is None:
-        user = current_user
-    else:
-        user = mongo_db.users.User.find_one({'_id' : ObjectId(user_id)})
+    user = mongo_db.users.User.find_one({'_id' : ObjectId(user_id)})
+    return render_template('profile.html', user=current_user)
 
+@app.route('/user/delete/<class_name>', methods=["POST"])
+@login_required
+def delete_class(class_name):
+    if current_user.is_authenticated():
+        mongo_db.users.update({'_id' : ObjectId(current_user._id)}, {'$pull' : {'classes' : class_name.lower()}})
+    return redirect(url_for('edit_user', user_id=current_user._id))
+
+@app.route('/user/add', methods=["POST"])
+@login_required
+def add_class():
+    if current_user.is_authenticated():
+        class_name = request.form['new_class'].lower()
+        if mongo_db.users.find({'_id' : ObjectId(current_user._id), 
+                                'classes' : {'$in' : [class_name]}}).count() <= 0:
+            mongo_db.users.update({'_id' : ObjectId(current_user._id)}, {'$push' : {'classes' : class_name}})
+        return redirect(url_for('edit_user', user_id=current_user._id))
+    else:
+        flash('You are not allowed to do this!')
+        return redirect(url_for('home'))
+
+
+@app.route('/edit/<user_id>', methods=["GET", "POST"])  
+@login_required
+def edit_user(user_id):
+    user = mongo_db.users.User.find_one({'_id' : ObjectId(user_id)})  
     if request.method == "POST":
-        # /user/<user_id>?new_class=<class name>
-        if 'new_class' in request.args:
-            old_classes = user.classes
-            old_classes.append(request.args.get('new_class'))
-            user.classes = old_classes
-            if user.save():
-                return 'success!'
-            else:
-                return "didn't work"
+        user.name.first = request.form['first_name']
+        user.name.last = request.form['last_name']
+        user.save()
+        return redirect(url_for('edit_user', user_id=user_id))
+    return render_template('edit_user.html', user=user)
+
+
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    form = RegistrationForm(request.form)
+    if form.validate_on_submit():
+        # Create user
+        new_user = mongo_db.users.User()
+        new_user.email = form.email.data.lower()
+        new_user.password = generate_password_hash(form.password.data)
+        new_user.school = school_name_from_email(form.email.data.split('@')[1].strip())
+        new_user.verified = False
+        new_user.save()
+
+        # log user in
+        login_user(new_user)
+        flash('Check your email for verification!')
+        send_verification_email(new_user.email)
+        return redirect(url_for('home'))
+    if 'user_email' in session:
+        return render_template('register.html', email=session['user_email'], form=form)
     else:
-        if user_id is None:
-            return render_template('profile.html', user=current_user)      
-        else:
-            user = mongo_db.users.User.find_one({'_id' : ObjectId(user_id)})
-            return render_template('profile.html', user=user)
+        return render_template('register.html', form=form)
 
-# @app.route('/register', methods=['GET', 'POST'])
-# def register():
-#     form = RegistrationForm(request.form)
-#     if form.validate_on_submit():
-#         # Create user
-#         user_email = form.email.data
-#         password = form.password.data
+@app.route('/verify/<token>')
+def verify(token):
+    try:
+        email = ts.loads(token, salt="email-confirm-key", max_age=86400)
+    except:
+        abort(404)
 
-#         if mongo_db.users.User.find({'email' : user_email}).count() > 0:
-#             flash('An account with that email already exists!')
-#             form = RegistrationForm()
-#             return render_template('register.html', form=form)
-#         else:
-#             new_user = mongo_db.users.User()
-#             new_user.email = user_email
-#             new_user.password = generate_password_hash(password)
-#             new_user.save()
+    user = mongo_db.users.User.find_one({'email' : email})
+    print "User:", user.email
+    user.verified = True
+    user.save()
+    login_user(user)
+    return redirect(url_for('login'))
 
-#         # log user in
-#         login_user(new_user)
-#         return redirect(url_for('home'))
-#     if 'user_email' in session:
-#         return render_template('register.html', email=session['user_email'], form=form)
-#     else:
-#         return render_template('register.html', form=form)
+@app.route('/reset', methods=["GET", "POST"])
+def reset_password():
+    form = EmailForm()
+    if form.validate_on_submit():
+        user = mongo_db.users.User.find_one({'email' : form.email.data})
 
+        subject = "Succor password reset requested"
+        token = ts.dumps(user.email, salt='recover-key')
+        recover_url = url_for('reset_with_token', token=token, _external=True)
+        body = render_template('email/recover.txt', url=recover_url)
+        html = render_template('email/recover.html', url=recover_url)
+        send_email(subject, app.config['ADMINS'][0], [user.email], body, html)
+
+        flash('Check your email for password reset link')
+        return redirect(url_for('home'))
+    return render_template('reset.html', form=form)
+
+@app.route('/reset/<token>', methods=["GET", "POST"])
+def reset_with_token(token):
+    try:
+        email = ts.loads(token, salt="recover-key", max_age=86400)
+    except:
+        abort(404)
+
+    form = PasswordForm()
+
+    if form.validate_on_submit():
+        user = mongo_db.users.User.find_one({'email' : email})
+        user.password = generate_password_hash(form.password.data)
+        user.save()
+
+        return redirect(url_for('login'))
+    return render_template('reset_with_token.html', form=form, token=token)
 @app.route("/")
 def home():
     return render_template('index.html')
@@ -140,10 +197,10 @@ def search():
         results_exist = (upcoming_search_results.count() > 0 or old_search_results > 0))
 
 
-# @app.route('/logout')
-# def logout():
-#     logout_user()
-#     return redirect(url_for('home'))
+@app.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('home'))
 
 @app.route('/create', methods=["POST","GET"])
 def create():

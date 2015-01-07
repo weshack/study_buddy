@@ -82,6 +82,7 @@ table tr td, table thead tr th {
 .create-forms {
   margin-top: 120px;
 }
+<<<<<<< HEAD
 nav.top-bar section {
   margin: 0 12px;
 }
@@ -94,6 +95,7 @@ nav.top-bar a {
 nav.top-bar section a :hover {
   color: rgb(22, 160, 133);
 }
+
 .top-bar-section ul li > h1 {
   width: 100%;
   color: white;
@@ -251,8 +253,16 @@ nav.top-bar section a :hover {
     color: #CDCDCD !important;
 }
 
-.top-bar {
+.top-bar, .top-bar-section a, .top-bar-section li {
     background-color: rgba(22, 118, 160, 1) !important;
+}
+
+.remove-icon {
+  float: right;
+}
+
+.remove-icon :hover {
+  cursor: pointer;
 }
 
 .info-card {
@@ -267,6 +277,23 @@ nav.top-bar section a :hover {
   color: #4aba9a;
 }
 
+.course {
+  margin: 4px 0;
+  color: rgb(111, 111, 111);
+}
+
+.course :hover {
+  color: #4aba9a;
+  cursor: pointer;
+}
+
+.remove-icon {
+  background-color: rgba(0,0,0,0);
+  border-color: #1676a0;
+  color: #1676a0;
+}
+
+
 .flashes {
   width: 35%;
   margin: auto;
@@ -279,6 +306,14 @@ nav.top-bar section a :hover {
   padding-left: 16px;
   text-align: center;
   color: #236E90;
+}
+
+.top-bar-section .divider {
+  border-top: solid 2px #3587AB; /*#044A68;*/
+}
+
+.top-bar-section li :hover {
+  background-color: rgb(4, 74, 104) !important;
 }
 
 #four-o-four {

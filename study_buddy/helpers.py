@@ -1,5 +1,51 @@
+from study_buddy import mail, Message, app, ts
+from flask import url_for, render_template
+from threading import Thread
+from pymongo import MongoClient
 import re
 
+##
+# Finds the school name based on the email domain name given.
+#
+# @param email_ending The email domain name of the users email address.
+#
+# @return Returns the school name based on the email address given.
+##
+def school_name_from_email(email_ending):
+	client = MongoClient()
+	conn = client.succor.schools
+	result = conn.find_one({'email' : email_ending})
+	if result:
+		return result['school']
+	else:
+		return email_ending
+
+##
+# Sends an email to a user who has just registered, with
+# with instructions on how to verify account.
+#
+# @param unique_id Unique ID that will be used to identify user in URL.
+# @param email Email address to send verification link to.
+##
+def send_verification_email(email):
+	token = ts.dumps(email, salt='email-confirm-key')
+	confirm_url = url_for('verify', token=token, _external=True)
+	send_email("Verify your account with Succor",
+				app.config['ADMINS'][0],
+				[email],
+				render_template("email/verify.txt", url=confirm_url),
+				render_template("email/verify.html", url=confirm_url))
+
+def send_async_email(app, msg):
+	with app.app_context():
+		mail.send(msg)
+
+def send_email(subject, sender, recipients, text_body, html_body):
+	msg = Message(subject, sender=sender, recipients=recipients)
+	msg.body = text_body
+	msg.html = html_body
+	thr = Thread(target=send_async_email, args=[app, msg])
+	thr.start()
 ##
 # @returns returns True if c is a number
 ##

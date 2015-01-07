@@ -5,14 +5,18 @@
 {% block title %}Profile{% endblock %}
 
 {% block content %}
-  <p>{{ current_user.email }} is logged in</p>
-  <p>{{ user.email }}'s profile</p>
-  <div class="row">
-    <div class="small-6 column">
-      {{ user.name.first }}
+  <div class="info-card" id="user-info">
+    <div class="row">
+        <div class="small-12 small-centered columns">
+          <h2 class="center-txt">{{ titleize(user.name.first + ' ' + user.name.last) }}</h2>
+        </div>
     </div>
-    <div class="small-6 column">
-      {{ user.name.last }}
-    </div>
+    {% for class in user.classes: %}
+      <div class="row course" href='{{ class }}'>
+        <div class="small-6 columns small-centered">
+          {{ titleize(class) }}
+        </div>
+      </div>
+    {% endfor %}
   </div>
 {% endblock %}

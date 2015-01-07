@@ -11,9 +11,9 @@ var BASE_URL = "";
 var autocomplete_data = [];
 
 $(document).ready(function() {
-	init_autocomplete("#search-bar");
-	init_autocomplete("#createdepartment");
-	jQuery('#datetime').datetimepicker();
+	// init_autocomplete("#search-bar");
+	// init_autocomplete("#createdepartment");
+	$('#datetime').datetimepicker();
 
 	$('#search-bar').on('input', function() {
 		if ($(this).val() != '') {
@@ -23,14 +23,22 @@ $(document).ready(function() {
 		}
 	});
 
-	$('#add-class').click(function() {
-		// change child of anchor tag to form field
-		console.log(this.innerHTML);
-		this.innerHTML = "<form method='post' action='/user/{{ current_user._id }}'><input type='text' /></form>"		
+	$('#user-dropdown').hover(function() {
+		anchor = $(this).children()[0];
+		name = $(anchor).attr('data-name');
+		anchor.innerHTML = name + "'s profile";
+	}, function() {
+		anchor = $(this).children()[0];
+		name = $(anchor).attr('data-name');
+		anchor.innerHTML = "Welcome, " + name;
 	});
 
 	$('.clickableRow').click(function() {
 		window.document.location = $(this).attr('href');
+	});
+
+	$('.course-edit').click(function() {
+		window.document.location = '/find?new_find=' + $(this).attr('href');
 	});
 });
 
@@ -108,14 +116,9 @@ function init_autocomplete(search_bar) {
 		autocomplete_data.push(name_json);
 	}	
 
-
-	// $("#studysearch").autocomplete({
-	//  	source: autocomplete_data
-	//  });
-
-	// $(search_bar).autocomplete({
-	// 	source: autocomplete_data
-	// });
+	$(search_bar).autocomplete({
+		source: autocomplete_data
+	});
 
 
 }
