@@ -5,16 +5,12 @@
 {% block title %}Profile{% endblock %}
 
 {% block content %}
-  <div class="info-card">
+  <div class="info-card" id="user-info">
     <div class="row">
-        <div class="small-6 columns">
-          {% if user.name: %}
-            {{ titleize(user.name.first + ' ' + user.name.last) }}
-          {% else: %}
-            No name
-          {% endif %}
+        <div class="small-12 small-centered columns">
+          <h2 class="center-txt">{{ titleize(user.name.first + ' ' + user.name.last) }}</h2>
         </div>
-      </div>
+    </div>
     {% for class in user.classes: %}
       <div class="row course" href='{{ class }}'>
         <div class="small-6 columns small-centered">

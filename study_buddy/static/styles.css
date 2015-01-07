@@ -265,6 +265,16 @@ table tr td, table thead tr th {
     color: #4aba9a;
 }
 
+.course {
+  margin: 4px 0;
+  color: rgb(111, 111, 111);
+}
+
+.course :hover {
+  color: #4aba9a;
+  cursor: pointer;
+}
+
 
 .flashes {
     width: 35%;

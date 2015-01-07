@@ -31,7 +31,7 @@
                 <ul class="right">
                     <li class="has-dropdown not-click" id="user-dropdown">
                         <a href="/user/{{ current_user._id }}"
-                            data-name="{{current_user.name.first or current_user.email}}">
+                            data-name="{{ titleize(current_user.name.first) or current_user.email}}">
                               Welcome, {{ titleize(current_user.name.first) or current_user.email }}
                         </a>
                         <ul class="dropdown">

@@ -9,10 +9,10 @@
 		<form method="post" action="/edit/{{ user._id }}">
 		    <div class="row">
 		    	<div class="small-6 columns">
-		    		<input type="text" name="first_name" value="{{ user.name.first or '' }}" placeholder="First"/>
+		    		<input type="text" name="first_name" value="{{ titleize(user.name.first) or '' }}" placeholder="First"/>
 		    	</div>
 		    	<div class="small-6 columns">
-		    		<input type="text" name="last_name" value="{{ user.name.last or '' }}" placeholder="Last" />
+		    		<input type="text" name="last_name" value="{{ titleize(user.name.last) or '' }}" placeholder="Last" />
 		    	</div>
 		    </div>
 		    <input type=submit value="Edit" class="button">
