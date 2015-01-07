@@ -3,7 +3,7 @@
   <head>
     {% block head %}
     <link rel="image_src" href="{{ url_for('static', filename='resources/images/thumbnail.png') }}" />
-    <link rel="shortcut icon" href="{{ url_for('static', filename='resources/images/favicon.ico') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='resources/images/succor-favicon.ico') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='resources/foundations/css/foundation.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='resources/js/datetimepicker/jquery.datetimepicker.css') }}" >
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
@@ -32,11 +32,11 @@
                     <li class="has-dropdown not-click" id="user-dropdown">
                         <a href="/user/{{ current_user._id }}"
                             data-name="{{current_user.name.first or current_user.email}}">
-                              Welcome, {{ current_user.name.first or current_user.email }}
+                              Welcome, {{ titleize(current_user.name.first) or current_user.email }}
                         </a>
                         <ul class="dropdown">
                             {% for class in current_user.classes: %}
-                            <li><a href="/find?new_find={{ class }}">{{ class }}</a></li>
+                            <li><a href="/find?new_find={{ class }}">{{ titleize(class) }}</a></li>
                             {% endfor %}
                           <li class="divider"></li>
                           <li id="add-class"><a href="/edit/{{ current_user._id }}">Edit Profile</a></li>
