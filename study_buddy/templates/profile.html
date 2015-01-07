@@ -8,13 +8,17 @@
   <div class="info-card">
     <div class="row">
         <div class="small-6 columns">
-          {{ user.name.first }} {{ user.name.last }}
+          {% if user.name: %}
+            {{ titleize(user.name.first + ' ' + user.name.last) }}
+          {% else: %}
+            No name
+          {% endif %}
         </div>
       </div>
     {% for class in user.classes: %}
       <div class="row course" href='{{ class }}'>
         <div class="small-6 columns small-centered">
-          {{ class }}
+          {{ titleize(class) }}
         </div>
       </div>
     {% endfor %}
