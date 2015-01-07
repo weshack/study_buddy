@@ -57,16 +57,8 @@ def edit_user(user_id):
     if request.method == "POST":
         user.name.first = request.form['first_name']
         user.name.last = request.form['last_name']
-        print request.form['first_name'], request.form['last_name'], request.form['course']
-        if len(request.form['new_class']) > 0:
-            print "New class", request.form['course']
-            if user.classes:
-                print "class list exists", user.classes
-                user.classes.append(request.form['course'])
-            else:
-                user.classes = [request.form['course']]
         user.save()
-        return redirect(url_for('user', user_id=user_id))
+        return redirect(url_for('edit_user', user_id=user_id))
     return render_template('edit_user.html', user=user)
 
 

@@ -267,9 +267,6 @@ nav.top-bar {
     color: #4aba9a;
 }
 
-.info-card a :hover{
-    
-}
 
 .flashes {
     width: 35%;
@@ -283,6 +280,14 @@ nav.top-bar {
     padding-left: 16px;
     text-align: center;
     color: #236E90;
+}
+
+.top-bar-section .divider {
+  border-top: solid 2px #3587AB; /*#044A68;*/
+}
+
+.top-bar-section li :hover {
+  background-color: rgba(4, 74, 104, 0.5) !important;
 }
 
 #four-o-four {
