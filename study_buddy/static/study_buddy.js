@@ -37,7 +37,7 @@ $(document).ready(function() {
 		window.document.location = $(this).attr('href');
 	});
 
-	$('.course').click(function() {
+	$('.course-edit').click(function() {
 		window.document.location = '/find?new_find=' + $(this).attr('href');
 	});
 });

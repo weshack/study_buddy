@@ -15,12 +15,16 @@
 		    		<input type="text" name="last_name" value="{{ titleize(user.name.last) or '' }}" placeholder="Last" />
 		    	</div>
 		    </div>
-		    <input type=submit value="Edit" class="button">
+		    <div class="row">
+		    	<div class="small-4 columns small-centered">
+		    		<input type=submit value="Edit" class="button radius">
+		    	</div>
+		    </div>
 		</form>
 		    {% for class in user.classes: %}
-		      <div class="row">
+		      <div class="row course">
 		        <div class="small-12 columns small-centered">
-		          <span class="course" href='{{ class }}'>{{ class }}</span>
+		          <span class="course-edit" href='{{ class }}'>{{ class }}</span>
 		          <span class="remove-icon">
 			          <form method="post" action="/user/delete/{{ class }}">
 			          	<input type="submit" class="remove-icon" value="X" />

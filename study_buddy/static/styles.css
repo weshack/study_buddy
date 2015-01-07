@@ -275,6 +275,12 @@ table tr td, table thead tr th {
   cursor: pointer;
 }
 
+.remove-icon {
+  background-color: rgba(0,0,0,0);
+  border-color: #1676a0;
+  color: #1676a0;
+}
+
 
 .flashes {
     width: 35%;
