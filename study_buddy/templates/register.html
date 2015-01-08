@@ -9,7 +9,7 @@
 
 {% block content %}
   {% from "_macros.html" import render_field %}
-  <div class="row info-card">
+  <div class="info-card" id="register-page">
     <form method="post" action="/register">
       <dl>
         {{ form.csrf_token }}

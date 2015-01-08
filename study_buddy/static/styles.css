@@ -23,8 +23,7 @@
 html {
   font-family: bitstream-regular !important;
 }
-html,
-body {
+html, body {
   height: 100%;
 }
 body {
@@ -305,6 +304,16 @@ nav.top-bar section a :hover {
   color: #236E90;
 }
 
+.errors {
+  color: #FA9F22;
+  margin: 0 auto 10 auto;
+  list-style: none;
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 5px;
+  padding: 8px 0;
+  padding-left: 16px;
+}
+
 .top-bar-section .divider {
   border-top: solid 2px #3587AB; /*#044A68;*/
 }
@@ -385,6 +394,10 @@ nav.top-bar section a :hover {
 
 .group-content {
   max-width: 35%;
+}
+
+#login-page, #register-page {
+  width: 35%;
 }
 
 #about-content {
