@@ -45,11 +45,11 @@
                 <tbody>
                         {% for result in upcoming_results: %}
                             <tr class="clickableRow" href="/group/{{ result._id }}">
-                                <td>{{ result['department'] + " " + result['course_no'] }}</td>
+                                <td>{{ titleize(result['department'] + " " + result['course_no']) }}</td>
                                 <td>{{ output_time(result.time) }}</td>
-                                <td>{{ result.location }}</td>
+                                <td>{{ titleize(result.location) }}</td>
                                 <td>{{ result.description }}</td>
-                                <td>{{ result.name }}</td>
+                                <td>{{ titleize(result.name) }}</td>
                             </tr>
                         {% endfor %}
                 </tbody>
@@ -74,11 +74,11 @@
             <tbody>
                 {% for result in old_results: %}
                     <tr class="clickableRow" href="/group/{{ result._id }}">
-                        <td>{{ result['department'] + " " + result['course_no'] }}</td>
+                        <td>{{ titleize(result['department'] + " " + result['course_no']) }}</td>
                         <td>{{ output_time(result.time) }}</td>
-                        <td>{{ result.location }}</td>
+                        <td>{{ titleize(result.location) }}</td>
                         <td>{{ result.description }}</td>
-                        <td>{{ result.name }}</td>
+                        <td>{{ titleize(result.name) }}</td>
                     </tr>
                 {% endfor %}
             </tbody>

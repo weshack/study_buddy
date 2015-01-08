@@ -131,6 +131,7 @@ def reset_with_token(token):
 
         return redirect(url_for('login'))
     return render_template('reset_with_token.html', form=form, token=token)
+
 @app.route("/")
 def home():
     return render_template('index.html')
@@ -154,38 +155,49 @@ def search():
         course_keyword = request.args.get('course_no')
         dept_keyword = request.args.get('dept_keyword').lower()
 
-    print "DEPT KEYWORD:",dept_keyword
-    print "COURSE KEYWORD:",course_keyword
+    # Get location data.
+    longitude = float(request.args.get('geo_location').split(',')[1])
+    latitude = float(request.args.get('geo_location').split(',')[0])
+    location = [longitude, latitude]
 
-    search_results = None
-    results_exist = True
+    print location
 
+    # Get current datetime.
     date_now = datetime.today() - timedelta(hours=1)
-    if course_keyword and dept_keyword:
-        upcoming_search_results = mongo_db.study_sessions.StudySession.find(
-            {'course_no' : course_keyword, 
-             'department' : dept_keyword,  
-             'time' : {'$gte' : date_now}})
-        old_search_results = mongo_db.study_sessions.StudySession.find(
-            {'course_no' : course_keyword, 
-             'department' : dept_keyword,  
-             'time' : {'$lt' : date_now}})
-    elif dept_keyword and not course_keyword:
-        print "only department entered"
-        upcoming_search_results = mongo_db.study_sessions.StudySession.find(
-            {'department' : dept_keyword,
-             'time' : {'$gte' : date_now}})
-        old_search_results = mongo_db.study_sessions.StudySession.find(
-            {'department' : dept_keyword,
-             'time' : {'$lt' : date_now}})
-    elif not dept_keyword and not course_keyword:
-        upcoming_search_results = mongo_db.study_sessions.StudySession.find(
-            {'time' : {'$gte' : date_now}})
-        old_search_results = mongo_db.study_sessions.StudySession.find(
-            {'time' : {'$lt' : date_now}})
+
+    # Build search query.
+    upcoming_query_object = {'time' : {'$gte' : date_now}}
+    old_query_object = {'time' : {'$lt' : date_now}}
+    if dept_keyword:
+        upcoming_query_object['department'] = dept_keyword
+        old_query_object['department'] = dept_keyword
+        
+        if course_keyword:
+            upcoming_query_object['course_no'] = course_keyword
+            old_query_object['course_no'] = course_keyword
+    
+    if current_user.is_authenticated():
+        upcoming_query_object['school'] = current_user.school
+        old_query_object['school'] = current_user.school
     else:
-        flash('Enter something to search!')
-        return render_template('index.html')
+        location_query = {
+                            '$near' : {
+                                '$geometry' : {
+                                    'type' : 'Point',
+                                    'coordinates' : location
+                                },
+                                '$maxDistance' : 5000
+                            }   
+                        }
+        upcoming_query_object['geo_location'] = location_query
+        old_query_object['geo_location'] = location_query
+
+    print "upcoming query", upcoming_query_object
+    print "old query", old_query_object
+
+    # Make database query.
+    upcoming_search_results = mongo_db.study_sessions.StudySession.find(upcoming_query_object)
+    old_search_results = mongo_db.study_sessions.StudySession.find(old_query_object)
     
     upcoming_search_results.sort('time', ASCENDING)
     old_search_results.sort('time', DESCENDING)
@@ -194,7 +206,7 @@ def search():
     return render_template('search_results.html', 
         upcoming_results = upcoming_search_results,
         old_results = old_search_results, 
-        results_exist = (upcoming_search_results.count() > 0 or old_search_results > 0))
+        results_exist = (upcoming_search_results.count() > 0 or old_search_results.count() > 0))
 
 
 @app.route('/logout')
@@ -207,15 +219,29 @@ def create():
     create_form = GroupForm(request.form)
     if create_form.validate_on_submit():
         new_session=mongo_db.study_sessions.StudySession()
+        # Get and parse gelocation data from form.
+        location_data = create_form.geo_location.data.split(',')
+        lat = float(location_data[0])
+        lon = float(location_data[1])
+        new_session.geo_location={
+            'type':'Point',
+            'coordinates':[lon, lat]}
         # store department as lower case so search works
         new_session.department=create_form.department.data.lower() 
         new_session.course_no=str(create_form.course_no.data)
         new_session.time=create_form.datetime.data
         new_session.location=create_form.where.data
         new_session.description=create_form.assignment.data
-        new_session.contact_info=create_form.email.data
+        if current_user.is_authenticated():
+            new_session.contact_info=current_user.email
+            new_session.name=current_user.name.first + ' ' + current_user.name.first
+            new_session.school=current_user.school
+        else:
+            new_session.contact_info=create_form.email.data
+            new_session.name='Anonymous'
+
         new_session.details=create_form.details.data
-        new_session.name=create_form.name.data
+        
         new_session.save()
         flash("Group Created!")
         return redirect(url_for('group', group_id=new_session._id))

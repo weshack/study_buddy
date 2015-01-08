@@ -25,7 +25,7 @@ class User(Document, UserMixin):
         'date_creation' : datetime.datetime.utcnow
     }
 
-    required_fields = ['email', 'password', 'school']
+    required_fields = ['email', 'password']
 
     use_dot_notation = True
 
@@ -45,7 +45,9 @@ class StudySession(Document):
         'description': basestring,
         'contact_info': basestring,
         'details': basestring,
-        'name': basestring
+        'name': basestring,
+        'geo_location' : dict,
+        'school' : basestring
    }
 
 

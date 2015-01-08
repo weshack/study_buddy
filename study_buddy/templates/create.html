@@ -25,14 +25,7 @@
         {% endif %}
         <form action="create" method="post" class="create-forms" id="create-group">
             {{ form.csrf_token }}
-            <div class="row">
-                <div class="small-6 columns">
-                    {{ render_field(form.name) }}
-                </div>
-                <div class="small-6 columns">
-                    {{ render_field(form.email) }}
-                </div>
-            </div>
+            {{ render_field(form.geo_location, is_hidden=True) }}
             <div class="row">
                 <div class="small-6 columns">
                     {{ render_field(form.department) }}
@@ -51,7 +44,6 @@
                 <div class="small-6 columns">
                     {{ render_field(form.where) }}
                 </div>
-
             </div>
             <div class="row">
                 <div class="small-12 columns">
@@ -63,6 +55,13 @@
                     {{ render_field(form.details) }}
                 </div>
             </div>
+            {% if not current_user.is_authenticated(): %}
+                <div class="row">
+                    <div class="small-6 columns small-centered">
+                        {{ render_field(form.email, placeholder='Optional') }}
+                    </div>
+                </div>
+            {% endif %}
             <div class="row small-centered" id="front-page-buttons">
                 <input type="submit" value="Create" id="create" class="button small-3 small-centered columns">
             </div>

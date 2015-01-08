@@ -6,6 +6,7 @@ from flask.ext.mail import Mail, Message
 from itsdangerous import URLSafeTimedSerializer
 from inflection import titleize
 from mongokit import ObjectId, Connection
+from pymongo import GEOSPHERE
 from json import loads
 
 import os
@@ -36,6 +37,7 @@ def output_time(result):
 connection = Connection()
 connection.register([StudySession, User])
 mongo_db = connection.succor
+mongo_db.study_sessions.ensure_index([('geo_location', GEOSPHERE)])
 
 # assets = Environment(app)
 # scss = Bundle('', filters='pyscss', output='all.css')

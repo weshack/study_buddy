@@ -1,5 +1,5 @@
 from flask.ext.wtf import Form
-from wtforms import TextField, PasswordField, ValidationError, BooleanField, IntegerField, DateTimeField, validators
+from wtforms import TextField, PasswordField, ValidationError, BooleanField, IntegerField, DateTimeField, HiddenField, validators
 from study_buddy import mongo_db
 from werkzeug.security import check_password_hash
 
@@ -10,16 +10,12 @@ class PasswordForm(Form):
     password = PasswordField('Password', validators = [validators.Required()])
 
 class GroupForm(Form):
-    name = TextField('Your Name', [
-        validators.Required()
-    ])
     email = TextField('Contact', [
         validators.Email()
     ])
     department = TextField('Department', [
         validators.Required()
     ])
-
     course_no = IntegerField('Course Number', [
         validators.Required(),
     ])
@@ -31,6 +27,7 @@ class GroupForm(Form):
         validators.Required()
     ])
     details = TextField('Details')
+    geo_location = HiddenField()
     all_nighter=BooleanField('All nighter')
 
     def validate_course_no(self, field):
