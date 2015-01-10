@@ -10,9 +10,8 @@
 {% from '_macros.html' import render_field %}
 
 {% block content %}
-    <div class="wrapper">
-        <div class="title-area">
-            <div class="custom-title">Create a New Group</div>
+        <div class="title-area row">
+            <div class="small-12 custom-title">Create a New Group</div>
         </div>
         {% if results %}
         <div class="large-12 columns" id="errors">
@@ -20,7 +19,6 @@
         {% for error in results %}
         <li>{{error}}</li>
         {% endfor %}
-
         </div>
         {% endif %}
         <form action="create" method="post" class="create-forms" id="create-group">
@@ -67,6 +65,4 @@
             </div>
         </form>
 
-        <div class="push"></div>
-    </div>
 {% endblock %}

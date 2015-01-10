@@ -8,14 +8,17 @@
 {% endblock %}
 <!-- add flash message -->
 {% block content %}
+    <div class="row custom-title">
+        <div class="small-12">Succor</div>
+    </div>
+    <div class="row" id="intro">
+        <div class="small-12 large-6 large-centered columns">
+            <b>/ˈsəkər/</b> <em>[noun]</em> <span>assistance and support in times of hardship and distress.</span> <em>We bring succor to students by connecting them with study groups.</em> <em>[verb]</em> <span>give assistance or aid to.</span> <em>I used Succor to search and organize a study session with my classmates. I was succored, relieved of stress, and even made new friends!</em>
+        </div>
+    </div>
 
-    <div class="wrapper">
-
-        <div class="custom-title" id="text-background">Succor</div>
-            <div id="intro">
-                <b>/ˈsəkər/</b> <em>[noun]</em> <span>assistance and support in times of hardship and distress.</span> <em>We bring succor to students by connecting them with study groups.</em> <em>[verb]</em> <span>give assistance or aid to.</span> <em>I used Succor to search and organize a study session with my classmates. I was succored, relieved of stress, and even made new friends!</em>
-            </div>
-            
+    <div class="row">
+        <div class="small-12 small-centered columns">        
             <form action="find">
                 <input type="hidden" id="geo_location" name="geo_location" value="" />
                 <div class="row">
@@ -35,32 +38,22 @@
                     </div>
                 </div>
             </form>
-
-                    <div class="row" id="front-page-buttons">
-                        <div class="small-4 columns small-offset-2">
-                            <form action="create">
-                                <input type="submit" value="Create a Group" id="create" class="button small">
-                            </form>
-                        </div>
-                        <div class="small-4 columns end">
-                            <form action="all-nighter">
-                                <input type="submit" value="Find people pulling all-nighters!" id="all_nighter" class="button small">
-                            </form>
-                        </div>
-                    </div>
-            <!-- <div class="row small-centered" id="front-page-buttons">
-                <div class="small-3 small-centered columns">
-                    <div class="row">
-                        <div class="small-12 columns">
-                            <form action="create">
-                                <input type="submit" value="Create a Group" id="create" class="button small-2 small-centered columns">
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div> -->
         </div>
     </div>
+
+    <div class="row" id="front-page-buttons">
+        <div class="small-4 columns small-offset-2">
+            <form action="create">
+                <input type="submit" value="Create a Group" id="create" class="button small">
+            </form>
+        </div>
+        <div class="small-4 columns end">
+            <form action="all-nighter">
+                <input type="submit" value="Find people pulling all-nighters!" id="all_nighter" class="button small">
+            </form>
+        </div>
+    </div>
+        
     <div id="footer">
         <p id="bot">
           Created by Aaron Plave, Yekaterina Sapozhnina, Aaron Rosen, Hora, Denise Francisco, Lili Borland and Aditya Gupta <a href="https://github.com/weshack/study_buddy/"><img src="{{ url_for('static', filename='resources/images/githubcat.jpg') }}" alt="Github Code Link" height="30" width="30"/></a>
