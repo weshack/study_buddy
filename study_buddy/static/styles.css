@@ -1,14 +1,3 @@
-/*
-* Grey: #C7D0D5;
-* Blue: #93B1C6;
-* White: #F5F5F5;
-* Orange: #FF7148;
-* Red: #EC583A;
-*/
-/*Grey*/
-/*Orange*/
-/*Red*/
-/*Blue*/
 @font-face {
   font-family: josefinslab;
   src: url(josefinslab-bold-webfont.woff);
@@ -327,53 +316,6 @@ nav.top-bar section a :hover {
   -moz-border-radius: 150px;
 }
 
-.flip-container {
-  perspective: 1000;
-  width: 40%;
-  margin:auto;
-}
-
-.flip-container:hover .flipper, .flip-container.hover .flipper {
-  transform: rotateY(180deg);
-}
-
-/* flip speed goes here */
-.flipper {
-  transition: 0.6s;
-  transform-style: preserve-3d;
-
-  position: relative;
-}
-
-/* hide back of pane during swap */
-.front, .back {
-  backface-visibility: hidden;
-
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-
-/* front pane, placed above back */
-.front {
-  z-index: 2;
-  /* for firefox 31 */
-  transform: rotateY(0deg);
-}
-
-/* back, initially hidden pane */
-.back {
-  transform: rotateY(180deg);
-}
-
-/*.back div {
-  overflow: scroll;
-  width: 85%;
-  height: 100%;
-  margin: auto;
-  color: #4aba9a;
-}*/
-
 .group-content {
   max-width: 35%;
 }
@@ -388,13 +330,28 @@ nav.top-bar section a :hover {
   color: beige;
 }
 
-#intro-video {
-  margin: auto;
-  text-align: center;
+#about-content >  div {
+  margin-bottom: 45px;
 }
 
-#intro-video object {
-  width: 640px;
-  height: 360px;
+.about-card {
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 10px;
+}
+
+.about-row {
+  margin-top: 20px;
+}
+
+.about-title-name {
+  color: beige;
+  font-weight: 500;
+  font-size: 36px;
+}
+
+.about-title-position {
+  color: white;
+  font-weight: 200;
+  font-size: 24px;
 }
 

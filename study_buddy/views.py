@@ -1,4 +1,4 @@
-from study_buddy import app, mongo_db, people_data
+from study_buddy import app, mongo_db, APP_ROOT
 from forms import RegistrationForm, LoginForm, GroupForm, EmailForm, PasswordForm, EditUserForm
 from helpers import *
 
@@ -8,6 +8,7 @@ from mongokit import ObjectId
 from datetime import datetime, timedelta
 from werkzeug.security import generate_password_hash
 from uuid import uuid4
+from json import loads
 
 from flask.ext.login import login_required, login_user, logout_user, current_user
 from flask.ext.wtf import Form
@@ -143,6 +144,8 @@ def group(group_id):
 
 @app.route("/about")
 def about():
+    people_bios = open(APP_ROOT + '/people_bios.json').read()
+    people_data = loads(people_bios)
     return render_template('about.html', people_data=people_data)
 
 @app.route("/find")

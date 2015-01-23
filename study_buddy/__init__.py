@@ -7,7 +7,6 @@ from itsdangerous import URLSafeTimedSerializer
 from inflection import titleize
 from mongokit import ObjectId, Connection
 from pymongo import GEOSPHERE
-from json import loads
 
 import os
 
@@ -50,8 +49,6 @@ login_manager.login_view = 'login'
 # csrf = CsrfProtect()
 # csrf.init_app(app)
 
-people_bios = open(APP_ROOT + '/people_bios.json').read()
-people_data = loads(people_bios)
 ts = URLSafeTimedSerializer(app.config["SECRET_KEY"])
 
 mail = Mail(app)

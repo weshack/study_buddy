@@ -13,21 +13,40 @@
   </dd>
 {% endmacro %}
 
-{% macro render_about_card(data) %}
-  <div class="flip-container">
-    <div class="flipper">
-      <div class="front">
-        <div class="circular" 
-              style="background-image: url('static/resources/images/{{ data['picture'] }}'); background-size: cover; margin:auto;">
-        </div>
-        <h2>{{ data['name'] }}</h2>
-        <h3>{{ data['position'] }}</h3>
-      </div>
-      <div class="back">
-        <div>
-           {{ data['bio'] }}
-        </div>
-      </div>
+{% macro render_about_card_left(data) %}
+  <div class="circular small-3 columns"
+        style="background-image: url('static/resources/images/{{ data['picture'] }}'); background-size: cover; margin:auto;">
+  </div>
+  <div class="about-info small-9 columns">
+    <div class="about-title">
+      <span class="about-title-name">
+        {{ data['name'] }}
+      </span>
+      <span class="about-title-position">
+        {{ data['position'] }}
+      </span>
     </div>
+    <div>
+      {{ data['bio'] }}
+    </div>
+  </div>
+{% endmacro %}
+
+{% macro render_about_card_right(data) %}
+  <div class="about-info small-9 columns">
+    <div class="about-title">
+      <span class="about-title-name">
+        {{ data['name'] }}
+      </span>
+      <span class="about-title-position">
+        {{ data['position'] }}
+      </span>
+    </div>
+    <div>
+      {{ data['bio'] }}
+    </div>
+  </div>
+  <div class="small-3 columns circular"
+        style="background-image: url('static/resources/images/{{ data['picture'] }}'); background-size: cover; margin:auto;">
   </div>
 {% endmacro %}

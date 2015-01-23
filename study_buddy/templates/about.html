@@ -1,20 +1,20 @@
 {% extends "template.html" %}
 {% block title %}About{% endblock %}
 {% block head %}
-  {{ super() }}
-  <style type="text/css">
-    .important { color: #336699; }
-  </style>
+	{{ super() }}
+	<style type="text/css">
+	.important { color: #336699; }
+	</style>
 {% endblock %}
 {% block content %}
-{% from "_macros.html" import render_about_card %}
+	{% from "_macros.html" import render_about_card_left, render_about_card_right %}
 	<div id="about-content" class="center-elmt">
 		<h1 class="center-txt header">A Little About Us</h1>
-		<div id="intro-video">
+		<div class="flex-video">
 			<object data="http://www.youtube.com/v/H3JLBqdKuMc"></object>
 		</div>
 		<div>
-			<h2 class="subheader">What is Succor?</h2> 
+			<h2 class="subheader">What is Succor?</h2>
 			<div>
 				Succor connects students to classmates who are studying for the same tests. Students can create new study groups or find existing study groups by simply searching through their classes.
 			</div>
@@ -29,29 +29,23 @@
 			<h2 class="subheader">Our Mission</h2>
 			<div>
 				The first thing you usually ask a new person that you meet in school is about his/her classes. We are interested in each other’s academic life, and that connection is even more special when we find out that this random person whom we’ve just met is in one of our classes. With Succor, our mission is to connect students through this dynamic.
-			</div>				
-		</div>
-
-<!-- 		<div>
-			<div>
-				{{ render_about_card(people_data['Katya Sapozhnina']) }}
-			</div>
-			<div>
-				{{ render_about_card(people_data['Aaron Rosen']) }}
 			</div>
 		</div>
-		<div>
-			<div>
-				{{ render_about_card(people_data['Hora']) }}
-			</div>
-			<div>
-				{{ render_about_card(people_data['Denise Fransisco']) }}
-			</div>
-			<div>
-				{{ render_about_card(people_data['Aditya Gupta']) }}
-			</div>
-		</div> -->
+		<h2 class="subheader">Our People</h2>
+		<div class="row about-row">
+			{{ render_about_card_left(people_data['Katya Sapozhnina']) }}
+		</div>
+		<div class="row about-row">
+			{{ render_about_card_right(people_data['Aaron Rosen']) }}
+		</div>
+		<div class="row about-row">
+			{{ render_about_card_left(people_data['Hora']) }}
+		</div>
+		<div class="row about-row">
+			{{ render_about_card_right(people_data['Denise Fransisco']) }}
+		</div>
+		<div class="row about-row">
+			{{ render_about_card_left(people_data['Aditya Gupta']) }}
+		</div>
 	</div>
-
 {% endblock %}
-
