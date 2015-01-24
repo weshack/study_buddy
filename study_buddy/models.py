@@ -18,7 +18,8 @@ class User(Document, UserMixin):
             'first' : basestring,
             'last' : basestring
         },
-        'classes' : [basestring]
+        'classes' : [basestring],
+        'groups_joined' : [basestring]
     }
 
     default_values = {
@@ -48,6 +49,7 @@ class StudySession(Document):
         'name': basestring,
         'geo_location' : dict,
         'school' : basestring
+        # _id : ObjectId - mongo gives this to you automatically
    }
 
 
