@@ -221,12 +221,12 @@ def create():
     if create_form.validate_on_submit():
         new_session=mongo_db.study_sessions.StudySession()
         # Get and parse gelocation data from form.
-        location_data = create_form.geo_location.data.split(',')
-        lat = float(location_data[0])
-        lon = float(location_data[1])
-        new_session.geo_location={
-            'type':'Point',
-            'coordinates':[lon, lat]}
+        # location_data = create_form.geo_location.data.split(',')
+        # lat = float(location_data[0])
+        # lon = float(location_data[1])
+        # new_session.geo_location={
+        #     'type':'Point',
+        #     'coordinates':[lon, lat]}
         # store department as lower case so search works
         new_session.department=create_form.department.data.lower() 
         new_session.course_no=str(create_form.course_no.data)
