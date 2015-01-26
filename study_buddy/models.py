@@ -60,3 +60,16 @@ class StudySession(Document):
     }
 
     use_dot_notation = True
+
+class Slangs(Document):
+    __database__ = 'succor'
+    __collection__ = 'similar_names'
+
+    structure = {
+        'school' : basestring,
+        'department_name': basestring,
+        'names' : [basestring]
+    }
+
+
+    use_dot_notation = True
