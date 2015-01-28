@@ -18,7 +18,8 @@ class User(Document, UserMixin):
             'first' : basestring,
             'last' : basestring
         },
-        'classes' : [basestring]
+        'classes' : [basestring],
+        'groups_joined' : [basestring]
     }
 
     default_values = {
@@ -48,6 +49,7 @@ class StudySession(Document):
         'name': basestring,
         'geo_location' : dict,
         'school' : basestring
+        # _id : ObjectId - mongo gives this to you automatically
    }
 
 
@@ -56,5 +58,18 @@ class StudySession(Document):
     default_values = {
         'date_creation': datetime.datetime.utcnow
     }
+
+    use_dot_notation = True
+
+class Slangs(Document):
+    __database__ = 'succor'
+    __collection__ = 'similar_names'
+
+    structure = {
+        'school' : basestring,
+        'department_name': basestring,
+        'names' : [basestring]
+    }
+
 
     use_dot_notation = True

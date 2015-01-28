@@ -159,11 +159,9 @@ def search():
         dept_keyword = request.args.get('dept_keyword').lower()
 
     # Get location data.
-    longitude = float(request.args.get('geo_location').split(',')[1])
-    latitude = float(request.args.get('geo_location').split(',')[0])
-    location = [longitude, latitude]
-
-    print location
+    # longitude = float(request.args.get('geo_location').split(',')[1])
+    # latitude = float(request.args.get('geo_location').split(',')[0])
+    # location = [longitude, latitude]
 
     # Get current datetime.
     date_now = datetime.today() - timedelta(hours=1)
@@ -192,8 +190,8 @@ def search():
                                 '$maxDistance' : 5000
                             }   
                         }
-        upcoming_query_object['geo_location'] = location_query
-        old_query_object['geo_location'] = location_query
+        # upcoming_query_object['geo_location'] = location_query
+        # old_query_object['geo_location'] = location_query
 
     print "upcoming query", upcoming_query_object
     print "old query", old_query_object

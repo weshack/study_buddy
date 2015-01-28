@@ -1,0 +1,4 @@
+#mongoimport --db succor --collection slangs --type json --file backup/department_names.json --jsonArray
+#Copy paste this command after running mongod on the terminal and adding to the
+# file department_names located in backup folder. MAKE SURE TO COPY THE FORMAT or else 
+# it won't import
