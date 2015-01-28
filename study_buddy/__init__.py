@@ -1,6 +1,5 @@
 from flask import Flask, render_template
 
-from flask.ext.login import LoginManager
 from flask.ext.wtf.csrf import CsrfProtect
 from flask.ext.assets import Environment, Bundle
 from flask.ext.mail import Mail, Message
@@ -25,10 +24,6 @@ def output_time(result):
 # scss = Bundle('', filters='pyscss', output='all.css')
 # assets.register('scss_all', scss)
 
-login_manager = LoginManager()
-login_manager.init_app(app)
-login_manager.login_view = 'login'
-
 # csrf = CsrfProtect()
 # csrf.init_app(app)
 
@@ -45,7 +40,3 @@ from study_buddy import views, models
 @app.errorhandler(404)
 def page_not_found(e):
 	return render_template('404.html'), 404
-
-@login_manager.user_loader
-def load_user(user_id):
-	return mongo_db.users.User.find_one({'_id' : ObjectId(user_id)})
