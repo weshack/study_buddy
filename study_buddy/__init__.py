@@ -11,8 +11,8 @@ import os
 
 app = Flask(__name__)
 
-#app.config.from_envvar('SUCCOR_CONFIG_FILE')
 app.config.from_object('study_buddy.base_config')
+app.config.from_envvar('SUCCOR_CONFIG_FILE')
 
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 
