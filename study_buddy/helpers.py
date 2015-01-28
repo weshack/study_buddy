@@ -38,7 +38,9 @@ def send_verification_email(email):
 
 def send_async_email(app, msg):
 	with app.app_context():
+		print "Email sending..."
 		mail.send(msg)
+		print "Email sent!"
 
 def send_email(subject, sender, recipients, text_body, html_body):
 	msg = Message(subject, sender=sender, recipients=recipients)
