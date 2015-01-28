@@ -26,6 +26,8 @@ class GroupForm(Form):
     assignment = TextField('Assignment', [
         validators.Required()
     ])
+    
+    school = TextField('School')
     details = TextField('Details')
     geo_location = HiddenField()
     all_nighter=BooleanField('All nighter')

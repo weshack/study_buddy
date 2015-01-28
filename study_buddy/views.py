@@ -245,6 +245,7 @@ def create():
         else:
             new_session.contact_info=create_form.email.data
             new_session.name='Anonymous'
+            new_session.school=create_form.school.data
 
         new_session.details=create_form.details.data
         
