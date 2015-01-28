@@ -8,3 +8,7 @@ MAIL_USERNAME = 'succorapp@gmail.com'
 MAIL_PASSWORD = 'wearewinners'
 ADMINS = ['succorapp@gmail.com']
 SECRET_KEY = 'Tieng3us3Xie5meiyae6iKKHVUIUDF'
+
+DB_HOST = 'localhost'
+DB_PORT = 27017
+DB_NAME = 'succor'

@@ -5,7 +5,7 @@ from mongokit import Document
 import datetime
 
 class User(Document, UserMixin):
-    __database__ = 'succor'
+    __database__ = app.config['DB_NAME']
     __collection__ = 'users'
 
     structure = {
@@ -34,7 +34,7 @@ class User(Document, UserMixin):
         return str(self._id)
 
 class StudySession(Document):
-    __database__ = 'succor'
+    __database__ = app.config['DB_NAME']
     __collection__ = 'study_sessions'
 
     structure = {

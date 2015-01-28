@@ -22,7 +22,7 @@ def output_time(result):
     format = "%a, %-d at %-I:%M %p"
     return result.strftime(format)
 
-connection = Connection()
+connection = Connection(host=app.config['DB_HOST'], port=app.config['DB_PORT'])
 connection.register([StudySession, User])
 mongo_db = connection.succor
 mongo_db.study_sessions.ensure_index([('geo_location', GEOSPHERE)])
