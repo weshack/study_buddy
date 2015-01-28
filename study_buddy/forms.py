@@ -1,6 +1,6 @@
 from flask.ext.wtf import Form
 from wtforms import TextField, PasswordField, ValidationError, BooleanField, IntegerField, DateTimeField, HiddenField, validators
-from study_buddy import mongo_db
+from init_db import mongo_db
 from werkzeug.security import check_password_hash
 
 class EmailForm(Form):

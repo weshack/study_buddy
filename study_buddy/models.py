@@ -1,11 +1,13 @@
+from study_buddy import app
+
 from flask.ext.login import UserMixin
 
-from mongokit import Document
+from mongokit import Document, Connection
 
 import datetime
 
 class User(Document, UserMixin):
-    __database__ = 'succor'
+    __database__ = app.config['DB_NAME']
     __collection__ = 'users'
 
     structure = {
@@ -34,7 +36,7 @@ class User(Document, UserMixin):
         return str(self._id)
 
 class StudySession(Document):
-    __database__ = 'succor'
+    __database__ = app.config['DB_NAME']
     __collection__ = 'study_sessions'
 
     structure = {
