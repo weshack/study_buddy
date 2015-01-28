@@ -1,4 +1,5 @@
-from study_buddy import app, mongo_db, APP_ROOT
+from study_buddy import app, APP_ROOT
+from init_db import mongo_db
 from forms import RegistrationForm, LoginForm, GroupForm, EmailForm, PasswordForm, EditUserForm
 from helpers import *
 

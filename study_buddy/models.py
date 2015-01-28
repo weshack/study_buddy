@@ -1,6 +1,8 @@
+from study_buddy import app
+
 from flask.ext.login import UserMixin
 
-from mongokit import Document
+from mongokit import Document, Connection
 
 import datetime
 

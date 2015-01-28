@@ -1,31 +1,25 @@
 from flask import Flask, render_template
+
 from flask.ext.login import LoginManager
 from flask.ext.wtf.csrf import CsrfProtect
 from flask.ext.assets import Environment, Bundle
 from flask.ext.mail import Mail, Message
+
 from itsdangerous import URLSafeTimedSerializer
 from inflection import titleize
-from mongokit import ObjectId, Connection
-from pymongo import GEOSPHERE
 
 import os
-
-from models import *
 
 app = Flask(__name__)
 
 app.config.from_object('study_buddy.base_config')
+app.config.from_envvar('SUCCOR_CONFIG_FILE')
 
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 
 def output_time(result):
     format = "%a, %-d at %-I:%M %p"
     return result.strftime(format)
-
-connection = Connection(host=app.config['DB_HOST'], port=app.config['DB_PORT'])
-connection.register([StudySession, User])
-mongo_db = connection.succor
-mongo_db.study_sessions.ensure_index([('geo_location', GEOSPHERE)])
 
 # assets = Environment(app)
 # scss = Bundle('', filters='pyscss', output='all.css')
@@ -45,6 +39,7 @@ mail = Mail(app)
 print "Running app..."
 app.jinja_env.globals.update(output_time=output_time)
 app.jinja_env.globals.update(titleize=titleize)
+
 from study_buddy import views, models
 
 @app.errorhandler(404)
