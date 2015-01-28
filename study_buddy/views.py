@@ -185,16 +185,16 @@ def search():
     if current_user.is_authenticated():
         upcoming_query_object['school'] = current_user.school
         old_query_object['school'] = current_user.school
-    else:
-        location_query = {
-                            '$near' : {
-                                '$geometry' : {
-                                    'type' : 'Point',
-                                    'coordinates' : location
-                                },
-                                '$maxDistance' : 5000
-                            }   
-                        }
+    # else:
+    #     location_query = {
+    #                         '$near' : {
+    #                             '$geometry' : {
+    #                                 'type' : 'Point',
+    #                                 'coordinates' : location
+    #                             },
+    #                             '$maxDistance' : 5000
+    #                         }   
+    #                     }
         # upcoming_query_object['geo_location'] = location_query
         # old_query_object['geo_location'] = location_query
 
@@ -245,6 +245,7 @@ def create():
         else:
             new_session.contact_info=create_form.email.data
             new_session.name='Anonymous'
+            new_session.school=create_form.school.data
 
         new_session.details=create_form.details.data
         
