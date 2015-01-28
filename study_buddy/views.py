@@ -135,7 +135,11 @@ def reset_with_token(token):
 
 @app.route('/')
 def home():
-    return render_template('index.html')
+    if not request.cookies.get('succor-visited'):
+        is_first_time = True
+    if request.cookies.get('succor-visited'):
+        request.set_cookie('succor-visited', value=True)
+    return render_template('index.html', is_first_time=is_first_time)
 
 @app.route("/group/<group_id>")
 def group(group_id):

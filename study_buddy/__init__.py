@@ -14,18 +14,7 @@ from models import *
 
 app = Flask(__name__)
 
-app.config['SECURITY_POST_LOGIN'] = '/profile'
-
-app.config.update(
-	MAIL_SERVER = 'smtp.gmail.com',
-    MAIL_PORT = 587,
-    MAIL_USE_TLS = True,
-    MAIL_USE_SSL = False,
-    MAIL_USERNAME = 'succorapp@gmail.com',
-    MAIL_PASSWORD = 'wearewinners',
-    ADMINS = ['succorapp@gmail.com'],
-    SECRET_KEY='Tieng3us3Xie5meiyae6iKKHVUIUDF'
-)
+app.config.from_object('study_buddy.base_config')
 
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 
