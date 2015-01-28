@@ -11,25 +11,9 @@ var BASE_URL = "";
 var autocomplete_data = [];
 
 $(document).ready(function() {
-	// Get location data.
-	if ("geolocation" in navigator) {
-		console.log("geolocation information available.");
-		var geo_success = function(position) {
-			console.log(position.coords.latitude + ',' + position.coords.longitude);
-			$('#geo_location').attr('value', position.coords.latitude + ',' + position.coords.longitude);
-		}
-		var geo_error = function() {
-			console.log("Could not determine location");
-		}
-		var geo_options = {
-			enableHighAccuracy: true,
-			maximumAge: 3000,
-			timeout: 4500
-		};
-		navigator.geolocation.getCurrentPosition(geo_success, geo_error, geo_options);
-	} else {
-		console.log("Location information not available");
-	}
+
+	// init_geolocation_function();
+	
 	// init_autocomplete("#search-bar");
 	// init_autocomplete("#createdepartment");
 	$('#datetime').datetimepicker();
@@ -60,6 +44,28 @@ $(document).ready(function() {
 		window.document.location = '/find?new_find=' + $(this).attr('href');
 	});
 });
+
+function init_geolocation_function() {
+	// Get location data.
+	if ("geolocation" in navigator) {
+		console.log("geolocation information available.");
+		var geo_success = function(position) {
+			console.log(position.coords.latitude + ',' + position.coords.longitude);
+			$('#geo_location').attr('value', position.coords.latitude + ',' + position.coords.longitude);
+		}
+		var geo_error = function() {
+			console.log("Could not determine location");
+		}
+		var geo_options = {
+			enableHighAccuracy: true,
+			maximumAge: 3000,
+			timeout: 4500
+		};
+		navigator.geolocation.getCurrentPosition(geo_success, geo_error, geo_options);
+	} else {
+		console.log("Location information not available");
+	}
+}
 
 //Code that runs right after window has loaded
 function init_autocomplete(search_bar) {
