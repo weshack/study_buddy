@@ -137,6 +137,7 @@ def reset_with_token(token):
 @app.route('/')
 def home():
     print "going to home route"
+    is_first_time = False
     if not request.cookies.get('succor-visited'):
         print "setting first visit cookie"
         is_first_time = True
