@@ -137,12 +137,12 @@ def reset_with_token(token):
 @app.route('/')
 def home():
     print "going to home route"
-    is_first_time = False
-    if not request.cookies.get('succor-visited'):
-        print "setting first visit cookie"
-        is_first_time = True
-        request.set_cookie('succor-visited', value=True)
-        print "succor-visited:", request.cookies.get('succor-visited')
+    # is_first_time = False
+    # if not request.cookies.get('succor-visited'):
+    #     print "setting first visit cookie"
+    #     is_first_time = True
+    #     request.set_cookie('succor-visited', value=True)
+    #     print "succor-visited:", request.cookies.get('succor-visited')
             
     print "rendering template"
     return render_template('index.html', is_first_time=is_first_time)
