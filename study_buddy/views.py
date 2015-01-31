@@ -141,9 +141,9 @@ def home():
     if not request.cookies.get('succor-visited'):
         print "setting first visit cookie"
         is_first_time = True
-        if request.cookies.get('succor-visited'):
-            print "has first visit cookie"
-            request.set_cookie('succor-visited', value=True)
+        request.set_cookie('succor-visited', value=True)
+        print "succor-visited:", request.cookies.get('succor-visited')
+            
     print "rendering template"
     return render_template('index.html', is_first_time=is_first_time)
 
