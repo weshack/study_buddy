@@ -10,9 +10,7 @@ class PasswordForm(Form):
     password = PasswordField('Password', validators = [validators.Required()])
 
 class GroupForm(Form):
-    email = TextField('Contact', [
-        validators.Email()
-    ])
+    email = TextField('Contact')
     department = TextField('Department', [
         validators.Required()
     ])
@@ -37,7 +35,7 @@ class GroupForm(Form):
             raise validators.ValidationError('Please enter a 3 digit course number')
 
     def validate_email(self, field):
-        if '.edu' not in self.email.data:
+        if self.email.data and '.edu' not in self.email.data:
             raise validators.ValidationError('Please use a .edu email')
 
 class EditUserForm(Form):
