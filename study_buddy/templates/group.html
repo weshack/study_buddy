@@ -10,21 +10,46 @@
 {% block content %}
 	<div class="info-card group-content">
 		<div class="row">
-			<h2>{{ group.department }} {{ group.course_no }}</h2>
-			<div class="time-subheader">{{ output_time(group.time) }}</div>
+			<div class="small-6 columns">
+				<div class="row">
+					<h2>{{ group.department }} {{ group.course_no }}</h2>
+					<div class="time-subheader">{{ output_time(group.time) }}</div>
+				</div>
+				<div class="row">
+					<h3>Location: <small>{{ group.location }}</small></h3>
+				</div>
+				<div class="row">
+					<h3>Description: <small>{{ group.description }}</small></h3>
+				</div>
+				<div class="row">
+					<h3>Contact: <small>{{ group.contact_info }}</small></h3>
+				</div>
+				<div class="row">
+					<h3>Details: <small>{{ group.details }}</small></h3>
+				</div>
+				<a href="{{ request.referrer }}">Back</a>
+			</div>
+			<div class="v-line">
+			</div>
+			<div class="small-6 columns">
+				<form action="/group/join/{{ group._id }}" method="post">
+					<input type="submit" value="Join Group" class="button" />
+				</form>
+				{% for participant in group.participants: %}
+					<div>
+						<a href="{{ url_for('user', user_id=participant.participant_id) }}">
+							{{ participant.participant_name }}
+						</a>
+						{% if current_user._id == participant.participant_id: %}
+							<span class="remove-icon">
+								<form method="post" action="/group/leave/{{ group._id }}">
+					          		<input type="submit" class="remove-icon" value="X" />
+					          	</form>
+							</span>
+						{% endif %}
+					</div>
+				{% endfor %}
+			</div>
 		</div>
-		<div class="row">
-			<h3>Location: <small>{{ group.location }}</small></h3>
-		</div>
-		<div class="row">
-			<h3>Description: <small>{{ group.description }}</small></h3>
-		</div>
-		<div class="row">
-			<h3>Contact: <small>{{ group.contact_info }}</small></h3>
-		</div>
-		<div class="row">
-			<h3>Details: <small>{{ group.details }}</small></h3>
-		</div>
-		<a href="{{ request.referrer }}">Back</a>
 	</div>
 {% endblock %}

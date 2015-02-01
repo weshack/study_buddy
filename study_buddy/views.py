@@ -10,6 +10,7 @@ from datetime import datetime, timedelta
 from werkzeug.security import generate_password_hash
 from uuid import uuid4
 from json import loads
+from inflection import titleize
 
 from flask.ext.login import login_required, login_user, logout_user, current_user
 from flask.ext.wtf import Form
@@ -58,6 +59,7 @@ def edit_user(user_id):
     if request.method == "POST":
         user.name.first = request.form['first_name']
         user.name.last = request.form['last_name']
+        user.name.full = titleize(request.form['first_name'] + ' ' + request.form['last_name'])
         user.save()
         return redirect(url_for('edit_user', user_id=user_id))
     return render_template('edit_user.html', user=user)
@@ -136,21 +138,37 @@ def reset_with_token(token):
 
 @app.route('/')
 def home():
-    print "going to home route"
-    # is_first_time = False
-    # if not request.cookies.get('succor-visited'):
-    #     print "setting first visit cookie"
-    #     is_first_time = True
-    #     request.set_cookie('succor-visited', value=True)
-    #     print "succor-visited:", request.cookies.get('succor-visited')
-            
     print "rendering template"
-    return render_template('index.html', is_first_time=is_first_time)
+    return render_template('index.html')
 
 @app.route("/group/<group_id>")
 def group(group_id):
     group = mongo_db.study_sessions.StudySession.find_one({'_id' : ObjectId(group_id)})
     return render_template('group.html', group=group)
+
+@app.route("/group/join/<group_id>", methods=["POST"])
+@login_required
+def join_group(group_id):
+    mongo_db.study_sessions.update({'_id' : ObjectId(group_id)},
+        {'$addToSet' : {
+            'participants' : {
+                'participant_id' : current_user._id,
+                'participant_name' : current_user.name.full
+            }
+        }})
+    return redirect(url_for('group', group_id=group_id))
+
+@app.route("/group/leave/<group_id>", methods=["POST"])
+@login_required
+def leave_group(group_id):
+    if current_user.is_authenticated():
+        group = mongo_db.study_sessions.update({'_id' : ObjectId(group_id)},
+            {'$pull' : {
+                'participants' : {
+                    'participant_id' : current_user._id,
+                }
+            }})
+    return redirect(url_for('group', group_id=group_id))
 
 @app.route("/about")
 def about():
@@ -228,7 +246,9 @@ def logout():
 @app.route('/create', methods=["POST","GET"])
 def create():
     create_form = GroupForm(request.form)
+    print "creating", create_form.validate_on_submit()
     if create_form.validate_on_submit():
+        print "form validated"
         new_session=mongo_db.study_sessions.StudySession()
         # Get and parse gelocation data from form.
         # location_data = create_form.geo_location.data.split(',')
@@ -257,6 +277,7 @@ def create():
         new_session.save()
         flash("Group Created!")
         return redirect(url_for('group', group_id=new_session._id))
+    flash_errors(create_form)
     return render_template('create.html',username='dummy', form=create_form);
     #return render_template('create.html',username=session['username']);
 
