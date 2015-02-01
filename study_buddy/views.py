@@ -149,11 +149,13 @@ def group(group_id):
 @app.route("/group/join/<group_id>", methods=["POST"])
 @login_required
 def join_group(group_id):
+    full_name = current_user.name.full or None
     mongo_db.study_sessions.update({'_id' : ObjectId(group_id)},
         {'$addToSet' : {
             'participants' : {
                 'participant_id' : current_user._id,
-                'participant_name' : current_user.name.full
+                'participant_name' : full_name,
+                'participant_email' : current_user.email
             }
         }})
     return redirect(url_for('group', group_id=group_id))

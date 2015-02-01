@@ -54,7 +54,8 @@ class StudySession(Document):
         'school' : basestring,
         'participants' : [{
             'participant_id' : basestring,
-            'participant_name' : basestring
+            'participant_name' : basestring,
+            'participant_email' : basestring
         }]
         # _id : ObjectId - mongo gives this to you automatically
    }

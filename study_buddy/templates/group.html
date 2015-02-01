@@ -38,7 +38,11 @@
 				{% for participant in group.participants: %}
 					<div>
 						<a href="{{ url_for('user', user_id=participant.participant_id) }}">
-							{{ participant.participant_name }}
+							{% if participant.participant_name: %}
+								{{ participant.participant_name }}
+							{% else: %}
+								{{ participant.participant_email }}
+							{% endif %}
 						</a>
 						{% if current_user._id == participant.participant_id: %}
 							<span class="remove-icon">
