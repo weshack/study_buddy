@@ -18,7 +18,8 @@ class User(Document, UserMixin):
         'verified' : bool,
         'name' : {
             'first' : basestring,
-            'last' : basestring
+            'last' : basestring,
+            'full' : basestring
         },
         'classes' : [basestring],
         'groups_joined' : [basestring]
@@ -50,7 +51,11 @@ class StudySession(Document):
         'details': basestring,
         'name': basestring,
         'geo_location' : dict,
-        'school' : basestring
+        'school' : basestring,
+        'participants' : [{
+            'participant_id' : basestring,
+            'participant_name' : basestring
+        }]
         # _id : ObjectId - mongo gives this to you automatically
    }
 
