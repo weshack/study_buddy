@@ -8,7 +8,7 @@
   <div class="info-card group-content" id="user-info">
     <div class="row">
         <div class="small-12 small-centered columns">
-          <h2 class="center-txt">{{ titleize(user.name.first + ' ' + user.name.last) }}</h2>
+          <h2 class="center-txt">{{ user.name.full }}</h2>
         </div>
     </div>
     {% for class in user.classes: %}
