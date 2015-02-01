@@ -144,7 +144,8 @@ def home():
 @app.route("/group/<group_id>")
 def group(group_id):
     group = mongo_db.study_sessions.StudySession.find_one({'_id' : ObjectId(group_id)})
-    return render_template('group.html', group=group)
+    participants = mongo_db.users.find({'_id' : { '$in' : group.participants }})
+    return render_template('group.html', group=group, participants=participants)
 
 @app.route("/group/join/<group_id>", methods=["POST"])
 @login_required
@@ -152,11 +153,7 @@ def join_group(group_id):
     full_name = current_user.name.full or None
     mongo_db.study_sessions.update({'_id' : ObjectId(group_id)},
         {'$addToSet' : {
-            'participants' : {
-                'participant_id' : current_user._id,
-                'participant_name' : full_name,
-                'participant_email' : current_user.email
-            }
+            'participants' : current_user._id
         }})
     return redirect(url_for('group', group_id=group_id))
 
@@ -166,9 +163,7 @@ def leave_group(group_id):
     if current_user.is_authenticated():
         group = mongo_db.study_sessions.update({'_id' : ObjectId(group_id)},
             {'$pull' : {
-                'participants' : {
-                    'participant_id' : current_user._id,
-                }
+                'participants' : current_user._id
             }})
     return redirect(url_for('group', group_id=group_id))
 

@@ -52,11 +52,7 @@ class StudySession(Document):
         'name': basestring,
         'geo_location' : dict,
         'school' : basestring,
-        'participants' : [{
-            'participant_id' : basestring,
-            'participant_name' : basestring,
-            'participant_email' : basestring
-        }]
+        'participants' : [basestring]
         # _id : ObjectId - mongo gives this to you automatically
    }
 

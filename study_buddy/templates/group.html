@@ -35,16 +35,16 @@
 				<form action="/group/join/{{ group._id }}" method="post">
 					<input type="submit" value="Join Group" class="button" />
 				</form>
-				{% for participant in group.participants: %}
+				{% for participant in participants: %}
 					<div>
-						<a href="{{ url_for('user', user_id=participant.participant_id) }}">
-							{% if participant.participant_name: %}
-								{{ participant.participant_name }}
+						<a href="{{ url_for('user', user_id=participant._id) }}">
+							{% if participant.name.full: %}
+								{{ participant.name.full }}
 							{% else: %}
-								{{ participant.participant_email }}
+								{{ participant.email }}
 							{% endif %}
 						</a>
-						{% if current_user._id == participant.participant_id: %}
+						{% if current_user._id == participant._id: %}
 							<span class="remove-icon">
 								<form method="post" action="/group/leave/{{ group._id }}">
 					          		<input type="submit" class="remove-icon" value="X" />
