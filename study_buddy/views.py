@@ -29,7 +29,7 @@ def login():
 @app.route('/user/<user_id>')
 def user(user_id):
     user = mongo_db.users.User.find_one({'_id' : ObjectId(user_id)})
-    return render_template('profile.html', user=current_user)
+    return render_template('profile.html', user=user)
 
 @app.route('/user/delete/<class_name>', methods=["POST"])
 @login_required
