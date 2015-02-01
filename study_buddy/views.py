@@ -86,6 +86,7 @@ def register():
     if 'user_email' in session:
         return render_template('register.html', email=session['user_email'], form=form)
     else:
+        print form.errors
         print "form not validated or not post request"
         return render_template('register.html', form=form)
 
