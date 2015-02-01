@@ -64,12 +64,12 @@ def edit_user(user_id):
         return redirect(url_for('edit_user', user_id=user_id))
     return render_template('edit_user.html', user=user)
 
-
-
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegistrationForm(request.form)
+    print "creating form"
     if form.validate_on_submit():
+        print "validated form"
         # Create user
         new_user = mongo_db.users.User()
         new_user.email = form.email.data.lower()
@@ -86,6 +86,7 @@ def register():
     if 'user_email' in session:
         return render_template('register.html', email=session['user_email'], form=form)
     else:
+        print "form not validated or not post request"
         return render_template('register.html', form=form)
 
 @app.route('/verify/<token>')
