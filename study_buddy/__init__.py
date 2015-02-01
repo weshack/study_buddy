@@ -36,7 +36,6 @@ mail = Mail(app)
 print "Running app..."
 app.jinja_env.globals.update(output_time=output_time)
 app.jinja_env.globals.update(titleize=titleize)
-app.jinja_env.globals['csrf_token'] = generate_csrf_token
 
 from study_buddy import views, models
 
