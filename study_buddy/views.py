@@ -276,7 +276,6 @@ def create():
         new_session.save()
         flash("Group Created!")
         return redirect(url_for('group', group_id=new_session._id))
-    flash_errors(create_form)
     return render_template('create.html',username='dummy', form=create_form);
     #return render_template('create.html',username=session['username']);
 
