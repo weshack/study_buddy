@@ -8,7 +8,7 @@
 	<div class="row info-card">
 	    <form method="post" action="{{ url_for('reset_with_token', token=token) }}">
 	        <dl>
-	          {{ form.csrf_token }}
+	          <input name="_csrf_token" type="hidden" value="{{ csrf_token() }}">
 	          {{ render_field(form.password) }}
 	        </dl>
 	        <p><input type=submit value="Reset password" class="button">
