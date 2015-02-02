@@ -24,7 +24,9 @@ def output_time(result):
 
 def generate_csrf_token():
     if '_csrf_token' not in session:
+    	print "Generating CSRF token..."
         session['_csrf_token'] = binascii.hexlify(os.urandom(24))
+   	print "Session contains CSRF token:", session['_csrf_token']
     return session['_csrf_token']		
 
 # assets = Environment(app)
