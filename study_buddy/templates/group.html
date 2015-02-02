@@ -33,6 +33,7 @@
 			</div>
 			<div class="small-6 columns">
 				<form action="/group/join/{{ group._id }}" method="post">
+					<input type="hidden" name="csrf_token" id="csrf_token" value="{{ csrf_token() }}" />
 					<input type="submit" value="Join Group" class="button" />
 				</form>
 				{% for participant in participants: %}
