@@ -43,3 +43,7 @@ from study_buddy import views, models
 def page_not_found(e):
 	return render_template('404.html'), 404
 
+@csrf.error_handler
+def csrf_error(reason):
+    return render_template('csrf_error.html', reason=reason), 400
+
