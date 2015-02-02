@@ -53,6 +53,8 @@ def page_not_found(e):
 def csrf_protect():
     if request.method == "POST":
         token = session.pop('_csrf_token', None)
+        print "CSRF Token from form", request.form.get("_csrf_token")
+        print "CSRF Token from session:", token
         if not token or token != request.form.get('_csrf_token'):
             abort(403)
 
