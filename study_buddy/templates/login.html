@@ -8,7 +8,7 @@
   <div class="info-card" id="login-page">
     <form method="post" action="/login">
         <dl>
-          {{ form.csrf_token }}
+          <input name="_csrf_token" type="hidden" value="{{ csrf_token() }}">
           {{ render_field(form.email) }}
           {{ render_field(form.password) }}
           Forgot your password? Click <a href="reset">here</a>.

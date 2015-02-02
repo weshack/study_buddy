@@ -22,7 +22,7 @@
         </div>
         {% endif %}
         <form action="create" method="post" class="create-forms" id="create-group">
-            {{ form.csrf_token }}
+            <input name="_csrf_token" type="hidden" value="{{ csrf_token() }}">
             {{ render_field(form.geo_location, is_hidden=True) }}
             <div class="row">
                 <div class="small-6 columns">

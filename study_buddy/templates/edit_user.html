@@ -7,6 +7,7 @@
 {% block content %}
 	<div class="info-card group-content">
 		<form method="post" action="/edit/{{ user._id }}">
+			<input name="_csrf_token" type="hidden" value="{{ csrf_token() }}">
 		    <div class="row">
 		    	{% if user.name.first: %}
 			    	<div class="small-6 columns">
@@ -39,6 +40,7 @@
 		          <span class="course-edit" href='{{ class }}'>{{ titleize(class) }}</span>
 		          <span class="remove-icon">
 			          <form method="post" action="/user/delete/{{ class }}">
+			          	<input name="_csrf_token" type="hidden" value="{{ csrf_token() }}">
 			          	<input type="submit" class="remove-icon" value="X" />
 			          </form>
 		          </span>
@@ -46,6 +48,7 @@
 		      </div>
 		    {% endfor %}
 		<form action="/user/add" method="post">
+			<input name="_csrf_token" type="hidden" value="{{ csrf_token() }}">
 			<input type="text" name="new_class" placeholder="Add a class" />
 		</form>
 	</div>

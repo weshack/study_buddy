@@ -24,6 +24,7 @@ def login():
         login_user(form.get_user(), remember=form.remember.data) # login_user(user, remember=True)
         flash("Logged in succesfully")
         return redirect(request.args.get("next") or url_for('home'))
+    print form.errors
     return render_template('login.html', form=form)
 
 @app.route('/user/<user_id>')
