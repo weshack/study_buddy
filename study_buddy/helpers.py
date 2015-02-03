@@ -2,6 +2,8 @@ from study_buddy import mail, Message, app, ts
 from flask import url_for, render_template
 from threading import Thread
 from pymongo import MongoClient
+
+import boto.ses
 import re
 
 ##
@@ -30,24 +32,37 @@ def school_name_from_email(email_ending):
 def send_verification_email(email):
 	token = ts.dumps(email, salt='email-confirm-key')
 	confirm_url = url_for('verify', token=token, _external=True)
-	send_email("Verify your account with Succor",
-				app.config['ADMINS'][0],
-				[email],
-				render_template("email/verify.txt", url=confirm_url),
-				render_template("email/verify.html", url=confirm_url))
+	conn = boto.ses.connect_to_region(
+		'us-west-2',
+		aws_access_key_id=app.config['AWS_ACCESS_KEY_ID'],
+		aws_secret_access_key=app.config['AWS_SECRET_KEY_ACCESS']
+	)
+	conn.send_email(
+		app.config['FROM_EMAIL_ADDRESS'],
+		"Vefiry your account with Succor",
+		None,
+		[email],
+		text_body=render_template("email/verify.txt", url=confirm_url),
+		html_body=render_template("email/verify.html", url=confirm_url)
+	)
+# 	send_email("Verify your account with Succor",
+# 				app.config['ADMINS'][0],
+# 				[email],
+# 				render_template("email/verify.txt", url=confirm_url),
+# 				render_template("email/verify.html", url=confirm_url))
 
-def send_async_email(app, msg):
-	with app.app_context():
-		print "Email sending..."
-		mail.send(msg)
-		print "Email sent!"
+# def send_async_email(app, msg):
+# 	with app.app_context():
+# 		print "Email sending..."
+# 		mail.send(msg)
+# 		print "Email sent!"
 
-def send_email(subject, sender, recipients, text_body, html_body):
-	msg = Message(subject, sender=sender, recipients=recipients)
-	msg.body = text_body
-	msg.html = html_body
-	thr = Thread(target=send_async_email, args=[app, msg])
-	thr.start()
+# def send_email(subject, sender, recipients, text_body, html_body):
+# 	msg = Message(subject, sender=sender, recipients=recipients)
+# 	msg.body = text_body
+# 	msg.html = html_body
+# 	thr = Thread(target=send_async_email, args=[app, msg])
+# 	thr.start()
 ##
 # @returns returns True if c is a number
 ##
