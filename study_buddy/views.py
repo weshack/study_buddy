@@ -116,7 +116,7 @@ def reset_password():
         recover_url = url_for('reset_with_token', token=token, _external=True)
         body = render_template('email/recover.txt', url=recover_url)
         html = render_template('email/recover.html', url=recover_url)
-        send_email(subject, app.config['ADMINS'][0], [user.email], body, html)
+        send_email(subject, app.config['FROM_EMAIL_ADDRESS'], [user.email], body, html)
 
         flash('Check your email for password reset link')
         return redirect(url_for('home'))

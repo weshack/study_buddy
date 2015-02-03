@@ -32,37 +32,30 @@ def school_name_from_email(email_ending):
 def send_verification_email(email):
 	token = ts.dumps(email, salt='email-confirm-key')
 	confirm_url = url_for('verify', token=token, _external=True)
+	send_email(
+		"Vefiry your account with Succor",
+		app.config['FROM_EMAIL_ADDRESS'],
+		[email],
+		render_template("email/verify.txt", url=confirm_url),
+		render_template("email/verify.html", url=confirm_url)
+	)
+
+def send_email(subject, sender, recipients, text_body, html_body):
 	conn = boto.ses.connect_to_region(
 		'us-west-2',
 		aws_access_key_id=app.config['AWS_ACCESS_KEY_ID'],
 		aws_secret_access_key=app.config['AWS_SECRET_KEY_ACCESS']
 	)
+
 	conn.send_email(
-		app.config['FROM_EMAIL_ADDRESS'],
-		"Vefiry your account with Succor",
+		sender,
+		subject,
 		None,
-		[email],
-		text_body=render_template("email/verify.txt", url=confirm_url),
-		html_body=render_template("email/verify.html", url=confirm_url)
+		recipients,
+		text_body=text_body,
+		html_body=html_body
 	)
-# 	send_email("Verify your account with Succor",
-# 				app.config['ADMINS'][0],
-# 				[email],
-# 				render_template("email/verify.txt", url=confirm_url),
-# 				render_template("email/verify.html", url=confirm_url))
 
-# def send_async_email(app, msg):
-# 	with app.app_context():
-# 		print "Email sending..."
-# 		mail.send(msg)
-# 		print "Email sent!"
-
-# def send_email(subject, sender, recipients, text_body, html_body):
-# 	msg = Message(subject, sender=sender, recipients=recipients)
-# 	msg.body = text_body
-# 	msg.html = html_body
-# 	thr = Thread(target=send_async_email, args=[app, msg])
-# 	thr.start()
 ##
 # @returns returns True if c is a number
 ##
