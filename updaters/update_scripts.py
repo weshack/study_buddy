@@ -43,9 +43,9 @@ def generate_smart_search_database(filename):
 			 })
 
 print "Updating Succor"
-# print "Generating email database"
-# generate_email_table('emails.txt')
-# print "Successfully generated email database"
+print "Generating email database"
+generate_email_table('emails.txt')
+print "Successfully generated email database"
 print "Generating smart search database"
 generate_smart_search_database('department_lists.csv')
 print "Successfully generated smart search database"
