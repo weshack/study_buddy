@@ -18,11 +18,19 @@ def smart_search(search_term, school):
 	client = MongoClient()
 	conn = client.succor.smart_search
 	search_term_processed = search_term.replace(" ", "").lower()
-	if school: school = school.lower()
+	if school: 
+		school = school.lower()
+		result = conn.find_one(
+			{'school' : school, 
+			 'alternative_names' : {'$in' : [search_term_processed]}}
+		)
+	else:
+		result = conn.find_one(
+			{'alternative_names' : {'$in' : [search_term_processed]}}
+		)
 	print "search term:", search_term
 	print "school:", school
-	result = conn.find_one({'school' : school, 
-		'alternative_names' : {'$in' : [search_term_processed]}})
+	
 	print "smart search result:", result
 	if result:
 		return result['department_name']

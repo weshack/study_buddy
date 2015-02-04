@@ -61,28 +61,30 @@
         {% endif %}
         
         <h3 class="header">Old sessions</h3>
-        <table>
-            <thead>
-                <tr>
-                    <th>Class</th>
-                    <th>Time</th>
-                    <th>Location</th>
-                    <th>Description</th>
-                    <th>Created By</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for result in old_results: %}
-                    <tr class="clickableRow" href="/group/{{ result._id }}">
-                        <td>{{ titleize(result['department'] + " " + result['course_no']) }}</td>
-                        <td>{{ output_time(result.time) }}</td>
-                        <td>{{ titleize(result.location) }}</td>
-                        <td>{{ result.description }}</td>
-                        <td>{{ titleize(result.name) }}</td>
+        {% if old_results.count() > 0: %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Class</th>
+                        <th>Time</th>
+                        <th>Location</th>
+                        <th>Description</th>
+                        <th>Created By</th>
                     </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    {% for result in old_results: %}
+                        <tr class="clickableRow" href="/group/{{ result._id }}">
+                            <td>{{ titleize(result['department'] + " " + result['course_no']) }}</td>
+                            <td>{{ output_time(result.time) }}</td>
+                            <td>{{ titleize(result.location) }}</td>
+                            <td>{{ result.description }}</td>
+                            <td>{{ titleize(result.name) }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
     {% else: %}
         <div class="center-txt" id="no-search-results">
             There are no sessions matching your search, click <a href = "{{ url_for('create') }}">here</a> to create a new one 

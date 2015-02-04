@@ -218,7 +218,7 @@ def search():
     else:
         smart_dept_keyword = smart_search(dept_keyword, None)
 
-    if smart_dept_keyword:
+    if dept_keyword:
         upcoming_query_object['department'] = smart_dept_keyword
         old_query_object['department'] = smart_dept_keyword
         
@@ -265,7 +265,7 @@ def create():
         new_session.description=create_form.assignment.data
         if current_user.is_authenticated():
             new_session.contact_info=current_user.email
-            new_session.name=current_user.name.first + ' ' + current_user.name.first
+            new_session.name=current_user.name.first + ' ' + current_user.name.last
             new_session.school=current_user.school
             new_session.department=smart_search(create_form.department.data, 
                                                 current_user.school)
