@@ -35,7 +35,7 @@ def generate_smart_search_database(filename):
 		alternative_names_list = alternative_names.split(";")
 		alternative_names_list.append(department)
 		alternative_names_list_processed = [name.replace(" ", "").lower() for name in alternative_names_list]
-		school_name = "wesleyan"
+		school_name = "wesleyan university"
 		smart_search.insert(
 			{'school' : school_name,
 			 'department_name' : department,
