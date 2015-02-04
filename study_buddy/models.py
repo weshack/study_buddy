@@ -67,13 +67,12 @@ class StudySession(Document):
 
 class Slangs(Document):
     __database__ = 'succor'
-    __collection__ = 'similar_names'
+    __collection__ = 'smart_search'
 
     structure = {
         'school' : basestring,
         'department_name': basestring,
-        'names' : [basestring]
+        'alternative_names' : [basestring]
     }
-
 
     use_dot_notation = True

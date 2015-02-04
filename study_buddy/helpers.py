@@ -1,10 +1,33 @@
-from study_buddy import mail, Message, app, ts
+from study_buddy import app, ts
 from flask import url_for, render_template
-from threading import Thread
 from pymongo import MongoClient
 
 import boto.ses
 import re
+
+##
+# Given a search term for a department, determines what the user
+# meant to search for.
+#
+# @param search_term The user-input search term.
+# @param school The school in which we are searching for a department.
+#
+# @return Returns the term most closely matching the term the user input.
+##
+def smart_search(search_term, school):
+	client = MongoClient()
+	conn = client.succor.smart_search
+	search_term_processed = search_term.replace(" ", "").lower()
+	if school: school = school.lower()
+	print "search term:", search_term
+	print "school:", school
+	result = conn.find_one({'school' : school, 
+		'alternative_names' : {'$in' : [search_term_processed]}})
+	print "smart search result:", result
+	if result:
+		return result['department_name']
+	else:
+		return search_term
 
 ##
 # Finds the school name based on the email domain name given.

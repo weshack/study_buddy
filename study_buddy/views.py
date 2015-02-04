@@ -24,7 +24,6 @@ def login():
         login_user(form.get_user(), remember=form.remember.data) # login_user(user, remember=True)
         flash("Logged in succesfully")
         return redirect(request.args.get("next") or url_for('home'))
-    print form.errors
     return render_template('login.html', form=form)
 
 @app.route('/user/<user_id>')
@@ -36,7 +35,7 @@ def user(user_id):
 @login_required
 def delete_class(class_name):
     if current_user.is_authenticated():
-        mongo_db.users.update({'_id' : ObjectId(current_user._id)}, {'$pull' : {'classes' : class_name.lower()}})
+        mongo_db.users.update({'_id' : ObjectId(current_user._id)}, {'$pull' : {'classes' : class_name}})
     return redirect(url_for('edit_user', user_id=current_user._id))
 
 @app.route('/user/add', methods=["POST"])
@@ -44,9 +43,12 @@ def delete_class(class_name):
 def add_class():
     if current_user.is_authenticated():
         class_name = request.form['new_class'].lower()
-        if mongo_db.users.find({'_id' : ObjectId(current_user._id), 
-                                'classes' : {'$in' : [class_name]}}).count() <= 0:
-            mongo_db.users.update({'_id' : ObjectId(current_user._id)}, {'$push' : {'classes' : class_name}})
+        dept_keyword, course_keyword = parse_new_find(class_name)
+        smart_class_name = smart_search(dept_keyword, current_user.school)
+        mongo_db.users.update({'_id' : ObjectId(current_user._id)},
+            {'$addToSet' : {
+                'classes' : smart_class_name + " " + course_keyword
+            }})
         return redirect(url_for('edit_user', user_id=current_user._id))
     else:
         flash('You are not allowed to do this!')
@@ -141,7 +143,6 @@ def reset_with_token(token):
 
 @app.route('/')
 def home():
-    print "rendering template"
     return render_template('index.html')
 
 @app.route("/group/<group_id>")
@@ -197,15 +198,9 @@ def search():
     # Build search query.
     upcoming_query_object = {'time' : {'$gte' : date_now}}
     old_query_object = {'time' : {'$lt' : date_now}}
-    if dept_keyword:
-        upcoming_query_object['department'] = dept_keyword
-        old_query_object['department'] = dept_keyword
-        
-        if course_keyword:
-            upcoming_query_object['course_no'] = course_keyword
-            old_query_object['course_no'] = course_keyword
     
     if current_user.is_authenticated():
+        smart_dept_keyword = smart_search(dept_keyword, current_user.school)
         upcoming_query_object['school'] = current_user.school
         old_query_object['school'] = current_user.school
     # else:
@@ -220,9 +215,16 @@ def search():
     #                     }
         # upcoming_query_object['geo_location'] = location_query
         # old_query_object['geo_location'] = location_query
+    else:
+        smart_dept_keyword = smart_search(dept_keyword, None)
 
-    print "upcoming query", upcoming_query_object
-    print "old query", old_query_object
+    if smart_dept_keyword:
+        upcoming_query_object['department'] = smart_dept_keyword
+        old_query_object['department'] = smart_dept_keyword
+        
+        if course_keyword:
+            upcoming_query_object['course_no'] = course_keyword
+            old_query_object['course_no'] = course_keyword
 
     # Make database query.
     upcoming_search_results = mongo_db.study_sessions.StudySession.find(upcoming_query_object)
@@ -246,7 +248,6 @@ def logout():
 @app.route('/create', methods=["POST","GET"])
 def create():
     create_form = GroupForm(request.form)
-    print "creating", create_form.validate_on_submit()
     if create_form.validate_on_submit():
         print "form validated"
         new_session=mongo_db.study_sessions.StudySession()
@@ -257,8 +258,7 @@ def create():
         # new_session.geo_location={
         #     'type':'Point',
         #     'coordinates':[lon, lat]}
-        # store department as lower case so search works
-        new_session.department=create_form.department.data.lower() 
+        # store department as lower case so search works 
         new_session.course_no=str(create_form.course_no.data)
         new_session.time=create_form.datetime.data
         new_session.location=create_form.where.data
@@ -267,10 +267,14 @@ def create():
             new_session.contact_info=current_user.email
             new_session.name=current_user.name.first + ' ' + current_user.name.first
             new_session.school=current_user.school
+            new_session.department=smart_search(create_form.department.data, 
+                                                current_user.school)
         else:
             new_session.contact_info=create_form.email.data
             new_session.name='Anonymous'
             new_session.school=create_form.school.data
+            new_session.department=smart_search(create_form.department.data,
+                                                create_form.school.data)
 
         new_session.details=create_form.details.data
         
@@ -283,90 +287,7 @@ def create():
 @app.route('/all-nighter')
 def allnighter():
     return render_template('index.html')
-# ##
-# # Responds to route /lucky, returning a random group study session from database.
-# ##
-# @app.route('/lucky')
-# def lucky():
-#     number_of_records = db.group_sessions.count()
-#     random_number = random.randint(0,number_of_records-1)
-#     group_session = db.group_sessions.find().limit(-1).skip(random_number).next()
-#     return 'picked random session with id: ' + str(group_session['_id'])
 
-##
-# Responds to a url of the form: 
-#   /edit?department=<department>&course_no=<course_no>&location=<location>&time=<time>&attendees=<attendees>&course_notes=<course_notes>&group_id=<group_id>
-#   
-#   department : string
-#   course_no : string
-#   location : string
-#   time : string
-#   attendees : list of strings
-#   course_notes : string
-#   group_id : string
-##
-# @app.route('/edit',methods=['POST'])
-# def edit():
-#     department = request.args.get('department')
-#     course_no = request.args.get('course_no')
-#     location = request.args.get('location')
-#     time = request.args.get('time')
-#     attendees = request.args.get('attendees')
-#     course_notes = request.args.get('course_notes')
-#     group_id = request.args.get('group_id')
-
-#     coll = db.group_sessions
-#     new_data = {DEPARTMENT_KEY    : department,
-#                 COURSE_NUMBER_KEY : course_no,
-#                 LOCATION_KEY      : location,
-#                 TIME_KEY          : time,
-#                 ATTENDEES_KEY     : attendees,
-#                 COURSE_NOTES_KEY  : course_notes}
-
-#     # verify that user owns the group before updating database.
-#     coll.update({'_id' : group_id}, new_data)
-
-#     # Show the updated results page.
-
-
-# @app.route('/delete',methods=['POST'])
-# def delete():
-#     # TODO: verify that user in session owns the group session to be deleted
-#     pass
-
-##
-# Add the current user to the selected study session group.
-# Responds to route of the form:
-#   /join?group_id=<group_id>
-#   
-#   group_id : string
-##
-# @app.route('/join',methods=['POST'])
-# def join():
-#     user = db.users.find_one({"userID": session['userid']})
-#     group_id = request.args.get('group_id')
-#     db_results_list = cursortolst(db.group_sessions.find())
-
-#     insert_item = {}
-    
-#     for item in db_results_list:
-#         print str(item['_id']) + " =? " + str(group_id)
-#         if str(group_id) == str(item['_id']):
-#             print "we have a match!"
-#             item[ATTENDEES_KEY].append([user['userID'], user['name']])
-#             insert_item = item
-#     # current_study_group = db.group_sessions.find_one({'_id': group_id})
-#     print insert_item
-#     # Check that user is in the attendees of current_study_group
-#     # if user in usercurrent_study_group.attendees:
-#         # Show user that he/she is already in the group.
-
-#     coll = db.group_sessions
-#     #new_attendees_list = current_study_group[ATTENDEES_KEY].add(user)
-#     coll.update({'_id': insert_item['_id']}, insert_item, True)
-#     print list(coll.find())
-#     # Return that the database was updated and refresh the page with new attendees list.
-#     return 'success'
 
 
 
