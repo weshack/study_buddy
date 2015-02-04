@@ -47,7 +47,7 @@ def add_class():
         smart_class_name = smart_search(dept_keyword, current_user.school)
         mongo_db.users.update({'_id' : ObjectId(current_user._id)},
             {'$addToSet' : {
-                'classes' : smart_class_name + " " + course_keyword
+                'classes' : (smart_class_name + " " + course_keyword).strip()
             }})
         return redirect(url_for('edit_user', user_id=current_user._id))
     else:
