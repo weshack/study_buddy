@@ -49,7 +49,7 @@
 		    {% endfor %}
 		<form action="/user/add" method="post">
 			<input name="_csrf_token" type="hidden" value="{{ csrf_token() }}">
-			<input type="text" name="new_class" placeholder="Add a class" />
+			<input type="text" name="new_class" placeholder="Add a class (department name and course number)" />
 		</form>
 	</div>
 {% endblock %}
