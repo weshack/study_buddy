@@ -43,10 +43,6 @@ def smart_search(search_term, school):
 		result = conn.find_one(
 			{'alternative_names' : {'$in' : [search_term_processed]}}
 		)
-	print "search term:", search_term
-	print "school:", school
-	
-	print "smart search result:", result
 	if result:
 		return result['department_name']
 	else:
@@ -142,10 +138,5 @@ def parse_new_find(query):
 	else:
 		department_name = ''
 		course_number = ''
-
-	print query
-	print "course number:", course_number
-	print "department name:", department_name
-	print "================================================="
 
 	return (department_name.strip(), course_number.strip())
