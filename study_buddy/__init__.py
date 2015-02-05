@@ -7,7 +7,11 @@ from flask.ext.mail import Mail, Message
 from itsdangerous import URLSafeTimedSerializer
 from inflection import titleize
 
-import os, binascii
+import os, binascii, logging
+
+logging.basicConfig(filename="study_buddy/logs/application.log", 
+                    level=logging.DEBUG,
+                    format='[%(levelname)s] <%(asctime)s> %(message)s') 
 
 app = Flask(__name__)
 

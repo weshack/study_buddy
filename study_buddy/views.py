@@ -15,12 +15,13 @@ from inflection import titleize
 from flask.ext.login import login_required, login_user, logout_user, current_user
 from flask.ext.wtf import Form
 
+import logging
 
 @app.route('/login', methods=["GET", "POST"])
 def login():
     form = LoginForm(request.form)
     if form.validate_on_submit():
-        print "form validated"
+        logging.debug("form validated")
         login_user(form.get_user(), remember=form.remember.data) # login_user(user, remember=True)
         flash("Logged in succesfully")
         return redirect(request.args.get("next") or url_for('home'))
@@ -70,9 +71,9 @@ def edit_user(user_id):
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegistrationForm(request.form)
-    print "creating form"
+    logging.debug("creating form")
     if form.validate_on_submit():
-        print "validated form"
+        logging.debug("validated form")
         # Create user
         new_user = mongo_db.users.User()
         new_user.email = form.email.data.lower()
@@ -89,8 +90,7 @@ def register():
     if 'user_email' in session:
         return render_template('register.html', email=session['user_email'], form=form)
     else:
-        print form.errors
-        print "form not validated or not post request"
+        logging.debug("form not validated or not post request")
         return render_template('register.html', form=form)
 
 @app.route('/verify/<token>')
@@ -101,7 +101,6 @@ def verify(token):
         abort(404)
 
     user = mongo_db.users.User.find_one({'email' : email})
-    print "User:", user.email
     user.verified = True
     user.save()
     login_user(user)
@@ -187,6 +186,8 @@ def search():
         course_keyword = request.args.get('course_no')
         dept_keyword = request.args.get('dept_keyword').lower()
 
+    logging.info("SEARCH: %s", request.args)
+
     # Get location data.
     # longitude = float(request.args.get('geo_location').split(',')[1])
     # latitude = float(request.args.get('geo_location').split(',')[0])
@@ -249,7 +250,8 @@ def logout():
 def create():
     create_form = GroupForm(request.form)
     if create_form.validate_on_submit():
-        print "form validated"
+        logging.debug("form validated")
+        logging.info("CREATE: %s", json_from_form(create_form))
         new_session=mongo_db.study_sessions.StudySession()
         # Get and parse gelocation data from form.
         # location_data = create_form.geo_location.data.split(',')

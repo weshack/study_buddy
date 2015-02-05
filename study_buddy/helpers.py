@@ -1,9 +1,24 @@
 from study_buddy import app, ts
 from flask import url_for, render_template
 from pymongo import MongoClient
+from json import dumps
 
 import boto.ses
 import re
+
+##
+# Given a wtf form object, return a json representation of the data 
+# in that form.
+#
+# @param form WTF form object
+#
+# @return Returns a JSON representation of the data in form
+##
+def json_from_form(form):
+	form_dict = {}
+	for field_name, value, in form.data.items():
+		form_dict[field_name] = value
+	return form_dict
 
 ##
 # Given a search term for a department, determines what the user
