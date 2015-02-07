@@ -28,7 +28,7 @@ class GroupForm(Form):
     school = TextField('School')
     details = TextField('Details')
     geo_location = HiddenField()
-    all_nighter=BooleanField('All nighter')
+    #all_nighter=BooleanField('All nighter')
 
     def validate_course_no(self, field):
         if not self.course_no.data < 1000 or len(str(self.course_no.data)) != 3:
