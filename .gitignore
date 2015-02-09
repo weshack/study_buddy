@@ -1,3 +1,5 @@
+.DS_Store
+
 *.pyc
 # The local config  file should be specific to the machine running the app.
 local_config.py
