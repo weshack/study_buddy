@@ -4,3 +4,5 @@ local_config.py
 
 app.wsgi
 runserver.py
+
+*.log
