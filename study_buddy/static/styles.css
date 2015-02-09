@@ -240,6 +240,10 @@ nav.top-bar section a :hover {
   /*border-radius: 10px;*/
 }
 
+#reset-card {
+  width: 35%;
+}
+
 .info-card h2, h3 {
   color: #4aba9a;
 }
