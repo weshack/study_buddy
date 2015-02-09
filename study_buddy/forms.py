@@ -2,6 +2,7 @@ from flask.ext.wtf import Form
 from wtforms import TextField, PasswordField, ValidationError, BooleanField, IntegerField, DateTimeField, HiddenField, validators
 from init_db import mongo_db
 from werkzeug.security import check_password_hash
+import re
 
 class EmailForm(Form):
     email = TextField('Email', validators = [validators.Email(), validators.Required()])
@@ -39,9 +40,15 @@ class GroupForm(Form):
             raise validators.ValidationError('Please use a .edu email')
 
 class EditUserForm(Form):
-    first_name = TextField('First Name')
-    last_name = TextField('Last Name')
+    first_name = TextField('First Name', [
+        #validators.Regexp(r'^[A-Za-z0-9.]+$', message= u'That\'s not a valid first name'), 
+        validators.Required()
+        ])
+    last_name = TextField('Last Name', [ 
+        validators.Required()
+    ])
     course = TextField('Class')
+
 
 class LoginForm(Form):
     email = TextField('Email', [

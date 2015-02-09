@@ -14,6 +14,7 @@ from inflection import titleize
 
 from flask.ext.login import login_required, login_user, logout_user, current_user
 from flask.ext.wtf import Form
+import re
 
 
 @app.route('/login', methods=["GET", "POST"])
@@ -58,13 +59,15 @@ def add_class():
 @app.route('/edit/<user_id>', methods=["GET", "POST"])  
 @login_required
 def edit_user(user_id):
+    form = EditUserForm()
     user = mongo_db.users.User.find_one({'_id' : ObjectId(user_id)})  
-    if request.method == "POST":
-        user.name.first = request.form['first_name']
-        user.name.last = request.form['last_name']
-        user.name.full = titleize(request.form['first_name'] + ' ' + request.form['last_name'])
-        user.save()
-        return redirect(url_for('edit_user', user_id=user_id))
+    if form.validate_on_submit():
+        if request.method == "POST":
+            user.name.first = re.sub('<[^>]*>', '', request.form['first_name'])
+            user.name.last = re.sub('<[^>]*>', '', request.form['last_name'])
+            user.name.full = titleize(request.form['first_name'] + ' ' + request.form['last_name'])
+            user.save()
+            return redirect(url_for('edit_user', user_id=user_id))
     return render_template('edit_user.html', user=user)
 
 @app.route('/register', methods=['GET', 'POST'])
