@@ -61,7 +61,7 @@ table tr td, table thead tr th {
 .custom-title {
   font-size: 500%;
   text-align: center;
-  margin-top: 100px;
+  margin-top: 5vh;
   font-weight: bold;
   color: beige;
 }
@@ -237,7 +237,11 @@ nav.top-bar section a :hover {
   margin-top: 100px !important;
   margin: auto;
   padding: 15px;
-  border-radius: 10px;
+  /*border-radius: 10px;*/
+}
+
+#reset-card {
+  width: 35%;
 }
 
 .info-card h2, h3 {
@@ -336,7 +340,7 @@ nav.top-bar section a :hover {
 
 .about-card {
   background-color: rgba(255, 255, 255, 0.7);
-  border-radius: 10px;
+  /*border-radius: 10px;*/
 }
 
 .about-row {

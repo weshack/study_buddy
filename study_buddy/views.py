@@ -65,7 +65,7 @@ def edit_user(user_id):
         if request.method == "POST":
             user.name.first = re.sub('<[^>]*>', '', request.form['first_name'])
             user.name.last = re.sub('<[^>]*>', '', request.form['last_name'])
-            user.name.full = titleize(request.form['first_name'] + ' ' + request.form['last_name'])
+            user.name.full = titleize(user.name.first + ' ' + user.name.last)
             user.save()
             return redirect(url_for('edit_user', user_id=user_id))
     return render_template('edit_user.html', user=user)

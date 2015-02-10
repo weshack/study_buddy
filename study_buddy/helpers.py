@@ -57,7 +57,6 @@ def school_name_from_email(email_ending):
 # Sends an email to a user who has just registered, with
 # with instructions on how to verify account.
 #
-# @param unique_id Unique ID that will be used to identify user in URL.
 # @param email Email address to send verification link to.
 ##
 def send_verification_email(email):
