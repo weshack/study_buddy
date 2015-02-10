@@ -359,3 +359,11 @@ nav.top-bar section a :hover {
   font-size: 24px;
 }
 
+#reverify-text {
+  text-align: center;
+  margin-top: 100;
+  font-size: 64;
+  color: white;
+  font-weight: bold;
+}
+

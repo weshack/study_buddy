@@ -1,0 +1,21 @@
+<html>
+	<head>
+		<title>You couldn't be verified!</title>
+		<link rel="shortcut icon" href="{{ url_for('static', filename='resources/images/favicon.ico') }}">
+    	<link rel="stylesheet" href="{{ url_for('static', filename='resources/foundations/css/foundation.css') }}">
+		<link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+	</head>
+	<body>
+		{% from '_macros.html' import render_field %}
+		<div id="reverify-text">Uh oh! The verification link you tried must be broken!</div>
+		<div class="info-card" id = "reset-card">
+			<form method="POST" action="{{ url_for('re_verify') }}">
+				<dl>
+		          <input name="_csrf_token" type="hidden" value="{{ csrf_token() }}">
+		          {{ render_field(form.email) }}
+		        </dl>
+		        <p><input type=submit value="Send Verification Link" class="button">
+			</form>
+		</div>
+	</body>
+</html>
