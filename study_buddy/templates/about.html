@@ -9,9 +9,8 @@
 {% block content %}
 	{% from "_macros.html" import render_about_card_left, render_about_card_right %}
 	<div id="about-content" class="center-elmt">
-		<h1 class="center-txt header">A Little About Us</h1>
-		<div class="flex-video">
-			<object data="http://www.youtube.com/v/H3JLBqdKuMc"></object>
+		<div id="logo-container">
+			<img src="{{ url_for('static', filename='resources/images/logos/succor_finals-02.png') }}">
 		</div>
 		<div>
 			<h2 class="subheader">What is Succor?</h2>
