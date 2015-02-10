@@ -58,18 +58,17 @@ def add_class():
         return redirect(url_for('home'))
 
 
-@app.route('/edit/<user_id>', methods=["GET", "POST"])  
+@app.route('/edit', methods=["GET", "POST"])  
 @login_required
-def edit_user(user_id):
+def edit_user():
     form = EditUserForm()
-    user = mongo_db.users.User.find_one({'_id' : ObjectId(user_id)})  
+    user = current_user  
     if form.validate_on_submit():
-        if request.method == "POST":
-            user.name.first = re.sub('<[^>]*>', '', request.form['first_name'])
-            user.name.last = re.sub('<[^>]*>', '', request.form['last_name'])
-            user.name.full = titleize(user.name.first + ' ' + user.name.last)
-            user.save()
-            return redirect(url_for('edit_user', user_id=user_id))
+        user.name.first = re.sub('<[^>]*>', '', request.form['first_name'])
+        user.name.last = re.sub('<[^>]*>', '', request.form['last_name'])
+        user.name.full = titleize(user.name.first + ' ' + user.name.last)
+        user.save()
+        return redirect(url_for('user', user_id=user._id))
     return render_template('edit_user.html', user=user)
 
 @app.route('/register', methods=['GET', 'POST'])
