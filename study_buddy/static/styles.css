@@ -99,6 +99,7 @@ nav.top-bar section a :hover {
   line-height: 150%;
   padding: 10px;
   margin-top: 50px;
+  margin-bottom: 50px;
 }
 #text-input {
   margin-bottom: 15px;

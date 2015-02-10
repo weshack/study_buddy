@@ -21,11 +21,13 @@ import re
 def login():
     form = LoginForm(request.form)
     if form.validate_on_submit():
+        if not form.get_user().verified:
+            return render_template('login.html', form=form, verified=False)
         print "form validated"
-        login_user(form.get_user(), remember=form.remember.data) # login_user(user, remember=True)
+        login_user(form.get_user(), remember=form.remember.data)
         flash("Logged in succesfully")
         return redirect(request.args.get("next") or url_for('home'))
-    return render_template('login.html', form=form)
+    return render_template('login.html', form=form, verified=True)
 
 @app.route('/user/<user_id>')
 def user(user_id):

@@ -7,7 +7,7 @@
 	</head>
 	<body>
 		{% from '_macros.html' import render_field %}
-		<div id="reverify-text">Uh oh! The verification link you tried must be broken!</div>
+		<div id="reverify-text">Send me a new verification link!</div>
 		<div class="info-card" id = "reset-card">
 			<form method="POST" action="{{ url_for('re_verify') }}">
 				<dl>

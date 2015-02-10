@@ -12,6 +12,12 @@
           {{ render_field(form.email) }}
           {{ render_field(form.password) }}
           Forgot your password? Click <a href="reset">here</a>.
+          {% if not verified: %}
+            <div class="errors">
+              You haven't verified your account! Click 
+              <a href="{{ url_for('re_verify') }}">here</a> to resend a verification email.
+            </div>
+          {% endif %}
         </dl>
         <p><input type=submit value="Log In" class="button">
     </form>
