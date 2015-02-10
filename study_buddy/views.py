@@ -19,15 +19,16 @@ import re
 
 @app.route('/login', methods=["GET", "POST"])
 def login():
+    next = request.args.get('next')
     form = LoginForm(request.form)
     if form.validate_on_submit():
         if not form.get_user().verified:
             return render_template('login.html', form=form, verified=False)
-        print "form validated"
         login_user(form.get_user(), remember=form.remember.data)
         flash("Logged in succesfully")
+        
         return redirect(request.args.get("next") or url_for('home'))
-    return render_template('login.html', form=form, verified=True)
+    return render_template('login.html', form=form, verified=True, next=next)
 
 @app.route('/user/<user_id>')
 def user(user_id):
@@ -74,9 +75,7 @@ def edit_user():
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegistrationForm(request.form)
-    print "creating form"
     if form.validate_on_submit():
-        print "validated form"
         # Create user
         new_user = mongo_db.users.User()
         new_user.email = form.email.data.lower()
@@ -93,8 +92,6 @@ def register():
     if 'user_email' in session:
         return render_template('register.html', email=session['user_email'], form=form)
     else:
-        print form.errors
-        print "form not validated or not post request"
         return render_template('register.html', form=form)
 
 @app.route('/verify/<token>')
@@ -106,7 +103,6 @@ def verify(token):
         return render_template('no_email_verification.html', form=form)
 
     user = mongo_db.users.User.find_one({'email' : email})
-    print "User:", user.email
     user.verified = True
     user.save()
     login_user(user)
@@ -264,7 +260,6 @@ def logout():
 def create():
     create_form = GroupForm(request.form)
     if create_form.validate_on_submit():
-        print "form validated"
         new_session=mongo_db.study_sessions.StudySession()
         # Get and parse gelocation data from form.
         # location_data = create_form.geo_location.data.split(',')
