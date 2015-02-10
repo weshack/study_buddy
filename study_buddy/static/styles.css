@@ -99,6 +99,7 @@ nav.top-bar section a :hover {
   line-height: 150%;
   padding: 10px;
   margin-top: 50px;
+  margin-bottom: 50px;
 }
 #text-input {
   margin-bottom: 15px;
@@ -363,5 +364,13 @@ nav.top-bar section a :hover {
   color: white;
   font-weight: 200;
   font-size: 24px;
+}
+
+#reverify-text {
+  text-align: center;
+  margin-top: 100;
+  font-size: 64;
+  color: white;
+  font-weight: bold;
 }
 

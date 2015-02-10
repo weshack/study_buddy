@@ -3,7 +3,7 @@ from init_db import mongo_db
 from forms import RegistrationForm, LoginForm, GroupForm, EmailForm, PasswordForm, EditUserForm
 from helpers import *
 
-from flask import url_for, redirect, session, render_template, request, flash
+from flask import url_for, redirect, session, render_template, request, flash, abort
 from pymongo import ASCENDING, DESCENDING
 from mongokit import ObjectId
 from datetime import datetime, timedelta
@@ -21,11 +21,13 @@ import re
 def login():
     form = LoginForm(request.form)
     if form.validate_on_submit():
+        if not form.get_user().verified:
+            return render_template('login.html', form=form, verified=False)
         print "form validated"
-        login_user(form.get_user(), remember=form.remember.data) # login_user(user, remember=True)
+        login_user(form.get_user(), remember=form.remember.data)
         flash("Logged in succesfully")
         return redirect(request.args.get("next") or url_for('home'))
-    return render_template('login.html', form=form)
+    return render_template('login.html', form=form, verified=True)
 
 @app.route('/user/<user_id>')
 def user(user_id):
@@ -101,7 +103,8 @@ def verify(token):
     try:
         email = ts.loads(token, salt="email-confirm-key", max_age=86400)
     except:
-        abort(404)
+        form = EmailForm()
+        return render_template('no_email_verification.html', form=form)
 
     user = mongo_db.users.User.find_one({'email' : email})
     print "User:", user.email
@@ -109,6 +112,16 @@ def verify(token):
     user.save()
     login_user(user)
     return redirect(url_for('login'))
+
+@app.route('/reverify', methods=["GET", "POST"])
+def re_verify():
+    form = EmailForm(request.form)
+
+    if form.validate_on_submit():
+        send_verification_email(form.email.data)
+        flash('Check your email for verification!')
+        return redirect(url_for('home'))
+    return render_template('no_email_verification.html', form=form) 
 
 @app.route('/reset', methods=["GET", "POST"])
 def reset_password():

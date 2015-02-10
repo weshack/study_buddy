@@ -7,6 +7,10 @@ import re
 class EmailForm(Form):
     email = TextField('Email', validators = [validators.Email(), validators.Required()])
 
+    def validate_email(self, field):
+        if mongo_db.users.User.find_one({'email' : self.email.data}) is None:
+            raise validators.ValidationError('There is no account with this email')
+
 class PasswordForm(Form):
     password = PasswordField('Password', validators = [validators.Required()])
 
@@ -67,9 +71,6 @@ class LoginForm(Form):
 
         if not check_password_hash(user.password, self.password.data):
             raise validators.ValidationError('Invalid password')
-
-        if not user.verified:
-            raise validators.ValidationError('Not verified yet')
 
     def get_user(self):
         return mongo_db.users.User.find_one({'email' : self.email.data})
