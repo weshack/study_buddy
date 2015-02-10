@@ -335,6 +335,12 @@ nav.top-bar section a :hover {
   color: beige;
 }
 
+#logo-container {
+  margin:auto;
+  width: 480px;
+}
+
+
 #about-content >  div {
   margin-bottom: 45px;
 }
