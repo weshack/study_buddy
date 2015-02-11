@@ -6,7 +6,7 @@
 
 {% block content %}
 	<div class="info-card group-content">
-		<form method="post" action="/edit/{{ user._id }}">
+		<form method="post" action="/edit">
 			<input name="_csrf_token" type="hidden" value="{{ csrf_token() }}">
 		    <div class="row">
 		    	{% if user.name.first: %}
