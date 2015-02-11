@@ -1,1 +1,5 @@
+Uh Oh! 
+
+It looks like you forgot your password. That's okay we've got your back.
+
 Follow this link to reset your password: {{ url }}
