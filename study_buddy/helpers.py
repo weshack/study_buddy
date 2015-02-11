@@ -59,15 +59,15 @@ def school_name_from_email(email_ending):
 #
 # @param email Email address to send verification link to.
 ##
-def send_verification_email(email):
-	token = ts.dumps(email, salt='email-confirm-key')
+def send_verification_email(user):
+	token = ts.dumps(user.email, salt='email-confirm-key')
 	confirm_url = url_for('verify', token=token, _external=True)
 	send_email(
 		"Vefiry your account with Succor",
 		app.config['FROM_EMAIL_ADDRESS'],
-		[email],
-		render_template("email/verify.txt", url=confirm_url),
-		render_template("email/verify.html", url=confirm_url)
+		[user.email],
+		render_template("email/verify.txt", url=confirm_url, user=user),
+		render_template("email/verify.html", url=confirm_url, user=user)
 	)
 
 def send_email(subject, sender, recipients, text_body, html_body):

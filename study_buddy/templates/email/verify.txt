@@ -1,3 +1,21 @@
-Congratulations! You have just signed up for Succor.
+Hi Newest Study Buddy!
+
+Welcome to Succor, your new favorite study tool!
+
+You have just joined a growing social network designed by students, for students. Succor allows you to easily find groups of students in your classes who are studying the same thing that you are. Congratulations!
+
+With your new account you can:
+
+Keep track of which classes you're taking.
+More easily search for study sessions happening around you.
+Add some basic info about yourself
 
 To finish signing up you must verify your email address by clicking {{ url }}!
+
+Connect with us on
+
+Facebook: https://www.facebook.com/WeSuccor
+
+Twitter: https://twitter.com/WeSuccor
+
+Email: succorapp@gmail.com

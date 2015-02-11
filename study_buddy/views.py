@@ -88,7 +88,7 @@ def register():
         # log user in
         login_user(new_user)
         flash('Check your email for verification!')
-        send_verification_email(new_user.email)
+        send_verification_email(new_user)
         return redirect(url_for('home'))
     if 'user_email' in session:
         return render_template('register.html', email=session['user_email'], form=form)
@@ -114,7 +114,7 @@ def re_verify():
     form = EmailForm(request.form)
 
     if form.validate_on_submit():
-        send_verification_email(form.email.data)
+        send_verification_email(form.get_user())
         flash('Check your email for verification!')
         return redirect(url_for('home'))
     return render_template('no_email_verification.html', form=form) 

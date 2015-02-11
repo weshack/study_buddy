@@ -8,8 +8,12 @@ class EmailForm(Form):
     email = TextField('Email', validators = [validators.Email(), validators.Required()])
 
     def validate_email(self, field):
-        if mongo_db.users.User.find_one({'email' : self.email.data}) is None:
+        if self.get_user() is None:
             raise validators.ValidationError('There is no account with this email')
+
+    def get_user(self):
+        return mongo_db.users.User.find_one({'email' : self.email.data})
+
 
 class PasswordForm(Form):
     password = PasswordField('Password', validators = [validators.Required()])
