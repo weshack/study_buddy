@@ -16,7 +16,7 @@ class EmailForm(Form):
 
 
 class PasswordForm(Form):
-    password = PasswordField('Password', validators = [validators.Required()])
+    password = PasswordField('New Password', validators = [validators.Required()])
 
 class GroupForm(Form):
     email = TextField('Contact')
