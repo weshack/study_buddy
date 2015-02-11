@@ -26,6 +26,8 @@ def login():
         print "form validated"
         login_user(form.get_user(), remember=form.remember.data)
         flash("Logged in succesfully")
+        if request.args.get("next") is "None":
+            return redirect(url_for('home')) 
         return redirect(request.args.get("next") or url_for('home'))
     return render_template('login.html', form=form, verified=True)
 
