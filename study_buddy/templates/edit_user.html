@@ -9,21 +9,22 @@
 		<form method="post" action="/edit">
 			<input name="_csrf_token" type="hidden" value="{{ csrf_token() }}">
 		    <div class="row">
+		    	<div class="small-2 columns">Name:</div>
 		    	{% if user.name.first: %}
-			    	<div class="small-6 columns">
+			    	<div class="small-5 columns">
 			    		<input type="text" name="first_name" value="{{ titleize(user.name.first) }}" />
 			    	</div>
 			    {% else: %}
-			    	<div class="small-6 columns">
+			    	<div class="small-5 columns">
 			    		<input type="text" name="first_name" placeholder="First"/>
 			    	</div>
 			    {% endif %}
 			    {% if user.name.last: %}
-			    	<div class="small-6 columns">
+			    	<div class="small-5 columns">
 			    		<input type="text" name="last_name" value="{{ titleize(user.name.last) }}" />
 			    	</div>
 			    {% else: %}
-			    	<div class="small-6 columns">
+			    	<div class="small-5 columns">
 			    		<input type="text" name="last_name" placeholder="Last" />
 			    	</div>
 			    {% endif %}
