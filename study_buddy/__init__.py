@@ -7,9 +7,10 @@ from flask.ext.mail import Mail, Message
 from itsdangerous import URLSafeTimedSerializer
 from inflection import titleize
 
-import os, binascii, logging
+import os, binascii, logging, sys
 
 logging.basicConfig(level=logging.DEBUG,
+                    streamHandler=sys.stderr,
                     format='[%(levelname)s] <%(asctime)s> %(message)s') 
 
 app = Flask(__name__)
