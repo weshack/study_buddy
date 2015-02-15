@@ -80,7 +80,7 @@ def edit_user():
 def register():
     form = RegistrationForm(request.form)
     if form.validate_on_submit():
-    logging.debug("creating form")
+        logging.debug("creating form")
     if form.validate_on_submit():
         logging.debug("validated form")
         # Create user
