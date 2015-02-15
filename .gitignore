@@ -10,3 +10,4 @@ app.wsgi
 runserver.py
 
 *.log
+application.log
